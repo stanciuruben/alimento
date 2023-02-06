@@ -1,13 +1,12 @@
-import UserInputs from './components/UserInputs';
+import UserInputs from './components/UserInputs/UserInputs';
+import './App.css';
 
 function App (): JSX.Element {
-  return (
-    <div className="App">
-      <h1>Welcome To Alimento</h1>
-      <img src="/pan.svg" alt="pan with 2 eggs" />
-      <UserInputs />
-    </div>
-  )
+    return (
+        <main>
+            <UserInputs />
+        </main>
+    );
 }
 
-export default App
+export default App;

@@ -1,0 +1,41 @@
+.form {
+    display: block;
+    position: absolute;
+    left: 50%;
+    top: 5rem;
+    transform: translateX(-50%);
+    white-space: nowrap;
+}
+
+.form__primary {
+    display: inline-block;
+    margin-right: 2rem;
+}
+
+.form__primary--last {
+    display: inline-block;
+}
+
+.form__diet {
+    font-size: 1.6rem;
+    font-weight: bold;
+    outline: none;
+    border: none;
+    color: var(--white);
+}
+
+.form__diet__label {
+    margin-right: 1rem;
+}
+
+.select_reset {
+    all: unset;
+    text-align: center;
+    font-weight: bold;
+    color: var(--black);
+}
+
+.form__more_options {
+    display: block;
+    padding: 2rem;
+}
