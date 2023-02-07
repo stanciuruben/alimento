@@ -6,9 +6,9 @@
     border-radius: 1rem;
     cursor: pointer;
     background-color: var(--white);
-    box-shadow: 0.25rem 0.25rem 0.5rem var(--black-5),
-        -0.25rem -0.25rem 0.5rem var(--black-5) inset,
-        0.25rem 0.25rem 0.5rem var(--white-5) inset;
+    box-shadow: 0.5rem 0.5rem 0.5rem var(--black-3),
+        -0.5rem -0.5rem 0.5rem var(--black-5) inset,
+        0.5rem 0.5rem 0.5rem var(--white-5) inset;
     transition: all 0.3s ease;
 }
 
@@ -16,18 +16,15 @@
     height: 1.6rem;
 }
 
-.btn--1:hover {
-    box-shadow: 0 0.25rem 0.5rem var(--black-5);
-}
-
 .btn--1:active {
     background-color: var(--lightgray);
 }
 
 .btn--1--active {
-    box-shadow: 0.25rem 0.25rem 0.5rem var(--black-5),
-        0.25rem 0.25rem 0.5rem var(--black-5) inset,
-        -0.25rem -0.25rem 0.5rem var(--white-5) inset;
+    background-color: var(--lightgray);
+    box-shadow: 0.5rem 0.5rem 0.5rem var(--black-3),
+        0.5rem 0.5rem 0.5rem var(--black-5) inset,
+        -0.5rem -0.5rem 0.5rem var(--white-5) inset;
 }
 
 .cta--1 {
@@ -40,16 +37,16 @@
     cursor: pointer;
     background-color: var(--primary);
     color: var(--white);
-    box-shadow: 0 0.25rem 0.5rem var(--black-5);
+    box-shadow: 0 0.25rem 0.5rem var(--black-3);
     transition: all 0.3s ease;
 }
 
 .cta--1:hover {
-    box-shadow: 0 0.5rem 1rem var(--black-5);
+    box-shadow: 0 0.5rem 1rem var(--black-3);
     transform: translateY(-0.1rem);
 }
 
 .cta--1:active {
-    box-shadow: 0 0.1rem 0.1rem var(--black-5);
+    box-shadow: 0 0.1rem 0.1rem var(--black-3);
     transform: translateY(0.1rem);
 }
