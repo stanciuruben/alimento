@@ -5,6 +5,7 @@
     top: 5rem;
     transform: translateX(-50%);
     white-space: nowrap;
+    max-width: 57rem;
 }
 
 .form::after {
@@ -111,6 +112,10 @@
     border-radius: 2rem;
     background-color: var(--lightgray);
     transition: all 0.3s ease;
+}
+
+.form_checkbox:active::before {
+    background-color: var(--lightgray);
 }
 
 .form_checkbox:checked::before {

@@ -1,10 +1,20 @@
-import { useState, type FC, type MouseEvent } from 'react';
+import {
+    type SetStateAction,
+    useState,
+    type FC,
+    type MouseEvent,
+    type Dispatch
+} from 'react';
 import MoreOptions from '../MoreOptions/MoreOptions';
 import './UserInputs.css';
 
-interface Props {}
+interface Props {
+    setShowInput: Dispatch<SetStateAction<boolean>>
+    allergens: string[]
+    setAllergens: Dispatch<SetStateAction<string[]>>
+}
 
-const UserInputs: FC<Props> = () => {
+const UserInputs: FC<Props> = ({ setShowInput, allergens, setAllergens }) => {
     const [showMore, setShowMore] = useState<boolean>(false);
 
     function toggleSettings (e: MouseEvent): void {
@@ -55,6 +65,7 @@ const UserInputs: FC<Props> = () => {
                 </select>
             </fieldset>
             <button
+                type='button'
                 onClick={toggleSettings}
                 className={
                     showMore
@@ -68,7 +79,13 @@ const UserInputs: FC<Props> = () => {
             <button className="cta--1 form__primary--last">
                 Get Custom Mealplan!
             </button>
-            {showMore && <MoreOptions />}
+            {showMore && (
+                <MoreOptions
+                    setShowInput={setShowInput}
+                    allergens={allergens}
+                    setAllergens={setAllergens}
+                />
+            )}
         </form>
     );
 };

@@ -1,10 +1,21 @@
 /* eslint-disable multiline-ternary */
-import { type FC, useState, type ChangeEvent, useEffect } from 'react';
-// import './MoreOptions.css';
+import {
+    type FC,
+    useState,
+    type ChangeEvent,
+    useEffect,
+    type SetStateAction,
+    type Dispatch
+} from 'react';
+import Allergens from '../Allergens/Allergens';
 
-interface Props {}
+interface Props {
+    setShowInput: Dispatch<SetStateAction<boolean>>
+    allergens: string[]
+    setAllergens: Dispatch<SetStateAction<string[]>>
+}
 
-const MoreOptions: FC<Props> = () => {
+const MoreOptions: FC<Props> = ({ setShowInput, allergens, setAllergens }) => {
     const [useMacros, setUseMacros] = useState<boolean>(false);
     const [kcal, setKcal] = useState<number>(2000);
     const [protein, setProtein] = useState<number>(110);
@@ -15,7 +26,7 @@ const MoreOptions: FC<Props> = () => {
     useEffect(() => {
         setMacrosToKcal(protein * 4 + carbs * 4 + fat * 9);
         // send state to parent
-    }, [protein, carbs, fat])
+    }, [protein, carbs, fat]);
 
     function changeState (
         e: ChangeEvent<HTMLInputElement>,
@@ -23,6 +34,7 @@ const MoreOptions: FC<Props> = () => {
     ): void {
         const newInput: number = parseInt(e.target.value);
         if (isNaN(newInput)) {
+            // set a warning if input is not a number
             return;
         }
         switch (property) {
@@ -44,6 +56,11 @@ const MoreOptions: FC<Props> = () => {
 
     return (
         <div className="form__more_options">
+            <Allergens
+                setShowInput={setShowInput}
+                allergens={allergens}
+                setAllergens={setAllergens}
+            />
             <fieldset className="form__more_options__row">
                 <label htmlFor="kcal-macros" className="form_label">
                     Use kilocalories/macronutrients:
@@ -126,7 +143,8 @@ const MoreOptions: FC<Props> = () => {
                         </span>
                     </fieldset>
                     <small className="form__text--small">
-                        Estimated number of kilocalories for current macros: {macrosToKcal}
+                        Estimated number of kilocalories for current macros:{' '}
+                        {macrosToKcal}
                     </small>
                 </div>
             ) : (

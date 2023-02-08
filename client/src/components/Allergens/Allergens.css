@@ -1,0 +1,59 @@
+.form__label {
+    vertical-align: middle;
+    height: 100%;
+}
+
+.allergens {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 2rem 0;
+    justify-content: start;
+    align-items: center;
+    row-gap: 1rem;
+}
+
+.allergens__item {
+    user-select: none;
+    width: fit-content;
+    padding: 1rem 2rem;
+    list-style: none;
+    background-color: var(--red);
+    color: var(--white);
+    outline: none;
+    border: none;
+    border-radius: 1rem;
+    box-shadow: 0.25rem 0.25rem 0.5rem var(--black-3),
+        -0.25rem -0.25rem 0.5rem var(--black-3) inset,
+        0.25rem 0.25rem 0.5rem var(--white-3) inset;
+}
+
+.allergens__item--1 {
+    user-select: none;
+    width: fit-content;
+    padding: 1rem 2rem;
+    list-style: none;
+    background-color: var(--white);
+    color: var(--black);
+    outline: none;
+    border: none;
+    border-radius: 1rem;
+    cursor: pointer;
+    box-shadow: 0.25rem 0.25rem 0.5rem var(--black-3),
+        -0.25rem -0.25rem 0.5rem var(--black-5) inset,
+        0.25rem 0.25rem 0.5rem var(--white-5) inset;
+}
+
+.allergens__item:not(:last-child) {
+    margin-right: 1rem;
+}
+
+.allergens__item__delete {
+    display: inline;
+    margin-left: 1rem;
+    font-weight: bold;
+    outline: none;
+    border: none;
+    color: var(--white);
+    background-color: transparent;
+    cursor: pointer;
+}
