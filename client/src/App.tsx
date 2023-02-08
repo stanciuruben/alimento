@@ -30,6 +30,7 @@ function App (): JSX.Element {
 
     return (
         <main id="app_container">
+            <h1 id='watermark'>alimento</h1>
             <UserInputs
                 setShowInput={setShowInput}
                 allergens={allergens}

@@ -65,14 +65,14 @@ const UserInputs: FC<Props> = ({ setShowInput, allergens, setAllergens }) => {
                 </select>
             </fieldset>
             <button
-                type='button'
+                type="button"
                 onClick={toggleSettings}
                 className={
                     showMore
                         ? 'btn--1 btn--1--active form__primary'
                         : 'btn--1 form__primary'
                 }
-                title="More Options"
+                title="More/Less Options"
             >
                 <img src="/settings.svg" alt="settings icon" />
             </button>
@@ -80,11 +80,14 @@ const UserInputs: FC<Props> = ({ setShowInput, allergens, setAllergens }) => {
                 Get Custom Mealplan!
             </button>
             {showMore && (
-                <MoreOptions
-                    setShowInput={setShowInput}
-                    allergens={allergens}
-                    setAllergens={setAllergens}
-                />
+                <>
+                    <div aria-hidden className="form__more_options__bg"></div>
+                    <MoreOptions
+                        setShowInput={setShowInput}
+                        allergens={allergens}
+                        setAllergens={setAllergens}
+                    />
+                </>
             )}
         </form>
     );
