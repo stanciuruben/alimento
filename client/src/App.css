@@ -116,3 +116,11 @@
     box-shadow: 0 0.1rem 0.1rem var(--black-3);
     transform: translateY(0.1rem);
 }
+
+
+.btn--1:focus,
+.btn--1:focus-visible,
+.cta--1:focus,
+.cta--1:focus-visible {
+    background-color: var(--lightgray);
+}

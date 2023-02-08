@@ -7,48 +7,68 @@ import {
     type SetStateAction,
     type Dispatch
 } from 'react';
+import type MoreOptionsType from '../../types/MoreOptions';
 import Allergens from '../Allergens/Allergens';
 
 interface Props {
     setShowInput: Dispatch<SetStateAction<boolean>>
     allergens: string[]
     setAllergens: Dispatch<SetStateAction<string[]>>
+    setMoreOptions: Dispatch<SetStateAction<MoreOptionsType>>
+    moreOptions: MoreOptionsType
 }
 
-const MoreOptions: FC<Props> = ({ setShowInput, allergens, setAllergens }) => {
-    const [useMacros, setUseMacros] = useState<boolean>(false);
-    const [kcal, setKcal] = useState<number>(2000);
-    const [protein, setProtein] = useState<number>(110);
-    const [carbs, setCarbs] = useState<number>(255);
-    const [fat, setFat] = useState<number>(60);
+const MoreOptions: FC<Props> = ({
+    setShowInput,
+    allergens,
+    setAllergens,
+    setMoreOptions,
+    moreOptions
+}) => {
+    const [useMacros, setUseMacros] = useState<boolean>(moreOptions.useMacros);
+    const [kcal, setKcal] = useState<number>(moreOptions.kcal);
+    const [protein, setProtein] = useState<number>(moreOptions.protein);
+    const [carbs, setCarbs] = useState<number>(moreOptions.carbs);
+    const [fat, setFat] = useState<number>(moreOptions.fat);
     const [macrosToKcal, setMacrosToKcal] = useState<number>(0);
 
     useEffect(() => {
         setMacrosToKcal(protein * 4 + carbs * 4 + fat * 9);
-        // send state to parent
     }, [protein, carbs, fat]);
+
+    useEffect(() => {
+        setMoreOptions({
+            kcal,
+            protein,
+            carbs,
+            fat,
+            useMacros
+        });
+    }, [useMacros, kcal, protein, carbs, fat])
 
     function changeState (
         e: ChangeEvent<HTMLInputElement>,
         property: string
     ): void {
-        const newInput: number = parseInt(e.target.value);
-        if (isNaN(newInput)) {
+        let newInput: string = e.target.value;
+        if (newInput === '') newInput = '0';
+        const newInputAsNumber: number = parseInt(newInput);
+        if (isNaN(newInputAsNumber)) {
             // set a warning if input is not a number
             return;
         }
         switch (property) {
             case 'kcal':
-                setKcal(newInput);
+                setKcal(newInputAsNumber);
                 break;
             case 'protein':
-                setProtein(newInput);
+                setProtein(newInputAsNumber);
                 break;
             case 'carbs':
-                setCarbs(newInput);
+                setCarbs(newInputAsNumber);
                 break;
             case 'fat':
-                setFat(newInput);
+                setFat(newInputAsNumber);
                 break;
             default:
         }
@@ -71,6 +91,7 @@ const MoreOptions: FC<Props> = ({ setShowInput, allergens, setAllergens }) => {
                         name="kcal-macros"
                         id="kcal-macros"
                         className="form_checkbox"
+                        checked={useMacros}
                         onChange={() => {
                             setUseMacros(!useMacros);
                         }}

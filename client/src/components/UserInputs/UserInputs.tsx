@@ -5,6 +5,7 @@ import {
     type MouseEvent,
     type Dispatch
 } from 'react';
+import type MoreOptionsType from '../../types/MoreOptions';
 import MoreOptions from '../MoreOptions/MoreOptions';
 import './UserInputs.css';
 
@@ -12,9 +13,17 @@ interface Props {
     setShowInput: Dispatch<SetStateAction<boolean>>
     allergens: string[]
     setAllergens: Dispatch<SetStateAction<string[]>>
+    setMoreOptions: Dispatch<SetStateAction<MoreOptionsType>>
+    moreOptions: MoreOptionsType
 }
 
-const UserInputs: FC<Props> = ({ setShowInput, allergens, setAllergens }) => {
+const UserInputs: FC<Props> = ({
+    setShowInput,
+    allergens,
+    setAllergens,
+    setMoreOptions,
+    moreOptions
+}) => {
     const [showMore, setShowMore] = useState<boolean>(false);
 
     function toggleSettings (e: MouseEvent): void {
@@ -79,6 +88,20 @@ const UserInputs: FC<Props> = ({ setShowInput, allergens, setAllergens }) => {
             <button className="cta--1 form__primary--last">
                 Get Custom Mealplan!
             </button>
+            <p className="form__more_options__row form_label--1">
+                Options =&nbsp;
+                {allergens.length > 0 &&
+                    'allergens: ' + allergens.join(', ') + '. '}
+                {moreOptions.useMacros
+                    ? 'macros: ' +
+                      moreOptions.protein.toString() +
+                      'g protein, ' +
+                      moreOptions.carbs.toString() +
+                      'g carbs, ' +
+                      moreOptions.fat.toString() +
+                      'g fat.'
+                    : 'kcal: ' + moreOptions.kcal.toString()}
+            </p>
             {showMore && (
                 <>
                     <div aria-hidden className="form__more_options__bg"></div>
@@ -86,6 +109,8 @@ const UserInputs: FC<Props> = ({ setShowInput, allergens, setAllergens }) => {
                         setShowInput={setShowInput}
                         allergens={allergens}
                         setAllergens={setAllergens}
+                        setMoreOptions={setMoreOptions}
+                        moreOptions={moreOptions}
                     />
                 </>
             )}

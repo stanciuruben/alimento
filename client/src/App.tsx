@@ -1,4 +1,5 @@
 import { useRef, useState, type FormEvent, type KeyboardEvent, type MouseEvent } from 'react';
+import type MoreOptionsType from './types/MoreOptions';
 import UserInputs from './components/UserInputs/UserInputs';
 import './App.css';
 
@@ -6,6 +7,13 @@ function App (): JSX.Element {
     const allergensInput = useRef<HTMLInputElement>(null);
     const [showInput, setShowInput] = useState<boolean>(false);
     const [allergens, setAllergens] = useState<string[]>([]);
+    const [moreOptions, setMoreOptions] = useState<MoreOptionsType>({
+        kcal: 2000,
+        protein: 115,
+        carbs: 250,
+        fat: 60,
+        useMacros: false
+    });
 
     function addAllergens (e: FormEvent<HTMLFormElement>): void {
         e.preventDefault();
@@ -35,6 +43,8 @@ function App (): JSX.Element {
                 setShowInput={setShowInput}
                 allergens={allergens}
                 setAllergens={setAllergens}
+                setMoreOptions={setMoreOptions}
+                moreOptions={moreOptions}
             />
             {showInput && (
                 <>
@@ -48,8 +58,8 @@ function App (): JSX.Element {
                             htmlFor="allergens-input"
                             className="allergens__input__label"
                         >
-                            Insert 1 or more ingredients separated by a commas
-                            or spaces that you don't want in your meal plan.
+                            Insert one or more ingredients separated by commas
+                            or spaces, that shouldn't be included in your meal plan.
                         </label>
                         <input
                             autoFocus

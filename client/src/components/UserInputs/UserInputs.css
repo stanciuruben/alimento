@@ -47,7 +47,17 @@
 
 .form_label {
     font-size: 1.6rem;
-    color: white;
+    color: var(--white);
+    margin-right: 2rem;
+    padding: 1rem 0;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.form_label--1 {
+    white-space: normal;
+    font-size: 1.6rem;
+    color: var(--lightgray);
     margin-right: 2rem;
     padding: 1rem 0;
     display: inline-block;
@@ -190,7 +200,6 @@
 
 .form__more_options {
     display: block;
-    padding: 2rem 0;
     border: none;
     outline: none;
     opacity: 0;
