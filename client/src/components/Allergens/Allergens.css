@@ -14,6 +14,7 @@
 
 .allergens__item {
     user-select: none;
+    font-size: 1.6rem;
     width: fit-content;
     padding: 1rem 2rem;
     list-style: none;
@@ -43,6 +44,11 @@
         0.25rem 0.25rem 0.5rem var(--white-5) inset;
 }
 
+.allergens__item--1:hover,
+.allergens__item--1:focus {
+    color: var(--red);
+}
+
 .allergens__item:not(:last-child) {
     margin-right: 1rem;
 }
@@ -56,4 +62,9 @@
     color: var(--white);
     background-color: transparent;
     cursor: pointer;
+}
+
+.allergens__item__delete:hover,
+.allergens__item__delete:focus {
+    color: var(--black);
 }

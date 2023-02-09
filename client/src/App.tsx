@@ -145,12 +145,12 @@ function App (): JSX.Element {
             <article className="res_container">
                 <div>
                     <h2 className="res_container__title">
-                        Meal plan successfully generated
+                        Meal plan successfully generated!
                     </h2>
                     {moreOptions.useMacros ? (
                         <dl className="res_container__macros">
                             <dt>Enjoy your custom meal plan with:</dt>
-                            <dd>Diet Type: {diet}</dd>
+                            <dd>Diet Type: {diet.slice(0, 1).toUpperCase() + diet.slice(1)}</dd>
                             <dd>Protein: {moreOptions.protein}g</dd>
                             <dd>Carbs: {moreOptions.carbs}g</dd>
                             <dd>Fat: {moreOptions.fat}g</dd>

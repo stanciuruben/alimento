@@ -85,12 +85,13 @@ const MoreOptions: FC<Props> = ({
                 <label htmlFor="kcal-macros" className="form_label">
                     Use kilocalories/macronutrients:
                 </label>
-                <span className="form__right--1">
+                <span className="form__right--1" tabIndex={-1} >
                     <input
                         type="checkbox"
                         name="kcal-macros"
                         id="kcal-macros"
                         className="form_checkbox"
+                        tabIndex={0}
                         checked={useMacros}
                         onChange={() => {
                             setUseMacros(!useMacros);

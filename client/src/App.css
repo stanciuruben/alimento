@@ -49,14 +49,14 @@
     background-color: transparent;
     border: none;
     outline: none;
-    border-bottom: .1rem solid var(--white);
+    border-bottom: 0.1rem solid var(--white);
     padding: 1rem 0;
     color: var(--white);
     font-size: 1.6rem;
 }
 
 .allergens__input__input:focus {
-    border-bottom: .1rem solid var(--primary);
+    border-bottom: 0.1rem solid var(--primary);
 }
 
 .allergens__input__submit {
@@ -87,6 +87,7 @@
 
 .res_container__macros dd {
     color: var(--lightgray);
+    margin-top: 0.5rem;
 }
 
 .res_container__macros dd:nth-child(2) {
@@ -162,7 +163,6 @@
     box-shadow: 0 0.1rem 0.1rem var(--black-3);
     transform: translateY(0.1rem);
 }
-
 
 .btn--1:focus,
 .btn--1:focus-visible,

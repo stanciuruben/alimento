@@ -21,6 +21,12 @@
     float: right;
 }
 
+.form__right:focus-within,
+.form__right--1:focus-within {
+    outline: none;
+    border: none;
+}
+
 .form__right > * {
     display: inline-block;
     vertical-align: middle;
@@ -121,6 +127,18 @@
     border-radius: 2rem;
     background-color: var(--lightgray);
     transition: all 0.3s ease;
+}
+
+.form_checkbox:focus,
+.form_checkbox:focus-visible {
+    outline: none;
+    border: none;
+}
+
+.form_checkbox:hover::after,
+.form_checkbox:focus::after,
+.form_checkbox:focus-visible::after{
+    background-color: var(--black-5);
 }
 
 .form_checkbox:active::before {

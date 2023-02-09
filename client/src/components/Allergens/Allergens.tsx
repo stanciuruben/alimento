@@ -43,7 +43,7 @@ const Allergens: FC<Props> = ({ setShowInput, allergens, setAllergens }) => {
                                 deleteItem(e, index);
                             }}
                         >
-                            x
+                            X
                         </button>
                     </li>
                 ))}
