@@ -1,10 +1,12 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import express, { type Express } from 'express';
 import cookieParser from 'cookie-parser';
+import cors from 'cors';
 const app: Express = express();
 
 // @ts-expect-error next line
 app.use(express.json({ extended: false }));
+app.use(cors()); // Checkout docs on cors whitelist before deploying
 app.use(cookieParser());
 
 // Routes

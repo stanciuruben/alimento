@@ -3,7 +3,8 @@ import {
     useState,
     type FC,
     type MouseEvent,
-    type Dispatch
+    type Dispatch,
+    type FormEvent
 } from 'react';
 import type MoreOptionsType from '../../types/MoreOptions';
 import MoreOptions from '../MoreOptions/MoreOptions';
@@ -15,6 +16,9 @@ interface Props {
     setAllergens: Dispatch<SetStateAction<string[]>>
     setMoreOptions: Dispatch<SetStateAction<MoreOptionsType>>
     moreOptions: MoreOptionsType
+    getMealPlan: (e: FormEvent<HTMLFormElement>) => void
+    diet: string
+    setDiet: Dispatch<SetStateAction<string>>
 }
 
 const UserInputs: FC<Props> = ({
@@ -22,7 +26,10 @@ const UserInputs: FC<Props> = ({
     allergens,
     setAllergens,
     setMoreOptions,
-    moreOptions
+    moreOptions,
+    getMealPlan,
+    diet,
+    setDiet
 }) => {
     const [showMore, setShowMore] = useState<boolean>(false);
 
@@ -32,12 +39,20 @@ const UserInputs: FC<Props> = ({
     }
 
     return (
-        <form className="form">
+        <form className="form" onSubmit={getMealPlan}>
             <fieldset className="form__diet form__primary">
                 <label htmlFor="diet" className="form__diet__label">
                     Select a diet:
                 </label>
-                <select name="diet" id="diet" className="btn--1 select_reset">
+                <select
+                    name="diet"
+                    id="diet"
+                    className="btn--1 select_reset"
+                    value={diet}
+                    onChange={(e) => {
+                        setDiet(e.target.value);
+                    }}
+                >
                     <option className="btn--1 select_reset" value="none">
                         none
                     </option>
