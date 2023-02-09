@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import express, { type Request, type Response } from 'express';
-// import { body } from 'express-validator';
 // import aiRequest from '../services/aiRequest';
+// import { body } from 'express-validator';
 
 interface reqParams {
     diet: string
@@ -23,7 +23,9 @@ router.post('/', async (req: Request, res: Response) => {
     const { allergens, diet, kcal, protein, carbs, fat, useMacros }: reqParams =
         req.body;
     try {
-        const prompt: string = `Make a${diet === 'none' ? '' : ' ' + diet} meal plan for 1 day with ${
+        const prompt: string = `Make a${
+            diet === 'none' ? '' : ' ' + diet
+        } meal plan for 1 day with ${
             useMacros
                 ? String(protein) +
                   'g protein, ' +
@@ -39,9 +41,14 @@ router.post('/', async (req: Request, res: Response) => {
                   '.'
                 : ''
         }`;
-        res.json(prompt);
-        // const response = await aiRequest('list a meal plan with the following macros: 55g protein, 55g fat, 10g net carbs')
-        // res.send(response);
+        // const response = await aiRequest(prompt);
+        setTimeout(() => {
+            res.send([
+                {
+                    text: '\n\nBreakfast:\n\n2 eggs cooked in butter with 2 slices of bacon and 1/2 avocado\n\nSnack:\n\n1/4 cup of macadamia nuts\n\nLunch:\n\nSalad with grilled chicken, olive oil, and feta cheese\n\nSnack:\n\n1/4 cup of almonds\n\nDinner:\n\nGrilled salmon with a side of sautéed spinach and mushrooms cooked in butter\n\nSnack:\n\n1/2 cup of Greek yogurt with 1 tablespoon of almond butter'
+                }
+            ]);
+        }, 5000);
     } catch (error: any) {
         res.send(error);
     }

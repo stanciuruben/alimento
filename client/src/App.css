@@ -64,6 +64,47 @@
     margin-left: 1rem;
 }
 
+.res_container {
+    width: 80rem;
+    margin: 0 auto;
+    margin-top: 5rem;
+}
+
+.res_container__title {
+    font-size: 3rem;
+    color: var(--primary);
+}
+
+.res_container__macros {
+    font-size: 2rem;
+    margin-top: 2rem;
+}
+
+.res_container__macros dt {
+    color: var(--white);
+}
+
+.res_container__macros dd {
+    color: var(--lightgray);
+}
+
+.res_container__macros dd:nth-child(2) {
+    margin-top: 1rem;
+}
+
+.res_container__meal_plan {
+    display: block;
+    position: relative;
+    width: 100%;
+    font-size: 2rem;
+    color: var(--white);
+    white-space: pre-wrap;
+}
+
+.res_container__meal_plan__cta_section {
+    margin-top: 2rem;
+}
+
 .btn--1 {
     font-size: 1.6rem;
     padding: 1rem 2rem;
@@ -109,7 +150,7 @@
 
 .cta--1:hover {
     box-shadow: 0 0.5rem 1rem var(--black-3);
-    transform: translateY(-0.1rem);
+    transform: translateY(-0.3rem);
 }
 
 .cta--1:active {
