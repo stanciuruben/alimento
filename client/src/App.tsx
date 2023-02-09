@@ -10,6 +10,7 @@ import {
 import type MoreOptionsType from './types/MoreOptions';
 import UserInputs from './components/UserInputs/UserInputs';
 import './App.css';
+import Loader from './components/Loader/Loader';
 
 function App (): JSX.Element {
     const allergensInput = useRef<HTMLInputElement>(null);
@@ -25,6 +26,7 @@ function App (): JSX.Element {
         useMacros: false
     });
     const [mealPlan, setMealPlan] = useState<string | null>(null);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     function fillResponse (i: number): void {
         if (mealPlan === null || i >= mealPlan.length) return;
@@ -61,7 +63,7 @@ function App (): JSX.Element {
 
     function getMealPlan (e: FormEvent<HTMLFormElement>): void {
         e.preventDefault();
-        // setLoading
+        setIsLoading(true);
         const body = { ...moreOptions, allergens, diet };
         fetch('http://localhost:9999/suggestions', {
             method: 'POST',
@@ -70,12 +72,18 @@ function App (): JSX.Element {
         })
             .then(async (res) => await res.json())
             .then((data) => {
-                // unsetLoading
+                setIsLoading(false);
                 setMealPlan(data[0].text);
             })
             .catch((err) => {
                 console.error(err.message);
             });
+    }
+
+    if (isLoading) {
+        return (
+            <Loader />
+        );
     }
 
     if (mealPlan === null) {
@@ -143,9 +151,9 @@ function App (): JSX.Element {
                         <dl className="res_container__macros">
                             <dt>Enjoy your custom meal plan with:</dt>
                             <dd>Diet Type: {diet}</dd>
-                            <dd>Protein: {moreOptions.protein}</dd>
-                            <dd>Carbs: {moreOptions.carbs}</dd>
-                            <dd>Fat: {moreOptions.fat}</dd>
+                            <dd>Protein: {moreOptions.protein}g</dd>
+                            <dd>Carbs: {moreOptions.carbs}g</dd>
+                            <dd>Fat: {moreOptions.fat}g</dd>
                             <dd>
                                 Kilocalories:{' '}
                                 {moreOptions.protein * 4 +

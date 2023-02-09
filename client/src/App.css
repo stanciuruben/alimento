@@ -66,22 +66,23 @@
 
 .res_container {
     width: 80rem;
-    margin: 0 auto;
-    margin-top: 5rem;
+    margin: 10rem auto;
 }
 
 .res_container__title {
-    font-size: 3rem;
+    font-size: 4rem;
     color: var(--primary);
+    text-align: center;
 }
 
 .res_container__macros {
-    font-size: 2rem;
-    margin-top: 2rem;
+    font-size: 1.6rem;
+    margin-top: 5rem;
 }
 
 .res_container__macros dt {
     color: var(--white);
+    font-size: 2rem;
 }
 
 .res_container__macros dd {
@@ -102,7 +103,11 @@
 }
 
 .res_container__meal_plan__cta_section {
-    margin-top: 2rem;
+    margin-top: 5rem;
+}
+
+.res_container__meal_plan__cta_section .cta--1 {
+    font-size: 2rem;
 }
 
 .btn--1 {
