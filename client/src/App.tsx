@@ -177,7 +177,7 @@ function App (): JSX.Element {
                             setMealPlan(null);
                         }}
                     >
-                        Generate another
+                        Go Back
                     </button>
                 </div>
             </article>
