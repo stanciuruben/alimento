@@ -1,172 +1,172 @@
 #app_container {
-    display: block;
-    position: relative;
-    width: 100vw;
-    height: 100vh;
+	display: block;
+	position: relative;
+	width: 100%;
+	height: 100vh;
 }
 
 #watermark {
-    user-select: none;
-    display: block;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 15rem;
-    color: var(--white-1);
+	user-select: none;
+	display: block;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	font-size: 15rem;
+	color: var(--white-1);
 }
 
 .allergens__input__overlay {
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: var(--black-8);
+	display: block;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: var(--black-8);
 }
 
 .allergens__input {
-    display: block;
-    position: absolute;
-    width: 50rem;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+	display: block;
+	position: absolute;
+	width: 50rem;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
 }
 
 .allergens__input__label {
-    display: block;
-    margin-bottom: 2rem;
-    color: var(--lightgray);
-    font-size: 1.6rem;
-    font-weight: bold;
+	display: block;
+	margin-bottom: 2rem;
+	color: var(--lightgray);
+	font-size: 1.6rem;
+	font-weight: bold;
 }
 
 .allergens__input__input {
-    display: inline-block;
-    width: 42rem;
-    background-color: transparent;
-    border: none;
-    outline: none;
-    border-bottom: 0.1rem solid var(--white);
-    padding: 1rem 0;
-    color: var(--white);
-    font-size: 1.6rem;
+	display: inline-block;
+	width: 42rem;
+	background-color: transparent;
+	border: none;
+	outline: none;
+	border-bottom: 0.1rem solid var(--white);
+	padding: 1rem 0;
+	color: var(--white);
+	font-size: 1.6rem;
 }
 
 .allergens__input__input:focus {
-    border-bottom: 0.1rem solid var(--primary);
+	border-bottom: 0.1rem solid var(--primary);
 }
 
 .allergens__input__submit {
-    display: inline-block;
-    margin-left: 1rem;
+	display: inline-block;
+	margin-left: 1rem;
 }
 
 .res_container {
-    width: 80rem;
-    margin: 10rem auto;
+	width: 80rem;
+	margin: 10rem auto;
 }
 
 .res_container__title {
-    font-size: 4rem;
-    color: var(--primary);
-    text-align: center;
+	font-size: 4rem;
+	color: var(--primary);
+	text-align: center;
 }
 
 .res_container__macros {
-    font-size: 1.6rem;
-    margin-top: 5rem;
+	font-size: 1.6rem;
+	margin-top: 5rem;
 }
 
 .res_container__macros dt {
-    color: var(--white);
-    font-size: 2rem;
+	color: var(--white);
+	font-size: 2rem;
 }
 
 .res_container__macros dd {
-    color: var(--lightgray);
-    margin-top: 0.5rem;
+	color: var(--lightgray);
+	margin-top: 0.5rem;
 }
 
 .res_container__macros dd:nth-child(2) {
-    margin-top: 1rem;
+	margin-top: 1rem;
 }
 
 .res_container__meal_plan {
-    display: block;
-    position: relative;
-    width: 100%;
-    font-size: 2rem;
-    color: var(--white);
-    white-space: pre-wrap;
+	display: block;
+	position: relative;
+	width: 100%;
+	font-size: 2rem;
+	color: var(--white);
+	white-space: pre-wrap;
 }
 
 .res_container__meal_plan__cta_section {
-    margin-top: 5rem;
+	margin-top: 5rem;
 }
 
 .res_container__meal_plan__cta_section .cta--1 {
-    font-size: 2rem;
+	font-size: 2rem;
 }
 
 .btn--1 {
-    font-size: 1.6rem;
-    padding: 1rem 2rem;
-    outline: none;
-    border: none;
-    border-radius: 1rem;
-    cursor: pointer;
-    background-color: var(--white);
-    box-shadow: 0.5rem 0.5rem 0.5rem var(--black-3),
-        -0.5rem -0.5rem 0.5rem var(--black-5) inset,
-        0.5rem 0.5rem 0.5rem var(--white-5) inset;
-    transition: all 0.3s ease;
+	font-size: 1.6rem;
+	padding: 1rem 2rem;
+	outline: none;
+	border: none;
+	border-radius: 1rem;
+	cursor: pointer;
+	background-color: var(--white);
+	box-shadow: 0.5rem 0.5rem 0.5rem var(--black-3),
+		-0.5rem -0.5rem 0.5rem var(--black-5) inset,
+		0.5rem 0.5rem 0.5rem var(--white-5) inset;
+	transition: all 0.3s ease;
 }
 
 .btn--1 > * {
-    height: 1.6rem;
+	height: 1.6rem;
 }
 
 .btn--1:active {
-    background-color: var(--lightgray);
+	background-color: var(--lightgray);
 }
 
 .btn--1--active {
-    background-color: var(--lightgray);
-    box-shadow: 0.5rem 0.5rem 0.5rem var(--black-3),
-        0.5rem 0.5rem 0.5rem var(--black-5) inset,
-        -0.5rem -0.5rem 0.5rem var(--white-5) inset;
+	background-color: var(--lightgray);
+	box-shadow: 0.5rem 0.5rem 0.5rem var(--black-3),
+		0.5rem 0.5rem 0.5rem var(--black-5) inset,
+		-0.5rem -0.5rem 0.5rem var(--white-5) inset;
 }
 
 .cta--1 {
-    font-size: 1.6rem;
-    font-weight: bold;
-    padding: 1rem 2rem;
-    outline: none;
-    border: none;
-    border-radius: 1rem;
-    cursor: pointer;
-    background-color: var(--primary);
-    color: var(--white);
-    box-shadow: 0 0.25rem 0.5rem var(--black-3);
-    transition: all 0.3s ease;
+	font-size: 1.6rem;
+	font-weight: bold;
+	padding: 1rem 2rem;
+	outline: none;
+	border: none;
+	border-radius: 1rem;
+	cursor: pointer;
+	background-color: var(--primary);
+	color: var(--white);
+	box-shadow: 0 0.25rem 0.5rem var(--black-3);
+	transition: all 0.3s ease;
 }
 
 .cta--1:hover {
-    box-shadow: 0 0.5rem 1rem var(--black-3);
-    transform: translateY(-0.3rem);
+	box-shadow: 0 0.5rem 1rem var(--black-3);
+	transform: translateY(-0.3rem);
 }
 
 .cta--1:active {
-    box-shadow: 0 0.1rem 0.1rem var(--black-3);
-    transform: translateY(0.1rem);
+	box-shadow: 0 0.1rem 0.1rem var(--black-3);
+	transform: translateY(0.1rem);
 }
 
 .btn--1:focus,
 .btn--1:focus-visible,
 .cta--1:focus,
 .cta--1:focus-visible {
-    background-color: var(--lightgray);
+	background-color: var(--lightgray);
 }

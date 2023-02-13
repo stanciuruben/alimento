@@ -25,11 +25,16 @@ function App (): JSX.Element {
         fat: 60,
         useMacros: false
     });
-    const [mealPlan, setMealPlan] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [mealPlan, setMealPlan] = useState<string>('');
+    const fillAll = useRef<boolean>(false);
 
     function fillResponse (i: number): void {
-        if (mealPlan === null || i >= mealPlan.length) return;
+        if (i >= mealPlan.length) return;
+        if (fillAll.current && resContainer.current !== null) {
+            resContainer.current.innerText = mealPlan;
+            return;
+        }
         if (resContainer.current !== null) {
             resContainer.current.innerText = resContainer.current.innerText + mealPlan[i];
             setTimeout(() => { fillResponse(i + 1); }, 50);
@@ -86,7 +91,7 @@ function App (): JSX.Element {
         );
     }
 
-    if (mealPlan === null) {
+    if (mealPlan === '') {
         return (
             <main id="app_container">
                 <h1 id="watermark">alimento</h1>
@@ -142,7 +147,7 @@ function App (): JSX.Element {
     return (
         <main id="app_container">
             <h1 id="watermark">alimento</h1>
-            <article className="res_container">
+            <article className="res_container" onClick={() => { fillAll.current = true }}>
                 <div>
                     <h2 className="res_container__title">
                         Meal plan successfully generated!
@@ -174,7 +179,7 @@ function App (): JSX.Element {
                     <button
                         className="cta--1"
                         onClick={() => {
-                            setMealPlan(null);
+                            setMealPlan('');
                         }}
                     >
                         Go Back
