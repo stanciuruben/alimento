@@ -3,6 +3,7 @@
 	position: relative;
 	width: 100%;
 	height: 100vh;
+	overflow-x: hidden;
 }
 
 #watermark {
@@ -62,6 +63,17 @@
 .allergens__input__submit {
 	display: inline-block;
 	margin-left: 1rem;
+}
+
+@media screen and (max-width: 800px) {
+	.allergens__input {
+		top: 20%;
+		width: 100%;
+		padding: 0 2rem;
+	}
+	.allergens__input__input {
+		width: calc(100% - 7rem - 2rem);
+	}
 }
 
 .res_container {
@@ -130,6 +142,45 @@
 	font-size: 2rem;
 }
 
+@media screen and (max-width: 860px) {
+	.res_container {
+		width: 100%;
+		padding: 0 2rem;
+		margin: 5rem auto;
+	}
+
+	.res_container__macros {
+		margin-left: 2rem;
+	}
+
+	.res_container__meal_plan {
+		margin-left: 0;
+		width: calc(100%);
+	}
+}
+
+@media screen and (max-width: 500px) {
+	.res_container__title {
+		font-size: 3rem;
+	}
+
+	.res_container__macros {
+		font-size: 1.2rem;
+	}
+
+	.res_container__macros dt {
+		font-size: 1.6rem;
+	}
+
+	.res_container__meal_plan {
+		font-size: 1.6rem;
+	}
+
+	.res_container__meal_plan__cta_section .cta--1 {
+		font-size: 1.6rem;
+	}
+}
+
 .btn--1 {
 	font-size: 1.6rem;
 	padding: 1rem 2rem;
@@ -188,4 +239,11 @@
 .cta--1:focus,
 .cta--1:focus-visible {
 	background-color: var(--lightgray);
+}
+
+@media screen and (max-width: 700px) {
+	.btn--1,
+	.cta--1 {
+		font-size: 1.2rem;
+	}
 }

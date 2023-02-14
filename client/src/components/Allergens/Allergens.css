@@ -76,3 +76,10 @@
 .allergens__item__delete:focus {
 	color: var(--black);
 }
+
+@media screen and (max-width: 700px) {
+	.allergens__item,
+	.allergens__item--1 {
+		font-size: 1.2rem;
+	}
+}

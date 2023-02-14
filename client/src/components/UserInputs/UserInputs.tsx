@@ -100,7 +100,7 @@ const UserInputs: FC<Props> = ({
             >
                 <img src="/settings.svg" alt="settings icon" />
             </button>
-            <button className="cta--1 form__primary--last">
+            <button className="cta--1 form__primary--last" id='form_submit--1' >
                 Get Custom Mealplan!
             </button>
             <p className="form__more_options__row form_label--1">
@@ -109,12 +109,12 @@ const UserInputs: FC<Props> = ({
                     'allergens: ' + allergens.join(', ') + '. '}
                 {moreOptions.useMacros
                     ? 'macros: ' +
-                      moreOptions.protein.toString() +
-                      'g protein, ' +
-                      moreOptions.carbs.toString() +
-                      'g carbs, ' +
-                      moreOptions.fat.toString() +
-                      'g fat.'
+                    moreOptions.protein.toString() +
+                    'g protein, ' +
+                    moreOptions.carbs.toString() +
+                    'g carbs, ' +
+                    moreOptions.fat.toString() +
+                    'g fat.'
                     : 'kcal: ' + moreOptions.kcal.toString()}
             </p>
             {showMore && (
@@ -129,6 +129,9 @@ const UserInputs: FC<Props> = ({
                     />
                 </>
             )}
+            <button className="cta--1" id='form_submit--2' >
+                Get Custom Mealplan!
+            </button>
         </form>
     );
 };
