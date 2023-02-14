@@ -97,14 +97,33 @@
 .res_container__meal_plan {
 	display: block;
 	position: relative;
-	width: 100%;
+	width: calc(100%+4rem);
 	font-size: 2rem;
+	font-family: "Courier New", Courier, monospace;
+	background-color: var(--black-8);
+	padding: 2.5rem;
+	margin-top: 5rem;
+	margin-left: -2rem;
+	border-radius: 2rem;
 	color: var(--white);
 	white-space: pre-wrap;
 }
 
 .res_container__meal_plan__cta_section {
 	margin-top: 5rem;
+	text-align: center;
+	display: none;
+	opacity: 0;
+	animation: cta_section 0.3s ease-in forwards;
+}
+
+@keyframes cta_section {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
 }
 
 .res_container__meal_plan__cta_section .cta--1 {

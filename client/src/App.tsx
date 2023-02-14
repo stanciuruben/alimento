@@ -15,6 +15,8 @@ import Loader from './components/Loader/Loader';
 function App (): JSX.Element {
     const allergensInput = useRef<HTMLInputElement>(null);
     const resContainer = useRef<HTMLPreElement>(null);
+    const fillAll = useRef<boolean>(false);
+    const ctaSection = useRef<HTMLDivElement>(null);
     const [showInput, setShowInput] = useState<boolean>(false);
     const [diet, setDiet] = useState<string>('none');
     const [allergens, setAllergens] = useState<string[]>([]);
@@ -27,21 +29,28 @@ function App (): JSX.Element {
     });
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [mealPlan, setMealPlan] = useState<string>('');
-    const fillAll = useRef<boolean>(false);
 
     function fillResponse (i: number): void {
-        if (i >= mealPlan.length) return;
-        if (fillAll.current && resContainer.current !== null) {
+        if (i === mealPlan.length) {
+            if (ctaSection.current !== null) {
+                ctaSection.current.style.display = 'block';
+            }
+            return;
+        }
+        if (fillAll.current && resContainer.current !== null && ctaSection.current !== null) {
             resContainer.current.innerText = mealPlan;
+            ctaSection.current.style.display = 'block';
             return;
         }
         if (resContainer.current !== null) {
+            if (resContainer.current.innerText.length === mealPlan.length) return;
             resContainer.current.innerText = resContainer.current.innerText + mealPlan[i];
             setTimeout(() => { fillResponse(i + 1); }, 50);
         }
     }
 
     useEffect(() => {
+        fillAll.current = false;
         fillResponse(0);
     }, [mealPlan]);
 
@@ -66,6 +75,11 @@ function App (): JSX.Element {
         }
     }
 
+    function ltrim (str: string): string {
+        if (str.length === 0) return str;
+        return str.replace(/^\s+/g, '');
+    }
+
     function getMealPlan (e: FormEvent<HTMLFormElement>): void {
         e.preventDefault();
         setIsLoading(true);
@@ -78,7 +92,7 @@ function App (): JSX.Element {
             .then(async (res) => await res.json())
             .then((data) => {
                 setIsLoading(false);
-                setMealPlan(data[0].text);
+                setMealPlan(ltrim(data[0].text));
             })
             .catch((err) => {
                 console.error(err.message);
@@ -145,16 +159,16 @@ function App (): JSX.Element {
     }
 
     return (
-        <main id="app_container">
+        <main id="app_container" onClick={() => { fillAll.current = true }}>
             <h1 id="watermark">alimento</h1>
-            <article className="res_container" onClick={() => { fillAll.current = true }}>
+            <article className="res_container">
                 <div>
                     <h2 className="res_container__title">
                         Meal plan successfully generated!
                     </h2>
                     {moreOptions.useMacros ? (
                         <dl className="res_container__macros">
-                            <dt>Enjoy your custom meal plan with:</dt>
+                            <dt>Options</dt>
                             <dd>Diet Type: {diet.slice(0, 1).toUpperCase() + diet.slice(1)}</dd>
                             <dd>Protein: {moreOptions.protein}g</dd>
                             <dd>Carbs: {moreOptions.carbs}g</dd>
@@ -165,17 +179,19 @@ function App (): JSX.Element {
                                     moreOptions.carbs * 4 +
                                     moreOptions.fat * 9}
                             </dd>
+                            {allergens.length > 0 && <dd>Without: {allergens.join(', ')}</dd>}
                         </dl>
                     ) : (
                         <dl className="res_container__macros">
-                            <dt>Enjoy your custom meal plan with:</dt>
+                            <dt>Options</dt>
                             <dd>Diet Type: {diet}</dd>
                             <dd>Kilocalories: {moreOptions.kcal}</dd>
+                            {allergens.length > 0 && <dd>Without: {allergens.join(', ')}</dd>}
                         </dl>
                     )}
                 </div>
                 <pre className="res_container__meal_plan" ref={resContainer} ></pre>
-                <div className="res_container__meal_plan__cta_section">
+                <div className="res_container__meal_plan__cta_section" ref={ctaSection} >
                     <button
                         className="cta--1"
                         onClick={() => {
