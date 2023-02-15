@@ -1,0 +1,67 @@
+:root {
+	font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
+
+	--bg-primary: #cabdbd;
+	--white: #ffffff;
+	--white-3: rgba(255, 255, 255, 0.3);
+	--white-5: rgba(255, 255, 255, 0.5);
+	--white-8: rgba(255, 255, 255, 0.8);
+	--black: #000000;
+	--black-3: rgba(0, 0, 0, 0.3);
+	--black-5: rgba(0, 0, 0, 0.5);
+	--black-8: rgba(0, 0, 0, 0.8);
+	--primary: #00d154;
+	--primary-d: #00a542;
+	--secondary: #282626;
+	--redish: #a36666;
+	--redish-5: rgba(163, 102, 102, 0.5);
+}
+
+html {
+	font-size: 62.5%;
+}
+
+body {
+	background-color: var(--bg-primary);
+}
+
+*,
+*::before,
+*::after {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+.cta {
+	display: inline-block;
+	background-color: var(--primary);
+	color: var(--white);
+	padding: 2rem 3rem;
+	text-decoration: none;
+	font-size: 1.6rem;
+	border-radius: 2rem;
+	box-shadow: 0.5rem 0.5rem 0.5rem var(--black-3),
+		-0.5rem -0.5rem 0.5rem var(--black-3) inset,
+		0.5rem 0.5rem 0.5rem var(--white-3) inset;
+	font-weight: bold;
+	transition: all 0.1s ease;
+}
+
+.cta:hover,
+.cta:focus,
+.cta:focus-visible {
+	outline: none;
+	background-color: var(--primary-d);
+	padding-top: 2.2rem;
+	padding-bottom: 1.8rem;
+	box-shadow: 0.5rem 0.5rem 0.5rem var(--black-3),
+		0.5rem 0.5rem 0.5rem var(--black-3) inset,
+		-0.5rem -0.5rem 0.5rem var(--white-3) inset;
+}
+
+.cta:active {
+	box-shadow: 1rem 1rem 1rem var(--black-3),
+		1rem 1rem 1rem var(--black-3) inset,
+		-1rem -1rem 1rem var(--white-3) inset;
+}
