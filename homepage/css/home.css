@@ -1,68 +1,10 @@
-#main {
-	display: block;
-	position: relative;
-	width: 100%;
-	overflow-x: hidden;
-}
-
-#main_nav {
-	position: relative;
-	height: 13rem;
-	width: 100%;
-	z-index: 1000;
-}
-
-.main_nav__logo {
-	padding-top: 2rem;
-}
-
-.main_nav__list {
-	display: block;
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100vw;
-	padding: 2rem 12rem;
-	background-color: var(--bg-primary);
-	z-index: 100;
-	box-shadow: 0 0 1rem var(--black-3), 0 0 1rem var(--black-3) inset;
-}
-
-.main_nav__list::after {
-	display: table;
-	clear: both;
-}
-
-.main_nav__list__right {
-	float: right;
-}
-
-.main_nav__list__item {
-	display: inline-block;
-	vertical-align: middle;
-	list-style: none;
-}
-
-.main_nav__list__item:not(:last-child) {
-	margin-right: 2rem;
-}
-
-.main_nav__list__item :is(a, a:visited, a:link, button) {
-	text-decoration: none;
-	border: none;
-	outline: none;
-	background-color: transparent;
-	color: var(--black);
-	cursor: pointer;
-	font-weight: normal;
-	font-size: 1.6rem;
-}
-
 .header {
 	display: block;
 	position: relative;
 	width: 90%;
-	margin: 0 auto;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 15rem;
 	border-radius: 2rem;
 	overflow: hidden;
 	box-shadow: 0.5rem 0.5rem 0.5rem var(--black-3);
@@ -146,10 +88,11 @@
 }
 
 .article {
-	display: block;
-	max-width: 120rem;
+	width: 120rem;
 	position: relative;
-	margin: 15rem auto;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 15rem;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
@@ -228,7 +171,9 @@
 .cta_section {
 	display: block;
 	width: fit-content;
-	margin: 15rem auto;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 15rem;
 }
 
 .cta_section__text {
@@ -239,13 +184,4 @@
 
 .cta_section__text > .cta {
 	margin-left: 1rem;
-}
-
-footer {
-	display: block;
-	background-color: var(--black-5);
-	color: var(--white);
-	padding: 2rem 0;
-	text-align: center;
-	font-size: 2rem;
 }

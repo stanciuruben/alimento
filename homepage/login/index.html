@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<link rel="icon" type="image/svg+xml" href="./icon.svg" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>alimento | register</title>
+		<link rel="stylesheet" href="../css/base.css" />
+		<link rel="stylesheet" href="../css/form.css" />
+	</head>
+	<body>
+		<main id="main">
+			<nav id="main_nav">
+				<ul class="main_nav__list">
+					<li class="main_nav__list__item main_nav__logo">
+						<a href="../">alimento</a>
+					</li>
+					<aside class="main_nav__list__right">
+						<li class="main_nav__list__item">
+							<a href="/about">about the creator</a>
+						</li>
+						<li class="main_nav__list__item">
+							<a href="../login" class="cta">log-in</a>
+						</li>
+					</aside>
+				</ul>
+			</nav>
+			<form action="" class="form">
+				<fieldset class="form__group">
+					<label for="email" class="form__label">E-mail:</label>
+					<input
+						required
+						type="email"
+						name="email"
+						id="email"
+						class="form__input"
+					/>
+				</fieldset>
+				<fieldset class="form__group">
+					<label for="password" class="form__label">Password:</label>
+					<input
+						minlength="6"
+						required
+						type="password"
+						name="password"
+						id="password"
+						class="form__input"
+					/>
+				</fieldset>
+				<button class="cta form__submit">Log-in</button>
+			</form>
+			<footer>© alimento 2023</footer>
+		</main>
+	</body>
+</html>
