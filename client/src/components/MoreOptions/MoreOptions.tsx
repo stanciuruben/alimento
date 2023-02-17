@@ -52,22 +52,34 @@ const MoreOptions: FC<Props> = ({
     ): void {
         let newInput: string = e.target.value;
         if (newInput === '') newInput = '0';
-        const newInputAsNumber: number = parseInt(newInput);
+        let newInputAsNumber: number = parseInt(newInput);
         if (isNaN(newInputAsNumber)) {
             // set a warning if input is not a number
             return;
         }
         switch (property) {
             case 'kcal':
+                if (newInputAsNumber > 5000) {
+                    newInputAsNumber = 5000;
+                }
                 setKcal(newInputAsNumber);
                 break;
             case 'protein':
+                if (newInputAsNumber > 400) {
+                    newInputAsNumber = 400;
+                }
                 setProtein(newInputAsNumber);
                 break;
             case 'carbs':
+                if (newInputAsNumber > 600) {
+                    newInputAsNumber = 600;
+                }
                 setCarbs(newInputAsNumber);
                 break;
             case 'fat':
+                if (newInputAsNumber > 300) {
+                    newInputAsNumber = 300;
+                }
                 setFat(newInputAsNumber);
                 break;
             default:

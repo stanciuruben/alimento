@@ -176,7 +176,6 @@
 .select_reset {
 	all: unset;
 	font-weight: normal;
-	text-align: center;
 	color: var(--black);
 }
 
