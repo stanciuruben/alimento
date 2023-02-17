@@ -2,9 +2,7 @@
 	display: block;
 	position: relative;
 	width: 90%;
-	margin-left: auto;
-	margin-right: auto;
-	margin-bottom: 15rem;
+	margin: 0 auto;
 	border-radius: 2rem;
 	overflow: hidden;
 	box-shadow: 0.5rem 0.5rem 0.5rem var(--black-3);
@@ -90,9 +88,7 @@
 .article {
 	width: 120rem;
 	position: relative;
-	margin-left: auto;
-	margin-right: auto;
-	margin-bottom: 15rem;
+	margin: 0 auto;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
@@ -171,9 +167,7 @@
 .cta_section {
 	display: block;
 	width: fit-content;
-	margin-left: auto;
-	margin-right: auto;
-	margin-bottom: 15rem;
+	margin: 0 auto;
 }
 
 .cta_section__text {
