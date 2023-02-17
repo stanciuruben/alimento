@@ -24,16 +24,19 @@
 	margin-bottom: 2rem;
 }
 
+.form__label,
+.form__label--1 {
+	font-size: 1.6rem;
+}
+
 .form__label {
 	color: var(--black);
-	font-size: 1.6rem;
 	width: 15rem;
 	user-select: none;
 }
 
 .form__label--1 {
 	color: var(--black);
-	font-size: 1.6rem;
 	margin-left: 1rem;
 }
 
@@ -143,4 +146,23 @@
 .form__submit:focus,
 .form__submit:hover {
 	padding: 1rem;
+}
+
+@media screen and (max-width: 700px) {
+	.form {
+		width: 90%;
+	}
+
+	.form__label {
+		width: 10rem;
+	}
+
+	.form__label,
+	.form__label--1 {
+		font-size: 1.2rem;
+	}
+
+	.form__group--1 {
+		margin-left: 10rem;
+	}
 }

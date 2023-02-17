@@ -143,3 +143,14 @@ footer {
 	text-align: center;
 	font-size: 2rem;
 }
+
+@media screen and (max-width: 1000px) {
+	.main_nav__list__item :is(a, a:visited, a:link, button),
+	footer {
+		font-size: clamp(1.2rem, 1.8vmin, 2rem);
+	}
+
+	#main {
+		gap: 20vmin;
+	}
+}
