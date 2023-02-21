@@ -14,23 +14,20 @@ app.use(express.json({ extended: false }));
 app.use(cors()); // Checkout docs on cors whitelist before deploying
 app.use(cookieParser());
 
-// Static homepage folder
-app.use(express.static(path.join(__dirname, '../homepage')));
-app.get('/', (_req, res) => {
-  res.sendFile(path.join(__dirname, '../homepage/index.html'));
-});
-
+// Setup express-session for Passport.js
 app.use(session({
-  secret: 'keyboard cat',
+  secret: 'keyboard cat', // Get form .env/config
   resave: false,
   saveUninitialized: false,
   store: new SQLiteStore({ db: 'sessions.db', dir: './var/db' })
 }));
 app.use(passport.authenticate('session'));
 
+// Static homepage folder
+app.use(express.static(path.join(__dirname, '../homepage')));
+
 // Routes
-app.use('/suggestions', require('./routes/suggestions'));
-app.use('/', require('./routes/auth'));
+app.use('/', require('./routes/index'));
 
 const PORT = 9999;
 app.listen(PORT, function () {

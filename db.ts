@@ -13,8 +13,7 @@ db.serialize(function () {
     hashed_password BLOB, \
     salt BLOB, \
     name TEXT, \
-    email TEXT UNIQUE, \
-    email_verified INTEGER \
+    email TEXT UNIQUE \
   )');
 
   db.run('CREATE TABLE IF NOT EXISTS federated_credentials ( \

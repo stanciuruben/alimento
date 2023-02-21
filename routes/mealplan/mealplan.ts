@@ -3,15 +3,15 @@ import express, { type Request, type Response } from 'express';
 // import aiRequest from '../services/aiRequest';
 // import { body } from 'express-validator';
 
-interface reqParams {
-	diet: string
-	kcal: number
-	protein: number
-	carbs: number
-	fat: number
-	useMacros: boolean
-	allergens: string[]
-}
+// interface reqParams {
+// 	diet: string
+// 	kcal: number
+// 	protein: number
+// 	carbs: number
+// 	fat: number
+// 	useMacros: boolean
+// 	allergens: string[]
+// }
 
 const router = express.Router();
 
@@ -20,27 +20,27 @@ const router = express.Router();
 // @desc    and return the response to the client
 // @access  Private
 router.post('/', async (req: Request, res: Response) => {
-	const { allergens, diet, kcal, protein, carbs, fat, useMacros }: reqParams =
-		req.body;
+	// const { allergens, diet, kcal, protein, carbs, fat, useMacros }: reqParams =
+	// 	req.body;
 	try {
-		const prompt: string = `Make a${
-			diet === 'none' ? '' : ' ' + diet
-		} meal plan for 1 day with ${
-			useMacros
-				? String(protein) +
-				  'g protein, ' +
-				  String(carbs) +
-				  'g carbs, ' +
-				  String(fat) +
-				  'g fat'
-				: String(kcal) + ' kcalories'
-		}.${
-			allergens.length > 0
-				? ' And without the following allergens: ' +
-				  allergens.join(', ') +
-				  '.'
-				: ''
-		}`;
+		// const prompt: string = `Make a${
+		// 	diet === 'none' ? '' : ' ' + diet
+		// } meal plan for 1 day with ${
+		// 	useMacros
+		// 		? String(protein) +
+		// 		  'g protein, ' +
+		// 		  String(carbs) +
+		// 		  'g carbs, ' +
+		// 		  String(fat) +
+		// 		  'g fat'
+		// 		: String(kcal) + ' kcalories'
+		// }.${
+		// 	allergens.length > 0
+		// 		? ' And without the following allergens: ' +
+		// 		  allergens.join(', ') +
+		// 		  '.'
+		// 		: ''
+		// }`;
 		// const response = await aiRequest(prompt);
 		setTimeout(() => {
 			res.send([
