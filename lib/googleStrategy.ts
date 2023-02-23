@@ -11,13 +11,13 @@ export default new GoogleStrategy(
 		callbackURL: '/auth/google/redirect',
 		scope: ['profile']
 	},
-	function verify (issuer: any, profile: any, cb: any) {
+	function verify (issuer: any, profile: any, done: any) {
 		db.get(
 			'SELECT * FROM federated_credentials WHERE provider = ? AND subject = ?',
 			[issuer, profile.id],
 			function (err, credentials) {
 				if (err != null) {
-					return cb(err);
+					return done(err);
 				}
 				if (!credentials) {
 					db.run(
@@ -25,7 +25,7 @@ export default new GoogleStrategy(
 						[profile.displayName],
 						function (err) {
 							if (err != null) {
-								return cb(err);
+								return done(err);
 							}
 
 							const id = this.lastID;
@@ -34,13 +34,13 @@ export default new GoogleStrategy(
 								[id, issuer, profile.id],
 								function (err) {
 									if (err != null) {
-										return cb(err);
+										return done(err);
 									}
 									const user = {
 										id,
 										name: profile.displayName
 									};
-									return cb(null, user);
+									return done(null, user);
 								}
 							);
 						}
@@ -51,12 +51,12 @@ export default new GoogleStrategy(
 						[credentials.user_id],
 						function (err, user) {
 							if (err != null) {
-								return cb(err);
+								return done(err);
 							}
 							if (!user) {
-								return cb(null, false);
+								return done(null, false);
 							}
-							return cb(null, user);
+							return done(null, user);
 						}
 					);
 				}
@@ -65,14 +65,14 @@ export default new GoogleStrategy(
 	}
 );
 
-export const serializeGoogleUser = (user: any, cb: any): any => {
-    process.nextTick(() => {
-      cb(null, { id: user.id, username: user.username, name: user.name });
-    });
-  }
-
-export const deserializeGoogleUser = (user: any, cb: any): any => {
+export const serializeGoogleUser = (user: any, done: any): any => {
 	process.nextTick(() => {
-		return cb(null, user);
+		done(null, { id: user.id, username: user.username, name: user.name });
+	});
+};
+
+export const deserializeGoogleUser = (user: any, done: any): any => {
+	process.nextTick(() => {
+		return done(null, user);
 	});
 };

@@ -4,9 +4,12 @@ import path from 'path';
 
 const router = express.Router();
 
+// Homepage
 router.get('/', (_req, res) => {
-    res.sendFile(path.join(__dirname, '../homepage/index.html'));
+	res.sendFile(path.join(__dirname, '../homepage/index.html'));
 });
-router.use('/auth/google', require('./auth/google'));
+
+router.use('/mealplan', require('./mealplan/index'));
+router.use('/auth', require('./auth/index'));
 
 module.exports = router;

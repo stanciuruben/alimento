@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import express, { type Request, type Response } from 'express';
+import auth from '../../middlewares/auth';
 // import aiRequest from '../services/aiRequest';
 // import { body } from 'express-validator';
 
@@ -19,7 +20,7 @@ const router = express.Router();
 // @desc    Given parameters make a request to the openai api
 // @desc    and return the response to the client
 // @access  Private
-router.post('/', async (req: Request, res: Response) => {
+router.post('/', auth, (req: Request, res: Response) => {
 	// const { allergens, diet, kcal, protein, carbs, fat, useMacros }: reqParams =
 	// 	req.body;
 	try {

@@ -84,13 +84,15 @@ function App (): JSX.Element {
         e.preventDefault();
         setIsLoading(true);
         const body = { ...moreOptions, allergens, diet };
-        fetch('http://localhost:9999/suggestions', {
+        fetch('http://localhost:9999/mealplan', {
             method: 'POST',
+            credentials: 'include',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(body)
         })
             .then(async (res) => await res.json())
             .then((data) => {
+                console.log(data);
                 setIsLoading(false);
                 setMealPlan(ltrim(data[0].text));
             })
@@ -154,6 +156,7 @@ function App (): JSX.Element {
                         </form>
                     </>
                 )}
+                <a href='http://localhost:9999/auth/logout'>logout</a>
             </main>
         );
     }
