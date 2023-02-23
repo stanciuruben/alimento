@@ -4,6 +4,8 @@ import GoogleStrategy from 'passport-google-oidc';
 import config from 'config';
 import db from '../db';
 
+const START_BUDGET: number = 25;
+
 export default new GoogleStrategy(
 	{
 		clientID: config.get('GOOGLE_CLIENT_ID'),
@@ -21,8 +23,8 @@ export default new GoogleStrategy(
 				}
 				if (!credentials) {
 					db.run(
-						'INSERT INTO users (name) VALUES (?)',
-						[profile.displayName],
+						'INSERT INTO users (name, tokens) VALUES (?, ?)',
+						[profile.displayName, START_BUDGET],
 						function (err) {
 							if (err != null) {
 								return done(err);
@@ -38,7 +40,8 @@ export default new GoogleStrategy(
 									}
 									const user = {
 										id,
-										name: profile.displayName
+										name: profile.displayName,
+										tokens: START_BUDGET
 									};
 									return done(null, user);
 								}
@@ -67,7 +70,7 @@ export default new GoogleStrategy(
 
 export const serializeGoogleUser = (user: any, done: any): any => {
 	process.nextTick(() => {
-		done(null, { id: user.id, username: user.username, name: user.name });
+		done(null, { id: user.id, username: user.name, tokens: user.tokens });
 	});
 };
 

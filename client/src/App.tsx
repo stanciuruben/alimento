@@ -11,6 +11,7 @@ import type MoreOptionsType from './types/MoreOptions';
 import UserInputs from './components/UserInputs/UserInputs';
 import './App.css';
 import Loader from './components/Loader/Loader';
+import UserProfile from './components/UserProfile/UserProfile';
 
 function App (): JSX.Element {
     const allergensInput = useRef<HTMLInputElement>(null);
@@ -18,6 +19,7 @@ function App (): JSX.Element {
     const fillAll = useRef<boolean>(false);
     const ctaSection = useRef<HTMLDivElement>(null);
     const [showInput, setShowInput] = useState<boolean>(false);
+    const [showUser, setShowUser] = useState<boolean>(false);
     const [diet, setDiet] = useState<string>('none');
     const [allergens, setAllergens] = useState<string[]>([]);
     const [moreOptions, setMoreOptions] = useState<MoreOptionsType>({
@@ -92,7 +94,6 @@ function App (): JSX.Element {
         })
             .then(async (res) => await res.json())
             .then((data) => {
-                console.log(data);
                 setIsLoading(false);
                 setMealPlan(ltrim(data[0].text));
             })
@@ -156,7 +157,12 @@ function App (): JSX.Element {
                         </form>
                     </>
                 )}
-                <a href='http://localhost:9999/auth/logout'>logout</a>
+                <button id='user__toggler' onClick={() => { setShowUser(!showUser) }}>
+                    <img src="/account.svg" alt="profile icon" />
+                </button>
+                {
+                    showUser && <UserProfile />
+                }
             </main>
         );
     }
@@ -205,6 +211,12 @@ function App (): JSX.Element {
                     </button>
                 </div>
             </article>
+            <button id='user__toggler' onClick={() => { setShowUser(!showUser) }}>
+                <img src="/account.svg" alt="profile icon" />
+            </button>
+            {
+                showUser && <UserProfile />
+            }
         </main>
     );
 }

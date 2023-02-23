@@ -17,6 +17,34 @@
 	color: var(--white-1);
 }
 
+#user__toggler {
+	background-color: var(--white);
+	display: block;
+	position: absolute;
+	top: 7rem;
+	right: 5rem;
+	padding: 1rem 1.5rem;
+	border-radius: 100%;
+	cursor: pointer;
+	outline: none;
+	border: none;
+	box-shadow: 0.5rem 0.5rem 0.5rem var(--black-3),
+		-0.5rem -0.5rem 0.5rem var(--black-5) inset,
+		0.5rem 0.5rem 0.5rem var(--white-5) inset;
+	transition: all 0.1s ease;
+	z-index: 100;
+}
+
+#user__toggler:is(:hover, :focus) {
+	background-color: var(--lightgray);
+}
+
+#user__toggler:active {
+	box-shadow: 0.5rem 0.5rem 0.5rem var(--black-3),
+		0.5rem 0.5rem 0.5rem var(--black-5) inset,
+		-0.5rem -0.5rem 0.5rem var(--white-5) inset;
+}
+
 .allergens__input__overlay {
 	display: block;
 	position: absolute;
@@ -111,7 +139,7 @@
 	position: relative;
 	width: calc(100%+4rem);
 	font-size: 2rem;
-	font-family: "Courier New", Courier, monospace;
+	font-family: 'Courier New', Courier, monospace;
 	background-color: var(--black-8);
 	padding: 2.5rem;
 	margin-top: 5rem;
