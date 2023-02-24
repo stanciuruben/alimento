@@ -1,15 +1,10 @@
 import express from 'express';
 import passport from 'passport';
-import googleStrategy, {
-	serializeGoogleUser,
-	deserializeGoogleUser
-} from '../../lib/googleStrategy';
+import googleStrategy from '../../lib/googleStrategy';
 
 const router = express.Router();
-
 passport.use(googleStrategy);
-passport.serializeUser(serializeGoogleUser);
-passport.deserializeUser(deserializeGoogleUser);
+
 router.get('/federated', passport.authenticate('google'));
 router.get(
 	'/redirect',

@@ -23,7 +23,7 @@ export default new GoogleStrategy(
 				}
 				if (!credentials) {
 					db.run(
-						'INSERT INTO users (name, tokens) VALUES (?, ?)',
+						'INSERT INTO users (username, tokens) VALUES (?, ?)',
 						[profile.displayName, START_BUDGET],
 						function (err) {
 							if (err != null) {
@@ -67,15 +67,3 @@ export default new GoogleStrategy(
 		);
 	}
 );
-
-export const serializeGoogleUser = (user: any, done: any): any => {
-	process.nextTick(() => {
-		done(null, { id: user.id, username: user.name, tokens: user.tokens });
-	});
-};
-
-export const deserializeGoogleUser = (user: any, done: any): any => {
-	process.nextTick(() => {
-		return done(null, user);
-	});
-};

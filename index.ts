@@ -6,6 +6,7 @@ import cors from 'cors';
 import path from 'path';
 import session from 'express-session';
 import passport from 'passport';
+import { deserializeUser, serializeUser } from './lib/user';
 
 const app: Express = express();
 
@@ -14,7 +15,7 @@ app.use(express.static(path.join(__dirname, '../homepage')));
 
 // @ts-expect-error next line
 app.use(express.json({ extended: false }));
-const whitelist = ['http://localhost:5173', 'alimento.stanciuruben.com/app'];
+const whitelist = ['http://localhost:5173', 'http://localhost:9999', 'alimento.stanciuruben.com'];
 const corsOptions = {
 	origin: (origin: any, callback: any) => {
 		if (origin === undefined || whitelist.includes(origin)) {
@@ -45,6 +46,8 @@ app.use(
 app.use(passport.authenticate('session'));
 app.use(passport.initialize());
 app.use(passport.session());
+passport.serializeUser(serializeUser);
+passport.deserializeUser(deserializeUser);
 
 // Routes
 app.use('/', require('./routes/index'));

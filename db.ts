@@ -12,7 +12,6 @@ db.serialize(function () {
     username TEXT UNIQUE, \
     hashed_password BLOB, \
     salt BLOB, \
-    name TEXT, \
     email TEXT UNIQUE, \
     tokens INTEGER \
   )');
@@ -30,14 +29,6 @@ db.serialize(function () {
     owner_id INTEGER NOT NULL, \
     text TEXT NOT NULL \
   )');
-
-    // create an initial user (username: alice, password: letmein)
-//   const salt = crypto.randomBytes(16);
-//   db.run('INSERT OR IGNORE INTO users (username, hashed_password, salt) VALUES (?, ?, ?)', [
-//     'alice',
-//     crypto.pbkdf2Sync('letmein', salt, 310000, 32, 'sha256'),
-//     salt
-//   ]);
 });
 
 export default db;
