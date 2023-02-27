@@ -23,12 +23,14 @@
 				</ul>
 			</nav>
 			<form action="../auth/local/register" method="POST" class="form" >
-				<% if(messages.length > 0) { %>
-					<ul class="form__warning_container">
-						<% messages.forEach(function(message) { %>
-							<li class="form__warning" ><%- message %></li>
-						<% }); %>
-					</ul>
+				<% if(messages !== undefined) { %>
+					<% if(messages.length > 0) { %>
+						<ul class="form__warning_container">
+							<% messages.forEach(function(message) { %>
+								<li class="form__warning" ><%- message %></li>
+							<% }); %>
+						</ul>
+					<% } %>
 				<% } %>
 				<fieldset class="form__group">
 					<label for="username" class="form__label">Username:</label>
