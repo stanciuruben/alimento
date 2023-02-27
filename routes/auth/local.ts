@@ -86,7 +86,9 @@ router.post(
 				return;
 			}
 			if (message !== undefined) {
-				res.status(200).json({ message });
+				// @ts-expect-error unkown property
+				req.session.messages = [message];
+				res.redirect('../login');
 				return;
 			}
 			// @ts-expect-error unkown property

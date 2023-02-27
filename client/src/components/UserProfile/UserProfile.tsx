@@ -43,7 +43,7 @@ const UserProfile: FC = () => {
     return (
         <aside className='user'>
             <span className='user__name' >You are currently logged out!</span>
-            <a href='http://localhost:9999/login' className='user__button btn--1'>Log-in</a>
+            <a href='http://localhost:9999/auth/login' className='user__button btn--1'>Log-in</a>
         </aside>
     );
 }

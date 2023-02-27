@@ -1,6 +1,6 @@
 export const serializeUser = (user: any, done: any): any => {
 	process.nextTick(() => {
-		done(null, { id: user.id, username: user.name, tokens: user.tokens });
+		done(null, { id: user.id, username: user.username, tokens: user.tokens });
 	});
 };
 
