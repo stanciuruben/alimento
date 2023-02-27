@@ -10,7 +10,7 @@ router.get(
 	'/redirect',
 	passport.authenticate('google', {
 		successRedirect: 'http://localhost:5173', // https://alimento.rubenstanciu.com/app in production
-		failureRedirect: '/login',
+		failureRedirect: '../login',
 		failureMessage: true
 	})
 );

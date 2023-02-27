@@ -12,7 +12,7 @@ router.post(
 	'/login',
 	passport.authenticate('local', {
 		successRedirect: 'http://localhost:5173', // https://alimento.rubenstanciu.com/app in production
-		failureRedirect: '/login',
+		failureRedirect: '../login',
 		failureMessage: true
 	})
 );
@@ -60,14 +60,18 @@ router.post(
 			message?: string
 		): void => {
 			if (error !== null) {
-				res.status(400).json({ message: error });
+				// @ts-expect-error unkown property
+				req.session.messages = [error];
+				res.redirect('../register');
 				return;
 			}
 			if (message !== undefined) {
 				res.status(200).json({ message });
 				return;
 			}
-			res.status(500).json({ message: 'Something went wrong!' });
+			// @ts-expect-error unkown property
+			req.session.messages = ['Something went wrong!'];
+			res.redirect('../register');
 		};
 
 		const errors = validationResult(req);

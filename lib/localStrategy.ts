@@ -31,6 +31,7 @@ const verify = (
 				done(null, false, {
 					message: 'This username is registered with Google!'
 				});
+				return;
 			}
 
 			if (bcrypt.compareSync(password, user.hashed_password)) {

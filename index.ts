@@ -12,6 +12,7 @@ const app: Express = express();
 
 // Static homepage folder
 app.use(express.static(path.join(__dirname, '../homepage')));
+app.set('view engine', 'ejs');
 
 // @ts-expect-error next line
 app.use(express.json({ extended: false }));

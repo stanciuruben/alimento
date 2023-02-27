@@ -2,9 +2,9 @@
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
-		<link rel="icon" type="image/svg+xml" href="./icon.svg" />
+		<link rel="icon" type="image/svg+xml" href="../icon.svg" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>alimento | register</title>
+		<title>alimento | login</title>
 		<link rel="stylesheet" href="../css/base.css" />
 		<link rel="stylesheet" href="../css/form.css" />
 	</head>
@@ -13,29 +13,23 @@
 			<nav id="main_nav">
 				<ul class="main_nav__list">
 					<li class="main_nav__list__item main_nav__logo">
-						<a href="../">alimento</a>
+						<a href="/">alimento</a>
 					</li>
 					<aside class="main_nav__list__right">
 						<li class="main_nav__list__item">
-							<a href="/about">about the creator</a>
-						</li>
-						<li class="main_nav__list__item">
-							<a href="../login" class="cta">log-in</a>
+							<a href="./login" class="cta">log-in</a>
 						</li>
 					</aside>
 				</ul>
 			</nav>
-			<form action="http://localhost:9999/auth/local/register" method="get" class="form">
-				<fieldset class="form__group">
-					<label for="username" class="form__label">Username:</label>
-					<input
-						required
-						type="text"
-						name="username"
-						id="username"
-						class="form__input"
-					/>
-				</fieldset>
+			<form action="../auth/local/login" method="post" class="form">
+				<% if(messages.length > 0) { %>
+					<ul class="form__warning_container">
+						<% messages.forEach(function(message) { %>
+							<li class="form__warning" ><%- message %></li>
+						<% }); %>
+					</ul>
+				<% } %>
 				<fieldset class="form__group">
 					<label for="email" class="form__label">E-mail:</label>
 					<input
@@ -57,23 +51,23 @@
 						class="form__input"
 					/>
 				</fieldset>
-				<fieldset class="form__group">
-					<label for="repeatPassword" class="form__label"
-						>Repeat Password:</label
-					>
+				<fieldset class="form__group--1">
 					<input
-						minlength="6"
-						required
-						type="password"
-						name="repeatPassword"
-						id="repeatPassword"
-						class="form__input"
+						type="checkbox"
+						name="remember_me"
+						id="remember_me"
+						class="form__checkbox"
 					/>
+					<label for="remember_me" class="form__label--1"
+						>Remember Me</label
+					>
 				</fieldset>
 				<fieldset class="form__group--1">
 					<p class="form__label--1">
-						Allready have an account?
-						<a href="../login" class="form__link">Log-in!</a>
+						Not registred yet?
+						<a href="./register" class="form__link"
+							>Get a free account now!</a
+						>
 					</p>
 				</fieldset>
 				<fieldset class="form__group--1">
@@ -84,7 +78,7 @@
 						>
 					</p>
 				</fieldset>
-				<button class="cta form__submit">Register</button>
+				<button class="cta form__submit" type="submit">Log-in</button>
 			</form>
 			<footer>© alimento 2023</footer>
 		</main>

@@ -6,6 +6,21 @@
 	flex-direction: column;
 }
 
+.form__warning_container {
+	margin: 1rem 0;
+	position: relative;
+}
+
+.form__warning {
+	display: block;
+	list-style: none;
+	background-color: var(--redish);
+	color: var(--white);
+	padding: 1rem 2rem;
+	margin: 1rem 0;
+	border-radius: 2rem;
+}
+
 .form__group {
 	outline: none;
 	border: none;
@@ -25,7 +40,8 @@
 }
 
 .form__label,
-.form__label--1 {
+.form__label--1,
+.form__warning {
 	font-size: 1.6rem;
 }
 
@@ -158,7 +174,8 @@
 	}
 
 	.form__label,
-	.form__label--1 {
+	.form__label--1,
+	.form__warning {
 		font-size: 1.2rem;
 	}
 
