@@ -1,26 +1,25 @@
-/* eslint-disable @typescript-eslint/strict-boolean-expressions */
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import express from 'express';
 import passport from 'passport';
-import bcrypt from 'bcrypt';
 import LocalStrategy from '../../lib/localStrategy';
-import db from '../../db';
-import { param, validationResult } from 'express-validator';
+import { body, validationResult } from 'express-validator';
+import registerUser from '../../lib/registerUser';
 
 const router = express.Router();
-const START_BUDGET: number = 25;
 passport.use(LocalStrategy);
 
 router.post(
 	'/login',
 	passport.authenticate('local', {
 		successRedirect: 'http://localhost:5173', // https://alimento.rubenstanciu.com/app in production
-		failureRedirect: '/login'
+		failureRedirect: '/login',
+		failureMessage: true
 	})
 );
 
 router.post(
 	'/register',
-	param('username')
+	body('username')
 		.isLength({ min: 2 })
 		.withMessage('Username too short!')
 		.isString()
@@ -29,7 +28,7 @@ router.post(
 		.withMessage('Username must be a string!')
 		.escape()
 		.withMessage('Username must be a string!'),
-	param('email')
+	body('email')
 		.not()
 		.isEmpty()
 		.withMessage('Email cannot be empty!')
@@ -37,79 +36,47 @@ router.post(
 		.withMessage('Email invalid!')
 		.normalizeEmail()
 		.withMessage('Email must be a string!'),
-	param('password')
+	body('password')
 		.isLength({ min: 6 })
 		.withMessage('Password must be at least 6 characters!')
 		.isString()
 		.withMessage('Password must be a string!')
 		.trim()
-        .withMessage('Password must be a string!')
+		.withMessage('Password must be a string!')
 		.escape()
-        .withMessage('Password must be a string!'),
-	param('repeatPassword')
+		.withMessage('Password must be a string!'),
+	body('repeatPassword')
 		.isLength({ min: 6 })
 		.withMessage('Repeated password must be at least 6 characters!')
 		.isString()
 		.withMessage('Repeated password must be a string!')
 		.trim()
-        .withMessage('Repeated password must be a string!')
+		.withMessage('Repeated password must be a string!')
 		.escape()
-        .withMessage('Repeated password must be a string!'),
-	(req, res) => {
-		try {
-			const { username, email, password, repeatPassword }: any =
-				req.params;
-			const errors = validationResult(req);
-			if (!errors.isEmpty()) {
-				const errorMessages = errors.array().map((err) => err.msg);
-				throw new Error(errorMessages.join(',\n'));
+		.withMessage('Repeated password must be a string!'),
+	async (req, res) => {
+		const handleResponse = (
+			error: string | null,
+			message?: string
+		): void => {
+			if (error !== null) {
+				res.status(400).json({ message: error });
+				return;
 			}
-			if (password !== repeatPassword) {
-				throw new Error('The passwords must match!');
+			if (message !== undefined) {
+				res.status(200).json({ message });
+				return;
 			}
-			db.get(
-				'SELECT * FROM users WHERE username = ?',
-				[username],
-				(err, user) => {
-					if (err) {
-						throw err;
-					}
-					if (user) {
-						throw new Error('Username already registered');
-					}
-				}
-			);
-			db.get(
-				'SELECT * FROM users WHERE email = ?',
-				[email],
-				(err, user) => {
-					if (err) {
-						throw err;
-					}
-					if (user) {
-						throw new Error('Email already in registered!');
-					}
-				}
-			);
-			const salt: string = bcrypt.genSaltSync();
-			const hashedPassword: string = bcrypt.hashSync(password, salt);
+			res.status(500).json({ message: 'Something went wrong!' });
+		};
 
-			db.run(
-				'INSERT INTO users (username, hashed_password, salt, email, tokens) values (?, ?, ?, ?, ?)',
-				[username, hashedPassword, salt, email, START_BUDGET],
-				(err) => {
-					if (err != null) {
-						throw err;
-					}
-					res.status(200).json({
-						message:
-							'Congratulations! Your registration was successful!'
-					});
-				}
-			);
-		} catch (error: any) {
-			res.status(400).json({ message: error.message });
+		const errors = validationResult(req);
+		if (!errors.isEmpty()) {
+			const errorMessages = errors.array().map((err) => err.msg);
+			handleResponse(errorMessages.join(',\n'));
+			return;
 		}
+		await registerUser(req.body, handleResponse);
 	}
 );
 

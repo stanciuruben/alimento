@@ -15,6 +15,7 @@ app.use(express.static(path.join(__dirname, '../homepage')));
 
 // @ts-expect-error next line
 app.use(express.json({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 const whitelist = ['http://localhost:5173', 'http://localhost:9999', 'alimento.stanciuruben.com'];
 const corsOptions = {
 	origin: (origin: any, callback: any) => {

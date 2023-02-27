@@ -1,38 +1,52 @@
-/* eslint-disable @typescript-eslint/strict-boolean-expressions */
-// @ts-expect-error next line
-import LocalStrategy from 'passport-local';
+/* eslint-disable @typescript-eslint/strict-boolean-expressions, @typescript-eslint/no-var-requires */
 import db from '../db';
 import bcrypt from 'bcrypt';
+const LocalStrategy = require('passport-local');
 
-type DoneLocalCalback = (err: any, user?: Express.User | false | null, options?: { message: string }) => void;
+type DoneLocalCalback = (
+	err: any,
+	user?: Express.User | false | null,
+	options?: { message: string }
+) => void;
 
-export default new LocalStrategy(function verify (username: string, password: string, done: DoneLocalCalback) {
+const fields = {
+	usernameField: 'email',
+	passwordField: 'password'
+};
+
+const verify = (
+	email: string,
+	password: string,
+	done: DoneLocalCalback
+): void => {
 	db.get(
-		'SELECT * FROM users WHERE username = ?',
-		[username],
+		'SELECT * FROM users WHERE email = ?',
+		[email],
 		function (err, user) {
 			if (err) {
 				done(err);
-                return;
+				return;
 			}
 			if (!user) {
 				done(null, false, {
-					message: 'Incorrect username or password.'
+					message: 'Incorrect username or password!'
 				});
-                return;
+				return;
 			} else if (!user.hashed_password && !user.email) {
-                done(null, false, {
-                    message: 'This username is registered with Google!'
-                });
-            }
+				done(null, false, {
+					message: 'This username is registered with Google!'
+				});
+			}
 
-            if (bcrypt.compareSync(password, user.hashed_password)) {
-                done(null, user);
-                return;
-            }
-            done(null, false, {
-                message: 'Incorrect username or password.'
-            });
+			if (bcrypt.compareSync(password, user.hashed_password)) {
+				done(null, user);
+				return;
+			}
+			done(null, false, {
+				message: 'Incorrect username or password!'
+			});
 		}
 	);
-});
+};
+
+export default new LocalStrategy(fields, verify);
