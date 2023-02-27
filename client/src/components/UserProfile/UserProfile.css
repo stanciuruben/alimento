@@ -1,12 +1,12 @@
 .user {
 	display: block;
-	position: absolute;
+	position: fixed;
 	top: 6rem;
 	right: 4rem;
 	border-radius: 2rem;
 	width: 20rem;
 	height: 15rem;
-	background-color: var(--black-3);
+	background-color: var(--black-8);
 }
 
 .user__name {
@@ -57,4 +57,11 @@
 		0.5rem 0.5rem 0.5rem var(--black-5) inset,
 		-0.5rem -0.5rem 0.5rem var(--white-5) inset;
 	background-color: var(--lightgray);
+}
+
+@media screen and (max-width: 800px) {
+	.user {
+		top: 2rem;
+		right: 2rem;
+	}
 }

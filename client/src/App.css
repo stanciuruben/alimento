@@ -20,7 +20,7 @@
 #user__toggler {
 	background-color: var(--white);
 	display: block;
-	position: absolute;
+	position: fixed;
 	top: 7rem;
 	right: 5rem;
 	padding: 1rem 1.5rem;
@@ -267,6 +267,13 @@
 .cta--1:focus,
 .cta--1:focus-visible {
 	background-color: var(--lightgray);
+}
+
+@media screen and (max-width: 800px) {
+	#user__toggler {
+		top: 3rem;
+		right: 3rem;
+	}
 }
 
 @media screen and (max-width: 700px) {

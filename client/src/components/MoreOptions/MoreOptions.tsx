@@ -123,6 +123,7 @@ const MoreOptions: FC<Props> = ({
                             </span>
                             <input
                                 type="text"
+                                inputMode='numeric'
                                 name="protein"
                                 id="protein"
                                 className="form_input--number"
@@ -144,6 +145,7 @@ const MoreOptions: FC<Props> = ({
                             </span>
                             <input
                                 type="text"
+                                inputMode='numeric'
                                 name="carbs"
                                 id="carbs"
                                 className="form_input--number"
@@ -165,6 +167,7 @@ const MoreOptions: FC<Props> = ({
                             </span>
                             <input
                                 type="text"
+                                inputMode='numeric'
                                 name="fat"
                                 id="fat"
                                 className="form_input--number"
@@ -192,6 +195,7 @@ const MoreOptions: FC<Props> = ({
                         </span>
                         <input
                             type="text"
+                            inputMode='numeric'
                             name="kcal"
                             id="kcal"
                             value={kcal}

@@ -264,11 +264,16 @@
 	color: var(--lightgray);
 }
 
+@media screen and (max-width: 800px) {
+	.form {
+		top: 10rem;
+	}
+}
+
 @media screen and (max-width: 700px) {
 	.form {
 		width: 100%;
 		padding: 0 2rem;
-		top: 3rem;
 	}
 
 	.form__more_options__row {
