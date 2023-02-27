@@ -1,13 +1,8 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions, @typescript-eslint/no-var-requires */
 import db from '../db';
 import bcrypt from 'bcrypt';
+import type { DoneLocalCallback } from '../types/DoneLocalCallback';
 const LocalStrategy = require('passport-local');
-
-type DoneLocalCalback = (
-	err: any,
-	user?: Express.User | false | null,
-	options?: { message: string }
-) => void;
 
 const fields = {
 	usernameField: 'email',
@@ -17,7 +12,7 @@ const fields = {
 const verify = (
 	email: string,
 	password: string,
-	done: DoneLocalCalback
+	done: DoneLocalCallback
 ): void => {
 	db.get(
 		'SELECT * FROM users WHERE email = ?',
