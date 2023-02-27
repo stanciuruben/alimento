@@ -24,7 +24,7 @@ export default async (
 			done('Username already registered');
 			return;
 		}
-		if ((await dbGet('SELECT * FROM users WHERE email = ?', [username])) !== undefined) {
+		if ((await dbGet('SELECT * FROM users WHERE email = ?', [email])) !== undefined) {
 			done('Email already in registered!');
 			return;
 		}
