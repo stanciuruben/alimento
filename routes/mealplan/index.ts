@@ -1,58 +1,71 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import express, { type Request, type Response } from 'express';
 import auth from '../../middlewares/auth';
-// import aiRequest from '../services/aiRequest';
-// import { body } from 'express-validator';
-
-// interface reqParams {
-// 	diet: string
-// 	kcal: number
-// 	protein: number
-// 	carbs: number
-// 	fat: number
-// 	useMacros: boolean
-// 	allergens: string[]
-// }
+import aiRequest from '../../lib/aiRequest';
+import { body, validationResult } from 'express-validator';
+import compilePrompt from '../../lib/compilePrompt';
+import getUserTokens from '../../lib/getUserTokens';
+import updateUserTokens from '../../lib/updateUserTokens';
+import saveMealPlan from '../../lib/saveMealPlan';
 
 const router = express.Router();
 
 // @route   POST
-// @desc    Given parameters make a request to the openai api
-// @desc    and return the response to the client
+// @desc    Given parameters save update the database make request
+// @desc    to the openai api and return the response to the client
 // @access  Private
-router.post('/', auth, (req: Request, res: Response) => {
-	// const { allergens, diet, kcal, protein, carbs, fat, useMacros }: reqParams =
-	// 	req.body;
-	try {
-		// const prompt: string = `Make a${
-		// 	diet === 'none' ? '' : ' ' + diet
-		// } meal plan for 1 day with ${
-		// 	useMacros
-		// 		? String(protein) +
-		// 		  'g protein, ' +
-		// 		  String(carbs) +
-		// 		  'g carbs, ' +
-		// 		  String(fat) +
-		// 		  'g fat'
-		// 		: String(kcal) + ' kcalories'
-		// }.${
-		// 	allergens.length > 0
-		// 		? ' And without the following allergens: ' +
-		// 		  allergens.join(', ') +
-		// 		  '.'
-		// 		: ''
-		// }`;
-		// const response = await aiRequest(prompt);
-		setTimeout(() => {
-			res.send([
-				{
-					text: '\n\nBreakfast:\n\n2 eggs cooked in butter with 2 slices of bacon and 1/2 avocado\n\nSnack:\n\n1/4 cup of macadamia nuts\n\nLunch:\n\nSalad with grilled chicken, olive oil, and feta cheese\n\nSnack:\n\n1/4 cup of almonds\n\nDinner:\n\nGrilled salmon with a side of sautéed spinach and mushrooms cooked in butter\n\nSnack:\n\n1/2 cup of Greek yogurt with 1 tablespoon of almond butter'
+router.post(
+	'/',
+	auth,
+	body('diet').trim().escape(),
+	body('allergens')
+		.isArray({ max: 30 })
+		.withMessage('allergens must be an array'),
+	body('kcal').isNumeric(),
+	body('protein').isNumeric(),
+	body('carbs').isNumeric(),
+	body('fat').isNumeric(),
+	body('useMacros').isBoolean(),
+	async (req: Request, res: Response) => {
+		try {
+			const errors = validationResult(req);
+			if (
+				req.user === undefined ||
+				req.user.id === undefined ||
+				!errors.isEmpty()
+			) {
+				res.status(400).json({ message: 'Bad request.' });
+				return;
+			}
+			const userID: number = req.user.id;
+			const tokens: number | Error = await getUserTokens(userID);
+			if (typeof tokens === 'object') {
+				throw tokens;
+			}
+			if (tokens < 1) {
+				res.status(403).json({ message: 'No Founds.' });
+				return;
+			}
+			req.user.tokens = tokens - 1;
+			const isUserUpdated: boolean | Error = await updateUserTokens(
+				userID,
+				tokens - 1
+			);
+			if (isUserUpdated === true) {
+				const prompt: string = compilePrompt(req.body);
+				const response: string = await aiRequest(prompt);
+				const isSaved: boolean | Error = await saveMealPlan(userID, response);
+				if (isSaved === true) {
+					res.status(200).json(response);
+					return;
 				}
-			]);
-		}, 1000);
-	} catch (error: any) {
-		res.send(error);
+				throw new Error('Meal plan could not be saved.');
+			}
+			throw new Error('Something went wrong.');
+		} catch (error: any) {
+			res.status(500).json(error);
+		}
 	}
-});
+);
 
 module.exports = router;

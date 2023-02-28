@@ -9,31 +9,31 @@ const db = new sqlite3.Database('./var/db/alimento.db');
 db.serialize(function () {
 	db.run(
 		'CREATE TABLE IF NOT EXISTS users ( \
-    id INTEGER PRIMARY KEY, \
-    username TEXT UNIQUE, \
-    hashed_password BLOB, \
-    salt BLOB, \
-    email TEXT UNIQUE, \
-    tokens INTEGER \
-  )'
+			id INTEGER PRIMARY KEY, \
+			username TEXT UNIQUE, \
+			hashed_password BLOB, \
+			salt BLOB, \
+			email TEXT UNIQUE, \
+			tokens INTEGER \
+		)'
 	);
 
 	db.run(
 		'CREATE TABLE IF NOT EXISTS federated_credentials ( \
-    id INTEGER PRIMARY KEY, \
-    user_id INTEGER NOT NULL, \
-    provider TEXT NOT NULL, \
-    subject TEXT NOT NULL, \
-    UNIQUE (provider, subject) \
-  )'
+			id INTEGER PRIMARY KEY, \
+			user_id INTEGER NOT NULL, \
+			provider TEXT NOT NULL, \
+			subject TEXT NOT NULL, \
+			UNIQUE (provider, subject) \
+		)'
 	);
 
 	db.run(
 		'CREATE TABLE IF NOT EXISTS mealplans ( \
-    id INTEGER PRIMARY KEY, \
-    owner_id INTEGER NOT NULL, \
-    text TEXT NOT NULL \
-  )'
+			id INTEGER PRIMARY KEY, \
+			owner_id INTEGER NOT NULL, \
+			text TEXT NOT NULL \
+		)'
 	);
 });
 
@@ -46,6 +46,18 @@ export async function dbGet (query: string, parameters: any[]): Promise<any> {
 				return;
 			}
 			resolve(rows);
+		});
+	});
+}
+
+export async function dbRun (query: string, parameters: any[]): Promise<any> {
+	return await new Promise(function (resolve, reject) {
+		db.run(query, parameters, function (err) {
+			if (err != null) {
+				reject(err);
+				return;
+			}
+			resolve(true);
 		});
 	});
 }

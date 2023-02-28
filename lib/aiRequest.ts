@@ -10,7 +10,7 @@ export default async (prompt: string): Promise<any> => {
         model: 'text-davinci-003',
         prompt,
         temperature: 0,
-        max_tokens: 150
+        max_tokens: 500
     });
-    return response.data.choices
+    return response.data.choices[0].text
 };

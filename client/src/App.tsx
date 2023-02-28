@@ -95,7 +95,12 @@ function App (): JSX.Element {
             .then(async (res) => await res.json())
             .then((data) => {
                 setIsLoading(false);
-                setMealPlan(ltrim(data[0].text));
+                if (data.message !== undefined) {
+                    console.error(data);
+                    setMealPlan(data.message);
+                    return;
+                }
+                setMealPlan(ltrim(data));
             })
             .catch((err) => {
                 console.error(err.message);
