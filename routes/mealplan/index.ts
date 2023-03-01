@@ -74,13 +74,11 @@ router.post(
 					req.body
 				);
 				if (typeof isSaved !== 'boolean') throw isSaved;
-				console.log(response);
 				res.status(200).json(response);
 				return;
 			}
 			throw new Error('Something went wrong.');
 		} catch (error: any) {
-			console.log(error);
 			res.status(500).json(error);
 		}
 	}
