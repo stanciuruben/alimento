@@ -12,6 +12,7 @@ import UserInputs from './components/UserInputs/UserInputs';
 import './App.css';
 import Loader from './components/Loader/Loader';
 import UserProfile from './components/UserProfile/UserProfile';
+import MealPlans from './components/MealPlans/MealPlans';
 
 function App (): JSX.Element {
     const allergensInput = useRef<HTMLInputElement>(null);
@@ -31,6 +32,7 @@ function App (): JSX.Element {
     });
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [mealPlan, setMealPlan] = useState<string>('');
+    const [mealPlanTitle, setMealPlanTitle] = useState<string>('');
 
     function fillResponse (i: number): void {
         if (i === mealPlan.length) {
@@ -127,6 +129,13 @@ function App (): JSX.Element {
                     diet={diet}
                     setDiet={setDiet}
                 />
+                <MealPlans
+                    setDiet={setDiet}
+                    setAllergens={setAllergens}
+                    setMoreOptions={setMoreOptions}
+                    setMealPlan={setMealPlan}
+                    setMealPlanTitle={setMealPlanTitle}
+                />
                 {showInput && (
                     <>
                         <button
@@ -178,7 +187,7 @@ function App (): JSX.Element {
             <article className="res_container">
                 <div>
                     <h2 className="res_container__title">
-                        Meal plan successfully generated!
+                        {mealPlanTitle !== '' ? 'Generated: ' + mealPlanTitle : 'Meal plan successfully generated!'}
                     </h2>
                     {moreOptions.useMacros ? (
                         <dl className="res_container__macros">
@@ -209,6 +218,7 @@ function App (): JSX.Element {
                     <button
                         className="cta--1"
                         onClick={() => {
+                            setMealPlanTitle('');
                             setMealPlan('');
                         }}
                     >

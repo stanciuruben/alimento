@@ -6,7 +6,7 @@ mkdirp.sync('./var/db');
 
 const db = new sqlite3.Database('./var/db/alimento.db');
 
-db.serialize(function () {
+db.serialize(() => {
 	db.run(
 		'CREATE TABLE IF NOT EXISTS users ( \
 			id INTEGER PRIMARY KEY, \
@@ -32,15 +32,23 @@ db.serialize(function () {
 		'CREATE TABLE IF NOT EXISTS mealplans ( \
 			id INTEGER PRIMARY KEY, \
 			owner_id INTEGER NOT NULL, \
-			text TEXT NOT NULL \
+			text TEXT NOT NULL, \
+			diet TEXT, \
+			use_macros BIT, \
+			kcal INTEGER, \
+			protein INTEGER, \
+			carbs INTEGER, \
+			fat INTEGER, \
+			allergens TEXT, \
+			date TEXT \
 		)'
 	);
 });
 
 export default db;
-export async function dbGet (query: string, parameters: any[]): Promise<any> {
-	return await new Promise(function (resolve, reject) {
-		db.get(query, parameters, function (err, rows) {
+export const dbGet = async (query: string, parameters: any[]): Promise<any> => {
+	return await new Promise((resolve, reject) => {
+		db.get(query, parameters, (err, rows) => {
 			if (err != null) {
 				reject(err);
 				return;
@@ -48,11 +56,23 @@ export async function dbGet (query: string, parameters: any[]): Promise<any> {
 			resolve(rows);
 		});
 	});
-}
+};
 
-export async function dbRun (query: string, parameters: any[]): Promise<any> {
-	return await new Promise(function (resolve, reject) {
-		db.run(query, parameters, function (err) {
+export const dbAll = async (query: string, parameters: any[]): Promise<any[]> => {
+	return await new Promise((resolve, reject) => {
+		db.all(query, parameters, (err, rows) => {
+			if (err != null) {
+				reject(err);
+				return;
+			}
+			resolve(rows);
+		});
+	});
+};
+
+export const dbRun = async (query: string, parameters: any[]): Promise<any> => {
+	return await new Promise((resolve, reject) => {
+		db.run(query, parameters, (err) => {
 			if (err != null) {
 				reject(err);
 				return;
@@ -60,4 +80,4 @@ export async function dbRun (query: string, parameters: any[]): Promise<any> {
 			resolve(true);
 		});
 	});
-}
+};
