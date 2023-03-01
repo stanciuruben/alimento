@@ -23,6 +23,13 @@
 				</ul>
 			</nav>
 			<form action="../auth/local/register" method="POST" class="form" >
+				<p class="register_warning">
+					<strong class="register_warning__title" >
+						Warning: Do not use real data for this application!
+					</strong>
+					The creator of this app does't want responsability for the data that you put in the app.
+					You can use inexsistent emails it just has to look like a real email.
+				</p>
 				<% if(messages !== undefined) { %>
 					<% if(messages.length > 0) { %>
 						<ul class="form__warning_container">

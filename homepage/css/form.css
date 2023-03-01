@@ -164,6 +164,21 @@
 	padding: 1rem;
 }
 
+.register_warning {
+	text-align: center;
+	padding: 2rem;
+	margin-bottom: 2rem;
+	border: 1px solid var(--secondary);
+	background-color: var(--redish-5);
+	color: var(--secondary);
+	font-size: 1.6rem;
+	border-radius: 2rem;
+}
+
+.register_warning__title {
+	display: block;
+}
+
 @media screen and (max-width: 700px) {
 	.form {
 		width: 90%;
