@@ -201,7 +201,8 @@
 
 	.header__content__text,
 	.article__content__text,
-	.cta_section__text {
+	.cta_section__text,
+	.header__content__cta__info {
 		font-size: clamp(1.2rem, 1.8vmin, 2rem);
 		letter-spacing: 0.1vmin;
 		line-height: clamp(1.6rem, 2.4vmin, 2rem);
