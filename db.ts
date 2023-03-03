@@ -1,10 +1,11 @@
 /* eslint-disable no-multi-str */
 import sqlite3 from 'sqlite3';
 import mkdirp from 'mkdirp';
+import path = require('path');
 
 mkdirp.sync('./var/db');
 
-const db = new sqlite3.Database('./var/db/alimento.db');
+const db = new sqlite3.Database(path.join(__dirname, '../var/db/alimento.db'));
 
 db.serialize(() => {
 	db.run(
