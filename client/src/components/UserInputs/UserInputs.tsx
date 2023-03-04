@@ -98,7 +98,7 @@ const UserInputs: FC<Props> = ({
                 }
                 title="More/Less Options"
             >
-                <img src="/settings.svg" alt="settings icon" />
+                <img src="./settings.svg" alt="settings icon" />
             </button>
             <button className="cta--1 form__primary--last" id='form_submit--1' >
                 Get Custom Mealplan!

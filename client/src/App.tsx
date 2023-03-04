@@ -172,7 +172,7 @@ function App (): JSX.Element {
                     </>
                 )}
                 <button id='user__toggler' onClick={() => { setShowUser(!showUser) }}>
-                    <img src="/account.svg" alt="profile icon" />
+                    <img src="./account.svg" alt="profile icon" />
                 </button>
                 {
                     showUser && <UserProfile />
@@ -227,7 +227,7 @@ function App (): JSX.Element {
                 </div>
             </article>
             <button id='user__toggler' onClick={() => { setShowUser(!showUser) }}>
-                <img src="/account.svg" alt="profile icon" />
+                <img src="./account.svg" alt="profile icon" />
             </button>
             {
                 showUser && <UserProfile />
