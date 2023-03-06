@@ -139,7 +139,7 @@
 .res_container__meal_plan {
 	display: block;
 	position: relative;
-	width: calc(100%+4rem);
+	width: calc(100% + 4rem);
 	font-size: 2rem;
 	font-family: 'Courier New', Courier, monospace;
 	background-color: var(--black-8);
@@ -185,7 +185,7 @@
 
 	.res_container__meal_plan {
 		margin-left: 0;
-		width: calc(100%);
+		width: 100%;
 	}
 }
 
