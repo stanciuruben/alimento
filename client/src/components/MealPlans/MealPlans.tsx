@@ -1,10 +1,11 @@
 import {
     type Dispatch,
     type SetStateAction,
-    type FC, useEffect, useState
+    type FC, useState
 } from 'react';
 import type MoreOptions from '../../types/MoreOptions';
-import './MealPlans.css'
+import './MealPlans.css';
+import { useQuery } from 'react-query';
 
 interface Props {
     setDiet: Dispatch<SetStateAction<string>>
@@ -23,9 +24,10 @@ interface MealPlansInterface extends MoreOptions {
 
 const MealPlans: FC<Props> = ({ setDiet, setAllergens, setMoreOptions, setMealPlan, setMealPlanTitle }) => {
     const [userPlans, setUserPlans] = useState<MealPlansInterface[]>([]);
+    const getMealplans = useQuery({ queryKey: ['mealplans'], queryFn: fetchMealPlans })
 
-    const fetchMealPlans = async (): Promise<void> => {
-        await fetch('http://localhost:9999/mealplan/getall', {
+    function fetchMealPlans (): any {
+        return fetch('http://localhost:9999/mealplan/getall', {
             method: 'GET',
             credentials: 'include'
         }
@@ -44,11 +46,6 @@ const MealPlans: FC<Props> = ({ setDiet, setAllergens, setMoreOptions, setMealPl
         });
     }
 
-    useEffect(() => {
-        // eslint-disable-next-line @typescript-eslint/no-floating-promises
-        fetchMealPlans();
-    }, [])
-
     const setCurrentMealPlan = (mealPlan: MealPlansInterface): void => {
         setDiet(mealPlan.diet);
         setAllergens(mealPlan.allergens.length > 0 ? mealPlan.allergens.split(', ') : []);
@@ -61,6 +58,16 @@ const MealPlans: FC<Props> = ({ setDiet, setAllergens, setMoreOptions, setMealPl
         });
         setMealPlanTitle(mealPlan.date);
         setMealPlan(mealPlan.text);
+    }
+
+    if (getMealplans.isError) {
+        return (
+            <ul>
+                <li className='meal_list__item'>
+                    <span>Something went wrong :(</span>
+                </li>
+            </ul>
+        );
     }
 
     return (

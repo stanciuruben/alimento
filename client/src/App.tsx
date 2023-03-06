@@ -13,6 +13,7 @@ import './App.css';
 import Loader from './components/Loader/Loader';
 import UserProfile from './components/UserProfile/UserProfile';
 import MealPlans from './components/MealPlans/MealPlans';
+import { useMutation, useQueryClient } from 'react-query';
 
 function App (): JSX.Element {
     const allergensInput = useRef<HTMLInputElement>(null);
@@ -20,7 +21,7 @@ function App (): JSX.Element {
     const fillAll = useRef<boolean>(false);
     const ctaSection = useRef<HTMLDivElement>(null);
     const [showInput, setShowInput] = useState<boolean>(false);
-    const [showUser, setShowUser] = useState<boolean>(false);
+    const [showUserData, setShowUserData] = useState<boolean>(false);
     const [diet, setDiet] = useState<string>('none');
     const [allergens, setAllergens] = useState<string[]>([]);
     const [moreOptions, setMoreOptions] = useState<MoreOptionsType>({
@@ -30,9 +31,15 @@ function App (): JSX.Element {
         fat: 60,
         useMacros: false
     });
-    const [isLoading, setIsLoading] = useState<boolean>(false);
     const [mealPlan, setMealPlan] = useState<string>('');
     const [mealPlanTitle, setMealPlanTitle] = useState<string>('');
+    const queryClient = useQueryClient();
+    const mealPlanMutation = useMutation({
+        mutationFn: getMealPlan,
+        onSuccess: async () => {
+            await queryClient.invalidateQueries(['users', 'mealplans']);
+        }
+    })
 
     function fillResponse (i: number): void {
         if (i === mealPlan.length) {
@@ -84,11 +91,14 @@ function App (): JSX.Element {
         return str.replace(/^\s+/g, '');
     }
 
-    function getMealPlan (e: FormEvent<HTMLFormElement>): void {
+    function handleFormSubmit (e: FormEvent<HTMLFormElement>): void {
         e.preventDefault();
-        setIsLoading(true);
         const body = { ...moreOptions, allergens, diet };
-        fetch('http://localhost:9999/mealplan', {
+        mealPlanMutation.mutate(body);
+    }
+
+    function getMealPlan (body: any): any {
+        return fetch('http://localhost:9999/mealplan', {
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-Type': 'application/json' },
@@ -96,7 +106,6 @@ function App (): JSX.Element {
         })
             .then(async (res) => await res.json())
             .then((data) => {
-                setIsLoading(false);
                 if (data.message !== undefined) {
                     console.error(data);
                     setMealPlan(data.message);
@@ -109,7 +118,7 @@ function App (): JSX.Element {
             });
     }
 
-    if (isLoading) {
+    if (mealPlanMutation.isLoading) {
         return (
             <Loader />
         );
@@ -125,7 +134,7 @@ function App (): JSX.Element {
                     setAllergens={setAllergens}
                     setMoreOptions={setMoreOptions}
                     moreOptions={moreOptions}
-                    getMealPlan={getMealPlan}
+                    getMealPlan={handleFormSubmit}
                     diet={diet}
                     setDiet={setDiet}
                 />
@@ -171,12 +180,10 @@ function App (): JSX.Element {
                         </form>
                     </>
                 )}
-                <button id='user__toggler' onClick={() => { setShowUser(!showUser) }}>
+                <button id='user__toggler' onClick={() => { setShowUserData(!showUserData) }}>
                     <img src="./account.svg" alt="profile icon" />
                 </button>
-                {
-                    showUser && <UserProfile />
-                }
+                <UserProfile showUserData={showUserData} />
             </main>
         );
     }
@@ -226,12 +233,10 @@ function App (): JSX.Element {
                     </button>
                 </div>
             </article>
-            <button id='user__toggler' onClick={() => { setShowUser(!showUser) }}>
+            <button id='user__toggler' onClick={() => { setShowUserData(!showUserData) }}>
                 <img src="./account.svg" alt="profile icon" />
             </button>
-            {
-                showUser && <UserProfile />
-            }
+            <UserProfile showUserData={showUserData} />
         </main>
     );
 }

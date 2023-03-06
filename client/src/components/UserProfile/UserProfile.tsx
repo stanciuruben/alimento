@@ -1,11 +1,13 @@
-import { useEffect, useState, type FC } from 'react';
+import { useState, type FC } from 'react';
 import './UserProfile.css';
+import { useQuery } from 'react-query';
 
-const UserProfile: FC = () => {
+const UserProfile: FC<{ showUserData: boolean }> = ({ showUserData }) => {
     const [userInfo, setUserInfo] = useState<{ name: string, tokens: number } | null>(null);
+    const getUserInfo = useQuery({ queryKey: ['user'], queryFn: fetchUserInfo })
 
-    const fetchUserInfo = async (): Promise<void> => {
-        await fetch('http://localhost:9999/user', {
+    function fetchUserInfo (): any {
+        return fetch('http://localhost:9999/user', {
             method: 'GET',
             credentials: 'include'
         }
@@ -25,10 +27,16 @@ const UserProfile: FC = () => {
         });
     }
 
-    useEffect(() => {
-        // eslint-disable-next-line @typescript-eslint/no-floating-promises
-        fetchUserInfo();
-    }, []);
+    if (!showUserData) {
+        return null;
+    }
+
+    if (getUserInfo.isLoading) {
+        return (
+            <aside className='user'>
+            </aside>
+        );
+    }
 
     if (userInfo !== null) {
         return (
