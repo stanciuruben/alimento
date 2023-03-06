@@ -32,7 +32,7 @@ const UserProfile: FC<{ showUserData: boolean }> = ({ showUserData }) => {
                 </span>
                 <span className='user__name'>{data.name}</span>
                 <a
-                    href='http://localhost:9999/auth/logout'
+                    href='https://www.rubenstanciu.com/alimento/auth/logout'
                     className='user__button btn--1'
                 >
                     Log-out
@@ -45,7 +45,7 @@ const UserProfile: FC<{ showUserData: boolean }> = ({ showUserData }) => {
         <aside className='user'>
             <span className='user__name'>You are currently logged out!</span>
             <a
-                href='http://localhost:9999/auth/login'
+                href='https://www.rubenstanciu.com/alimento/auth/login'
                 className='user__button btn--1'
             >
                 Log-in
