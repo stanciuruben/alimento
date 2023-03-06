@@ -9,7 +9,7 @@ const START_BUDGET: number = 25;
 const fields = {
 	clientID: config.get('GOOGLE_CLIENT_ID'),
 	clientSecret: config.get('GOOGLE_CLIENT_SECRET'),
-	callbackURL: '/auth/google/redirect',
+	callbackURL: '/alimento/auth/google/redirect',
 	scope: ['profile']
 };
 const verify = (issuer: any, profile: any, done: DoneLocalCallback): void => {
