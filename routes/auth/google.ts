@@ -9,7 +9,7 @@ router.get('/federated', passport.authenticate('google'));
 router.get(
 	'/redirect',
 	passport.authenticate('google', {
-		successRedirect: 'http://localhost:5173', // https://alimento.rubenstanciu.com/app in production
+		successRedirect: 'https://www.rubenstanciu.com/alimento/client',
 		failureRedirect: '../login',
 		failureMessage: true
 	})
