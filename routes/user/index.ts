@@ -18,7 +18,7 @@ router.get('/', auth, (req: Request, res: Response) => {
 		}
 		throw new Error('No user found in request object');
 	} catch (error: any) {
-		return res.send(error);
+		return res.status(200).json({ message: error.message });
 	}
 });
 

@@ -17,7 +17,7 @@ const router = express.Router();
 // @access  Public
 router.get('/getall', auth, async (req: Request, res: Response) => {
 	if (req.user === undefined || req.user.id === undefined) {
-		res.status(401).json({
+		res.status(200).json({
 			message: 'You must be authenticated to access this data.'
 		});
 		return;
@@ -79,7 +79,7 @@ router.post(
 			}
 			throw new Error('Something went wrong.');
 		} catch (error: any) {
-			res.status(500).json(error);
+			res.status(500).json(error.message);
 		}
 	}
 );

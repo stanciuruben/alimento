@@ -14,6 +14,7 @@ import Loader from './components/Loader/Loader';
 import UserProfile from './components/UserProfile/UserProfile';
 import MealPlans from './components/MealPlans/MealPlans';
 import { useMutation, useQueryClient } from 'react-query';
+import postMealPlan from './lib/postMealPlan';
 
 function App (): JSX.Element {
     const allergensInput = useRef<HTMLInputElement>(null);
@@ -35,7 +36,7 @@ function App (): JSX.Element {
     const [mealPlanTitle, setMealPlanTitle] = useState<string>('');
     const queryClient = useQueryClient();
     const mealPlanMutation = useMutation({
-        mutationFn: getMealPlan,
+        mutationFn: postMealPlan,
         onSuccess: async () => {
             await queryClient.invalidateQueries(['users', 'mealplans']);
         }
@@ -86,36 +87,10 @@ function App (): JSX.Element {
         }
     }
 
-    function ltrim (str: string): string {
-        if (str.length === 0) return str;
-        return str.replace(/^\s+/g, '');
-    }
-
     function handleFormSubmit (e: FormEvent<HTMLFormElement>): void {
         e.preventDefault();
         const body = { ...moreOptions, allergens, diet };
         mealPlanMutation.mutate(body);
-    }
-
-    function getMealPlan (body: any): any {
-        return fetch('http://localhost:9999/mealplan', {
-            method: 'POST',
-            credentials: 'include',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(body)
-        })
-            .then(async (res) => await res.json())
-            .then((data) => {
-                if (data.message !== undefined) {
-                    console.error(data);
-                    setMealPlan(data.message);
-                    return;
-                }
-                setMealPlan(ltrim(data));
-            })
-            .catch((err) => {
-                console.error(err.message);
-            });
     }
 
     if (mealPlanMutation.isLoading) {
