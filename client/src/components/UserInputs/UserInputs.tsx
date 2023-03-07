@@ -6,30 +6,22 @@ import {
     type Dispatch,
     type FormEvent
 } from 'react';
-import type MoreOptionsType from '../../types/MoreOptions';
+import type OptionsType from '../../types/Options';
 import MoreOptions from '../MoreOptions/MoreOptions';
 import './UserInputs.css';
 
 interface Props {
     setShowInput: Dispatch<SetStateAction<boolean>>
-    allergens: string[]
-    setAllergens: Dispatch<SetStateAction<string[]>>
-    setMoreOptions: Dispatch<SetStateAction<MoreOptionsType>>
-    moreOptions: MoreOptionsType
     getMealPlan: (e: FormEvent<HTMLFormElement>) => void
-    diet: string
-    setDiet: Dispatch<SetStateAction<string>>
+    options: OptionsType
+    setOptions: Dispatch<SetStateAction<OptionsType>>
 }
 
 const UserInputs: FC<Props> = ({
     setShowInput,
-    allergens,
-    setAllergens,
-    setMoreOptions,
-    moreOptions,
     getMealPlan,
-    diet,
-    setDiet
+    options,
+    setOptions
 }) => {
     const [showMore, setShowMore] = useState<boolean>(false);
 
@@ -48,9 +40,9 @@ const UserInputs: FC<Props> = ({
                     name="diet"
                     id="diet"
                     className="btn--1 select_reset"
-                    value={diet}
+                    value={options.diet}
                     onChange={(e) => {
-                        setDiet(e.target.value);
+                        setOptions({ ...options, diet: e.target.value });
                     }}
                 >
                     <option className="btn--1 select_reset" value="none">
@@ -105,27 +97,25 @@ const UserInputs: FC<Props> = ({
             </button>
             <p className="form__more_options__row form_label--1">
                 Options =&nbsp;
-                {allergens.length > 0 &&
-                    'allergens: ' + allergens.join(', ') + '. '}
-                {moreOptions.useMacros
+                {options.allergens.length > 0 &&
+                    'allergens: ' + options.allergens.join(', ') + '. '}
+                {options.useMacros
                     ? 'macros: ' +
-                    moreOptions.protein.toString() +
+                    options.protein.toString() +
                     'g protein, ' +
-                    moreOptions.carbs.toString() +
+                    options.carbs.toString() +
                     'g carbs, ' +
-                    moreOptions.fat.toString() +
+                    options.fat.toString() +
                     'g fat.'
-                    : 'kcal: ' + moreOptions.kcal.toString()}
+                    : 'kcal: ' + options.kcal.toString()}
             </p>
             {showMore && (
                 <>
                     <div aria-hidden className="form__more_options__bg"></div>
                     <MoreOptions
                         setShowInput={setShowInput}
-                        allergens={allergens}
-                        setAllergens={setAllergens}
-                        setMoreOptions={setMoreOptions}
-                        moreOptions={moreOptions}
+                        options={options}
+                        setOptions={setOptions}
                     />
                 </>
             )}

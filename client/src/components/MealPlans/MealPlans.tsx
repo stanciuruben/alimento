@@ -1,53 +1,19 @@
-import type { Dispatch, SetStateAction, FC } from 'react';
-import type MoreOptions from '../../types/MoreOptions';
+import type { FC } from 'react';
 import './MealPlans.css';
 import { useQuery } from 'react-query';
 import fetchMealPlans from '../../lib/fetchMealPlans';
 
 interface Props {
-	setDiet: Dispatch<SetStateAction<string>>
-	setAllergens: Dispatch<SetStateAction<string[]>>
-	setMoreOptions: Dispatch<SetStateAction<MoreOptions>>
-	setMealPlan: Dispatch<SetStateAction<string>>
-	setMealPlanTitle: Dispatch<SetStateAction<string>>
+	getOneMealPlan: (id: number) => void
 }
 
-interface MealPlansInterface extends MoreOptions {
-	diet: string
-	allergens: string
-	date: string
-	text: string
-}
-
-const MealPlans: FC<Props> = ({
-	setDiet,
-	setAllergens,
-	setMoreOptions,
-	setMealPlan,
-	setMealPlanTitle
-}) => {
+const MealPlans: FC<Props> = ({ getOneMealPlan }) => {
 	const { isLoading, error, data } = useQuery({
 		queryKey: ['mealplans'],
 		queryFn: fetchMealPlans,
 		retry: false,
 		placeholderData: []
 	});
-
-	const setCurrentMealPlan = (mealPlan: MealPlansInterface): void => {
-		setDiet(mealPlan.diet);
-		setAllergens(
-			mealPlan.allergens.length > 0 ? mealPlan.allergens.split(', ') : []
-		);
-		setMoreOptions({
-			kcal: mealPlan.kcal,
-			protein: mealPlan.protein,
-			carbs: mealPlan.carbs,
-			fat: mealPlan.fat,
-			useMacros: !!mealPlan.useMacros
-		});
-		setMealPlanTitle(mealPlan.date);
-		setMealPlan(mealPlan.text);
-	};
 
 	if (isLoading) {
 		return (
@@ -73,23 +39,23 @@ const MealPlans: FC<Props> = ({
 		<ul className='meal_list'>
 			<h2 className='meal_list__title'>Generated Plans:</h2>
 			{data?.length > 0
-? (
-				data.map((mealPlan: MealPlansInterface, index: number) => (
-					<li
-						key={mealPlan.date + index.toString()}
-						className='meal_list__item'
-					>
-						<button
-							onClick={() => {
-								setCurrentMealPlan(mealPlan);
-							}}
+				? (
+					data.map((mealPlan: { id: number, date: string }, index: number) => (
+						<li
+							key={mealPlan.date + index.toString()}
+							className='meal_list__item'
 						>
-							{mealPlan.date}
-						</button>
-					</li>
-				))
-			)
-: (
+							<button
+								onClick={() => {
+									getOneMealPlan(mealPlan.id);
+								}}
+							>
+								{mealPlan.date}
+							</button>
+						</li>
+					))
+				)
+				: (
 				<li className='meal_list__item'>
 					<span>No plans found</span>
 				</li>

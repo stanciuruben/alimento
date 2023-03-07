@@ -17,7 +17,7 @@ app.set('view engine', 'ejs');
 // @ts-expect-error next line
 app.use(express.json({ extended: false }));
 app.use(express.urlencoded({ extended: true }));
-const whitelist = ['https://www.rubenstanciu.com', 'https://46.41.148.88'];
+const whitelist = ['https://www.rubenstanciu.com', 'https://46.41.148.88', 'http://localhost:5173'];
 const corsOptions = {
 	origin: (origin: any, callback: any) => {
 		if (origin === undefined || whitelist.includes(origin)) {

@@ -7,7 +7,7 @@ import {
     type KeyboardEvent,
     type MouseEvent
 } from 'react';
-import type MoreOptionsType from './types/MoreOptions';
+import type OptionsType from './types/Options';
 import UserInputs from './components/UserInputs/UserInputs';
 import './App.css';
 import Loader from './components/Loader/Loader';
@@ -15,6 +15,11 @@ import UserProfile from './components/UserProfile/UserProfile';
 import MealPlans from './components/MealPlans/MealPlans';
 import { useMutation, useQueryClient } from 'react-query';
 import postMealPlan from './lib/postMealPlan';
+import fetchOneMealPlan from './lib/fetchOneMealPlan';
+
+interface MealPlan extends OptionsType {
+    text: string
+}
 
 function App (): JSX.Element {
     const allergensInput = useRef<HTMLInputElement>(null);
@@ -23,48 +28,81 @@ function App (): JSX.Element {
     const ctaSection = useRef<HTMLDivElement>(null);
     const [showInput, setShowInput] = useState<boolean>(false);
     const [showUserData, setShowUserData] = useState<boolean>(false);
-    const [diet, setDiet] = useState<string>('none');
-    const [allergens, setAllergens] = useState<string[]>([]);
-    const [moreOptions, setMoreOptions] = useState<MoreOptionsType>({
+    const [currentMealPlan, setCurrentMealPlan] = useState<MealPlan | null>(null);
+    const [options, setOptions] = useState<OptionsType>({
+        diet: 'none',
+        allergens: [],
         kcal: 2000,
         protein: 115,
         carbs: 250,
         fat: 60,
         useMacros: false
     });
-    const [mealPlan, setMealPlan] = useState<string>('');
-    const [mealPlanTitle, setMealPlanTitle] = useState<string>('');
     const queryClient = useQueryClient();
-    const mealPlanMutation = useMutation({
+    const postMealPlanMutation = useMutation({
         mutationFn: postMealPlan,
-        onSuccess: async () => {
+        onError: (error) => {
+            console.error(error);
+        },
+        onSuccess: async (data) => {
+            if (data.message !== undefined) {
+                console.error(data.message);
+                return;
+            }
             await queryClient.invalidateQueries(['users', 'mealplans']);
+            setCurrentMealPlan({ ...options, text: data });
         }
     })
 
-    function fillResponse (i: number): void {
-        if (i === mealPlan.length) {
+    const getMealPlanMutation = useMutation({
+        mutationFn: fetchOneMealPlan,
+        onError: (error) => {
+            console.error(error);
+        },
+        onSuccess: (data) => {
+            if (data.message !== undefined) {
+                console.error(data.message);
+                return;
+            }
+            setCurrentMealPlan({
+                text: data.text,
+                diet: data.diet,
+                allergens: data.allergens.length > 0 ? data.allergens.split(', ') : [],
+                kcal: data.kcal,
+                protein: data.protein,
+                carbs: data.carbs,
+                fat: data.fat,
+                // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+                useMacros: !!data.useMacros
+            });
+        }
+    })
+
+    useEffect(() => {
+        if (currentMealPlan !== null) {
+            fillAll.current = false;
+            fillResponse(0, currentMealPlan.text);
+        }
+    }, [currentMealPlan]);
+
+    function fillResponse (i: number, data: string): void {
+        if (i === data.length) {
             if (ctaSection.current !== null) {
                 ctaSection.current.style.display = 'block';
             }
             return;
         }
         if (fillAll.current && resContainer.current !== null && ctaSection.current !== null) {
-            resContainer.current.innerText = mealPlan;
+            resContainer.current.innerText = data;
             ctaSection.current.style.display = 'block';
             return;
         }
         if (resContainer.current !== null) {
-            if (resContainer.current.innerText.length === mealPlan.length) return;
-            resContainer.current.innerText = resContainer.current.innerText + mealPlan[i];
-            setTimeout(() => { fillResponse(i + 1); }, 50);
+            if (resContainer.current.innerText.length === data.length) return;
+            resContainer.current.innerText = resContainer.current.innerText + data[i];
+            setTimeout(() => { fillResponse(i + 1, data); }, 50);
         }
     }
-
-    useEffect(() => {
-        fillAll.current = false;
-        fillResponse(0);
-    }, [mealPlan]);
 
     function addAllergens (e: FormEvent<HTMLFormElement>): void {
         e.preventDefault();
@@ -73,7 +111,7 @@ function App (): JSX.Element {
         while (itemsToAdd[itemsToAdd.length - 1] === '') {
             itemsToAdd.pop();
         }
-        setAllergens(allergens.concat(itemsToAdd));
+        setOptions({ ...options, allergens: options.allergens.concat(itemsToAdd) });
         setShowInput(false);
     }
 
@@ -89,72 +127,60 @@ function App (): JSX.Element {
 
     function handleFormSubmit (e: FormEvent<HTMLFormElement>): void {
         e.preventDefault();
-        const body = { ...moreOptions, allergens, diet };
-        mealPlanMutation.mutate(body);
+        postMealPlanMutation.mutate(options);
     }
 
-    if (mealPlanMutation.isLoading) {
+    if (postMealPlanMutation.isLoading || getMealPlanMutation.isLoading) {
         return (
             <Loader />
         );
     }
 
-    if (mealPlan === '') {
+    if (currentMealPlan !== null) {
         return (
-            <main id="app_container">
+            <main id="app_container" onClick={() => { fillAll.current = true }}>
                 <h1 id="watermark">alimento</h1>
-                <UserInputs
-                    setShowInput={setShowInput}
-                    allergens={allergens}
-                    setAllergens={setAllergens}
-                    setMoreOptions={setMoreOptions}
-                    moreOptions={moreOptions}
-                    getMealPlan={handleFormSubmit}
-                    diet={diet}
-                    setDiet={setDiet}
-                />
-                <MealPlans
-                    setDiet={setDiet}
-                    setAllergens={setAllergens}
-                    setMoreOptions={setMoreOptions}
-                    setMealPlan={setMealPlan}
-                    setMealPlanTitle={setMealPlanTitle}
-                />
-                {showInput && (
-                    <>
+                <article className="res_container">
+                    <div>
+                        <h2 className="res_container__title">
+                            Enjoy your plan!
+                        </h2>
+                        {currentMealPlan.useMacros ? (
+                            <dl className="res_container__macros">
+                                <dt>Options</dt>
+                                <dd>Diet Type: {currentMealPlan.diet.slice(0, 1).toUpperCase() + currentMealPlan.diet.slice(1)}</dd>
+                                <dd>Protein: {currentMealPlan.protein}g</dd>
+                                <dd>Carbs: {currentMealPlan.carbs}g</dd>
+                                <dd>Fat: {currentMealPlan.fat}g</dd>
+                                <dd>
+                                    Kilocalories:{' '}
+                                    {currentMealPlan.protein * 4 +
+                                        currentMealPlan.carbs * 4 +
+                                        currentMealPlan.fat * 9}
+                                </dd>
+                                {currentMealPlan.allergens.length > 0 && <dd>Without: {currentMealPlan.allergens.join(', ')}</dd>}
+                            </dl>
+                        ) : (
+                            <dl className="res_container__macros">
+                                <dt>Options</dt>
+                                <dd>Diet Type: {currentMealPlan.diet}</dd>
+                                <dd>Kilocalories: {currentMealPlan.kcal}</dd>
+                                {currentMealPlan.allergens.length > 0 && <dd>Without: {currentMealPlan.allergens.join(', ')}</dd>}
+                            </dl>
+                        )}
+                    </div>
+                    <pre className="res_container__meal_plan" ref={resContainer} ></pre>
+                    <div className="res_container__meal_plan__cta_section" ref={ctaSection} >
                         <button
-                            className="allergens__input__overlay"
-                            onClick={closeInput}
-                        ></button>
-                        <form
-                            className="allergens__input"
-                            onSubmit={addAllergens}
-                            onKeyDown={closeInputOnKeyStroke}
+                            className="cta--1"
+                            onClick={() => {
+                                setCurrentMealPlan(null);
+                            }}
                         >
-                            <label
-                                htmlFor="allergens-input"
-                                className="allergens__input__label"
-                            >
-                                Insert one or more ingredients separated by
-                                commas or spaces, that shouldn't be included in
-                                your meal plan.
-                            </label>
-                            <input
-                                autoFocus
-                                ref={allergensInput}
-                                type="text"
-                                name="allergens-input"
-                                className="allergens__input__input"
-                            />
-                            <button
-                                className="allergens__input__submit btn--1"
-                                type="submit"
-                            >
-                                Add
-                            </button>
-                        </form>
-                    </>
-                )}
+                            Go Back
+                        </button>
+                    </div>
+                </article>
                 <button id='user__toggler' onClick={() => { setShowUserData(!showUserData) }}>
                     <img src="./account.svg" alt="profile icon" />
                 </button>
@@ -164,50 +190,50 @@ function App (): JSX.Element {
     }
 
     return (
-        <main id="app_container" onClick={() => { fillAll.current = true }}>
+        <main id="app_container">
             <h1 id="watermark">alimento</h1>
-            <article className="res_container">
-                <div>
-                    <h2 className="res_container__title">
-                        {mealPlanTitle !== '' ? 'Generated: ' + mealPlanTitle : 'Meal plan successfully generated!'}
-                    </h2>
-                    {moreOptions.useMacros ? (
-                        <dl className="res_container__macros">
-                            <dt>Options</dt>
-                            <dd>Diet Type: {diet.slice(0, 1).toUpperCase() + diet.slice(1)}</dd>
-                            <dd>Protein: {moreOptions.protein}g</dd>
-                            <dd>Carbs: {moreOptions.carbs}g</dd>
-                            <dd>Fat: {moreOptions.fat}g</dd>
-                            <dd>
-                                Kilocalories:{' '}
-                                {moreOptions.protein * 4 +
-                                    moreOptions.carbs * 4 +
-                                    moreOptions.fat * 9}
-                            </dd>
-                            {allergens.length > 0 && <dd>Without: {allergens.join(', ')}</dd>}
-                        </dl>
-                    ) : (
-                        <dl className="res_container__macros">
-                            <dt>Options</dt>
-                            <dd>Diet Type: {diet}</dd>
-                            <dd>Kilocalories: {moreOptions.kcal}</dd>
-                            {allergens.length > 0 && <dd>Without: {allergens.join(', ')}</dd>}
-                        </dl>
-                    )}
-                </div>
-                <pre className="res_container__meal_plan" ref={resContainer} ></pre>
-                <div className="res_container__meal_plan__cta_section" ref={ctaSection} >
+            <UserInputs
+                setShowInput={setShowInput}
+                getMealPlan={handleFormSubmit}
+                options={options}
+                setOptions={setOptions}
+            />
+            <MealPlans getOneMealPlan={getMealPlanMutation.mutate} />
+            {showInput && (
+                <>
                     <button
-                        className="cta--1"
-                        onClick={() => {
-                            setMealPlanTitle('');
-                            setMealPlan('');
-                        }}
+                        className="allergens__input__overlay"
+                        onClick={closeInput}
+                    ></button>
+                    <form
+                        className="allergens__input"
+                        onSubmit={addAllergens}
+                        onKeyDown={closeInputOnKeyStroke}
                     >
-                        Go Back
-                    </button>
-                </div>
-            </article>
+                        <label
+                            htmlFor="allergens-input"
+                            className="allergens__input__label"
+                        >
+                            Insert one or more ingredients separated by
+                            commas or spaces, that shouldn't be included in
+                            your meal plan.
+                        </label>
+                        <input
+                            autoFocus
+                            ref={allergensInput}
+                            type="text"
+                            name="allergens-input"
+                            className="allergens__input__input"
+                        />
+                        <button
+                            className="allergens__input__submit btn--1"
+                            type="submit"
+                        >
+                            Add
+                        </button>
+                    </form>
+                </>
+            )}
             <button id='user__toggler' onClick={() => { setShowUserData(!showUserData) }}>
                 <img src="./account.svg" alt="profile icon" />
             </button>

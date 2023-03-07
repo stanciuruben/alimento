@@ -7,7 +7,8 @@ function ltrim (str: string): string {
 
 export default async (body: any): Promise<any> =>
 	await axios
-	.post('https://www.rubenstanciu.com/alimento/mealplan', {
+	// .post('http://localhost:9999/mealplan', {
+    .post('https://www.rubenstanciu.com/alimento/mealplan', {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
         withCredentials: true

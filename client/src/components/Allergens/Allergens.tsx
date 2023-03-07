@@ -9,7 +9,7 @@ import './Allergens.css';
 interface Props {
     setShowInput: Dispatch<SetStateAction<boolean>>
     allergens: string[]
-    setAllergens: Dispatch<SetStateAction<string[]>>
+    setAllergens: (allergens: string[]) => void
 }
 
 const Allergens: FC<Props> = ({ setShowInput, allergens, setAllergens }) => {

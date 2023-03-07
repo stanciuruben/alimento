@@ -1,50 +1,31 @@
 /* eslint-disable multiline-ternary */
 import {
-    type FC,
     useState,
-    type ChangeEvent,
     useEffect,
+    type FC,
+    type ChangeEvent,
     type SetStateAction,
     type Dispatch
 } from 'react';
-import type MoreOptionsType from '../../types/MoreOptions';
+import type OptionsType from '../../types/Options';
 import Allergens from '../Allergens/Allergens';
 
 interface Props {
     setShowInput: Dispatch<SetStateAction<boolean>>
-    allergens: string[]
-    setAllergens: Dispatch<SetStateAction<string[]>>
-    setMoreOptions: Dispatch<SetStateAction<MoreOptionsType>>
-    moreOptions: MoreOptionsType
+    options: OptionsType
+    setOptions: Dispatch<SetStateAction<OptionsType>>
 }
 
 const MoreOptions: FC<Props> = ({
     setShowInput,
-    allergens,
-    setAllergens,
-    setMoreOptions,
-    moreOptions
+    options,
+    setOptions
 }) => {
-    const [useMacros, setUseMacros] = useState<boolean>(moreOptions.useMacros);
-    const [kcal, setKcal] = useState<number>(moreOptions.kcal);
-    const [protein, setProtein] = useState<number>(moreOptions.protein);
-    const [carbs, setCarbs] = useState<number>(moreOptions.carbs);
-    const [fat, setFat] = useState<number>(moreOptions.fat);
     const [macrosToKcal, setMacrosToKcal] = useState<number>(0);
 
     useEffect(() => {
-        setMacrosToKcal(protein * 4 + carbs * 4 + fat * 9);
-    }, [protein, carbs, fat]);
-
-    useEffect(() => {
-        setMoreOptions({
-            kcal,
-            protein,
-            carbs,
-            fat,
-            useMacros
-        });
-    }, [useMacros, kcal, protein, carbs, fat])
+        setMacrosToKcal(options.protein * 4 + options.carbs * 4 + options.fat * 9);
+    }, [options.protein, options.carbs, options.fat]);
 
     function changeState (
         e: ChangeEvent<HTMLInputElement>,
@@ -62,25 +43,25 @@ const MoreOptions: FC<Props> = ({
                 if (newInputAsNumber > 5000) {
                     newInputAsNumber = 5000;
                 }
-                setKcal(newInputAsNumber);
+                setOptions({ ...options, kcal: newInputAsNumber });
                 break;
             case 'protein':
                 if (newInputAsNumber > 400) {
                     newInputAsNumber = 400;
                 }
-                setProtein(newInputAsNumber);
+                setOptions({ ...options, protein: newInputAsNumber });
                 break;
             case 'carbs':
                 if (newInputAsNumber > 600) {
                     newInputAsNumber = 600;
                 }
-                setCarbs(newInputAsNumber);
+                setOptions({ ...options, carbs: newInputAsNumber });
                 break;
             case 'fat':
                 if (newInputAsNumber > 300) {
                     newInputAsNumber = 300;
                 }
-                setFat(newInputAsNumber);
+                setOptions({ ...options, fat: newInputAsNumber });
                 break;
             default:
         }
@@ -90,8 +71,8 @@ const MoreOptions: FC<Props> = ({
         <div className="form__more_options">
             <Allergens
                 setShowInput={setShowInput}
-                allergens={allergens}
-                setAllergens={setAllergens}
+                allergens={options.allergens}
+                setAllergens={(allergens: string[]) => { setOptions({ ...options, allergens }); }}
             />
             <fieldset className="form__more_options__row">
                 <label htmlFor="kcal-macros" className="form_label">
@@ -104,14 +85,14 @@ const MoreOptions: FC<Props> = ({
                         id="kcal-macros"
                         className="form_checkbox"
                         tabIndex={0}
-                        checked={useMacros}
+                        checked={options.useMacros}
                         onChange={() => {
-                            setUseMacros(!useMacros);
+                            setOptions({ ...options, useMacros: !options.useMacros });
                         }}
                     />
                 </span>
             </fieldset>
-            {useMacros ? (
+            {options.useMacros ? (
                 <div className="form__more_options__row">
                     <fieldset className="form__more_options__row--1">
                         <label htmlFor="protein" className="form_label">
@@ -127,7 +108,7 @@ const MoreOptions: FC<Props> = ({
                                 name="protein"
                                 id="protein"
                                 className="form_input--number"
-                                value={protein}
+                                value={options.protein}
                                 onChange={(e) => {
                                     changeState(e, 'protein');
                                 }}
@@ -149,7 +130,7 @@ const MoreOptions: FC<Props> = ({
                                 name="carbs"
                                 id="carbs"
                                 className="form_input--number"
-                                value={carbs}
+                                value={options.carbs}
                                 onChange={(e) => {
                                     changeState(e, 'carbs');
                                 }}
@@ -171,7 +152,7 @@ const MoreOptions: FC<Props> = ({
                                 name="fat"
                                 id="fat"
                                 className="form_input--number"
-                                value={fat}
+                                value={options.fat}
                                 onChange={(e) => {
                                     changeState(e, 'fat');
                                 }}
@@ -198,7 +179,7 @@ const MoreOptions: FC<Props> = ({
                             inputMode='numeric'
                             name="kcal"
                             id="kcal"
-                            value={kcal}
+                            value={options.kcal}
                             onChange={(e) => {
                                 changeState(e, 'kcal');
                             }}
