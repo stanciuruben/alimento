@@ -88,7 +88,7 @@ router.post(
 			if (message !== undefined) {
 				// @ts-expect-error unkown property
 				req.session.messages = [message];
-				res.redirect('../login');
+				res.redirect('../register');
 				return;
 			}
 			// @ts-expect-error unkown property
