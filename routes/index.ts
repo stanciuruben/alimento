@@ -10,7 +10,6 @@ router.get('/', (_req, res) => {
 });
 
 router.use('/auth', require('./auth/index'));
-router.use('/client', require('./client/index'));
 router.use('/mealplan', require('./mealplan/index'));
 router.use('/user', require('./user/index'));
 

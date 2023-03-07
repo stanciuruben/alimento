@@ -30,7 +30,7 @@ router.post(
 		.withMessage('Password must be a string!'),
 	authSanitization,
 	passport.authenticate('local', {
-		successRedirect: '/alimento/client',
+		successRedirect: '/alimento/client/',
 		failureRedirect: '../login',
 		failureMessage: true
 	})
