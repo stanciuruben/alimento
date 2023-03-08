@@ -19,7 +19,7 @@ export default ({
 			  'g fat'
 			: String(kcal) + ' kcalories'
 	}.${
-		allergens.length > 0
+		allergens !== undefined && allergens.length > 0
 			? ' And without the following allergens: ' +
 			  allergens.join(', ') +
 			  '.'

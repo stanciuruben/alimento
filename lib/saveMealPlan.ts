@@ -31,7 +31,7 @@ export default async (
 			carbs,
 			fat,
 			(useMacros ? 1 : 0),
-			allergens.join(', '),
+			(allergens !== undefined ? allergens.join(', ') : ''),
 			(new Date().toDateString())
 		]
 	);
