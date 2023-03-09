@@ -9,8 +9,8 @@ router.get('/federated', passport.authenticate('google'));
 router.get(
 	'/redirect',
 	passport.authenticate('google', {
-		successRedirect: '/alimento/client/',
-		failureRedirect: '../login',
+		successRedirect: 'https://www.rubenstanciu.com/alimento/client/',
+		failureRedirect: 'https://www.rubenstanciu.com/alimento/login',
 		failureMessage: true
 	})
 );
