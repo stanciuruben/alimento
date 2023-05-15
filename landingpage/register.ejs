@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<link rel="icon" type="image/svg+xml" href="../icon.svg" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>alimento | register</title>
+		<link rel="stylesheet" href="../css/base.css" />
+		<link rel="stylesheet" href="../css/form.css" />
+	</head>
+	<body>
+		<main id="main">
+			<nav id="main_nav">
+				<ul class="main_nav__list">
+					<li class="main_nav__list__item main_nav__logo">
+						<a href="/alimento">alimento</a>
+					</li>
+					<aside class="main_nav__list__right">
+						<li class="main_nav__list__item">
+							<a href="./login" class="cta">log-in</a>
+						</li>
+					</aside>
+				</ul>
+			</nav>
+			<form action="../auth/local/register" method="POST" class="form" >
+				<p class="register_warning">
+					<strong class="register_warning__title" >
+						Warning: Do not use real data for this application!
+					</strong>
+					The creator of this app does't want responsability for the data that you put in the app.
+					You can use inexsistent emails it just has to look like a real email.
+				</p>
+				<% if(messages !== undefined) { %>
+					<% if(messages.length > 0) { %>
+						<ul class="form__warning_container">
+							<% messages.forEach(function(message) { %>
+								<li class="form__warning" ><%- message %></li>
+							<% }); %>
+						</ul>
+					<% } %>
+				<% } %>
+				<fieldset class="form__group">
+					<label for="username" class="form__label">Username:</label>
+					<input
+						required
+						type="text"
+						name="username"
+						id="username"
+						class="form__input"
+					/>
+				</fieldset>
+				<fieldset class="form__group">
+					<label for="email" class="form__label">E-mail:</label>
+					<input
+						required
+						type="email"
+						name="email"
+						id="email"
+						class="form__input"
+					/>
+				</fieldset>
+				<fieldset class="form__group">
+					<label for="password" class="form__label">Password:</label>
+					<input
+						minlength="6"
+						required
+						type="password"
+						name="password"
+						id="password"
+						class="form__input"
+					/>
+				</fieldset>
+				<fieldset class="form__group">
+					<label for="repeatPassword" class="form__label"
+						>Repeat Password:</label
+					>
+					<input
+						minlength="6"
+						required
+						type="password"
+						name="repeatPassword"
+						id="repeatPassword"
+						class="form__input"
+					/>
+				</fieldset>
+				<fieldset class="form__group--1">
+					<p class="form__label--1">
+						Allready have an account?
+						<a href="./login" class="form__link">Log-in!</a>
+					</p>
+				</fieldset>
+				<fieldset class="form__group--1">
+					<p class="form__label--1">
+						Or
+						<a class="form__link" href="/alimento/auth/google/federated"
+							>Sign in with Google</a
+						>
+					</p>
+				</fieldset>
+				<button class="cta form__submit" type="submit" >Register</button>
+			</form>
+			<footer>© alimento 2023</footer>
+		</main>
+	</body>
+</html>
