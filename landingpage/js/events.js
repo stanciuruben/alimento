@@ -1,6 +1,7 @@
 // Navbar
 const navbar = document.getElementById('navbar');
 const navLinks = document.getElementsByClassName('nav-link');
+const navbarToggler = document.getElementsByClassName('navbar-toggler')[0];
 
 window.addEventListener('scroll', () => {
 	const scrollTop = window.scrollY;
@@ -19,6 +20,9 @@ for (let i = 0; i < navLinks.length; i++) {
 				continue;
 			}
 			navLinks[j].classList.remove('active');
+		}
+		if (window.innerWidth < 992) {
+			navbarToggler.click();
 		}
 	});
 }
@@ -67,6 +71,18 @@ let isAnimating = false;
 const carouselIndex = 0;
 
 const setActive = () => {
+	if (window.innerWidth < 992) {
+		carousel.children[carouselIndex].classList.add(
+			'features-carousel__item--active'
+		);
+		carousel.children[carouselIndex + 1].classList.remove(
+			'features-carousel__item--active'
+		);
+		carousel.children[carouselIndex + 2].classList.remove(
+			'features-carousel__item--active'
+		);
+		return;
+	}
 	carousel.children[carouselIndex].classList.remove(
 		'features-carousel__item--active'
 	);
