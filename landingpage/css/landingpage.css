@@ -88,7 +88,7 @@
 	max-width: 1920px;
 	margin: 0 auto;
 	height: 100vh;
-	max-height: 900px;
+	max-height: 800px;
 	background: url('../images/banner-bg.jpg') center top no-repeat;
 	background-size: cover;
 	display: flex;
@@ -136,6 +136,37 @@
 .main-banner .banner-moc-box img {
 	object-fit: contain;
 	height: 100%;
+}
+
+/* COUNTER */
+.counter-container {
+	margin-top: 2rem;
+}
+
+.counter-container p {
+	text-align: center;
+	font-size: 1.4rem;
+}
+
+.counter-container p .counter {
+	background: -webkit-gradient(
+		linear,
+		left top,
+		right top,
+		from(#6541c1),
+		color-stop(98%, #d43396),
+		to(#d43396)
+	);
+	background: linear-gradient(
+		to right,
+		#6541c1 0%,
+		#d43396 98%,
+		#d43396 100%
+	);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	font-weight: 200;
+	font-size: 53px;
 }
 
 /* Features */
@@ -268,7 +299,6 @@
 }
 
 /* How it Works */
-
 #how-it-works {
 	padding-top: 5rem;
 }

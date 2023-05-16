@@ -23,6 +23,36 @@ for (let i = 0; i < navLinks.length; i++) {
 	});
 }
 
+// Counters
+const counters = document.getElementsByClassName('counter');
+
+const count = (element, intialCount, counter = 0) => {
+	element.innerText = counter;
+	if (intialCount === counter) {
+		return;
+	}
+	setTimeout(() => {
+		if (counter + intialCount / 15 > intialCount) {
+			count(element, intialCount, intialCount);
+			return;
+		}
+		count(element, intialCount, Math.round(counter + intialCount / 15));
+	}, 50);
+};
+
+const observer = new IntersectionObserver((entries) => {
+	for (let i = 0; i < entries.length; i++) {
+		if (entries[i].isIntersecting) {
+			count(entries[i].target, parseInt(entries[i].target.innerText), 0);
+			observer.unobserve(entries[i].target);
+		}
+	}
+});
+
+for (let i = 0; i < counters.length; i++) {
+	observer.observe(counters[i]);
+}
+
 // Features Carousel
 const carousel = document.getElementById('features-carousel');
 const prevtBtn = document.getElementsByClassName(
@@ -34,7 +64,7 @@ const nextBtn = document.getElementsByClassName(
 
 const carouselItemCount = carousel.childElementCount;
 let isAnimating = false;
-let carouselIndex = 0;
+const carouselIndex = 0;
 
 const setActive = () => {
 	carousel.children[carouselIndex].classList.remove(
