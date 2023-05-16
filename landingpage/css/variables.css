@@ -13,5 +13,6 @@
 	--black-8: rgba(0, 0, 0, 0.8);
 	--primary: #5423bb;
 	--primary-d: #8d48bc;
+	--primary-d--3: rgba(141, 72, 188, 0.3);
 	--secondary: #ce32a3;
 }
