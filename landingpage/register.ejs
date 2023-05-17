@@ -5,40 +5,79 @@
 		<link rel="icon" type="image/svg+xml" href="../icon.svg" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>alimento | register</title>
-		<link rel="stylesheet" href="../css/base.css" />
-		<link rel="stylesheet" href="../css/form.css" />
+		<link rel="stylesheet" href="/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="/css/variables.css" />
+		<link rel="stylesheet" href="/css/forms.css" />
+		<link rel="stylesheet" href="/css/landingpage.css" />
 	</head>
 	<body>
 		<main id="main">
-			<nav id="main_nav">
-				<ul class="main_nav__list">
-					<li class="main_nav__list__item main_nav__logo">
-						<a href="/alimento">alimento</a>
-					</li>
-					<aside class="main_nav__list__right">
-						<li class="main_nav__list__item">
-							<a href="./login" class="cta">log-in</a>
-						</li>
-					</aside>
-				</ul>
-			</nav>
-			<form action="../auth/local/register" method="POST" class="form" >
-				<p class="register_warning">
-					<strong class="register_warning__title" >
-						Warning: Do not use real data for this application!
-					</strong>
-					The creator of this app does't want responsability for the data that you put in the app.
-					You can use inexsistent emails it just has to look like a real email.
-				</p>
-				<% if(messages !== undefined) { %>
-					<% if(messages.length > 0) { %>
-						<ul class="form__warning_container">
-							<% messages.forEach(function(message) { %>
-								<li class="form__warning" ><%- message %></li>
-							<% }); %>
+			<!-- BEGIN NAVBAR -->
+			<nav id="navbar" class="navbar navbar-expand-lg navbar-light">
+				<div class="container">
+					<a class="navbar-brand" href="#">Aliment<span>o</span></a>
+					<button
+						class="navbar-toggler"
+						type="button"
+						data-bs-toggle="collapse"
+						data-bs-target="#navbarScroll"
+						aria-controls="navbarScroll"
+						aria-expanded="false"
+						aria-label="Toggle navigation"
+					>
+						<span class="navbar-toggler-icon"></span>
+					</button>
+					<div class="collapse navbar-collapse" id="navbarScroll">
+						<ul
+							class="navbar-nav me-auto my-2 my-lg-0"
+							style="--bs-scroll-height: 100px"
+						>
+							<li class="nav-item">
+								<a
+									class="nav-link"
+									aria-current="page"
+									href="/#"
+									>Home</a
+								>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="/#features"
+									>Features</a
+								>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="/#how-it-works"
+									>How It Works</a
+								>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="/#pricing">Pricing</a>
+							</li>
 						</ul>
-					<% } %>
-				<% } %>
+						<a
+							class="btn btn-secondary sign-in-link"
+							href="/auth/login"
+						>
+							Sign In
+						</a>
+					</div>
+				</div>
+			</nav>
+			<!-- END NAVBAR -->
+
+			<form
+				action="../auth/local/register"
+				method="POST"
+				class="form container"
+			>
+				<% if(messages !== undefined) { %> <% if(messages.length > 0) {
+				%>
+				<ul class="form__warning_container">
+					<% messages.forEach(function(message) { %>
+					<li class="form__warning"><%- message %></li>
+					<% }); %>
+				</ul>
+				<% } %> <% } %>
 				<fieldset class="form__group">
 					<label for="username" class="form__label">Username:</label>
 					<input
@@ -92,14 +131,134 @@
 				<fieldset class="form__group--1">
 					<p class="form__label--1">
 						Or
-						<a class="form__link" href="/alimento/auth/google/federated"
+						<a
+							class="form__link"
+							href="/alimento/auth/google/federated"
 							>Sign in with Google</a
 						>
 					</p>
 				</fieldset>
-				<button class="cta form__submit" type="submit" >Register</button>
+				<button
+					class="btn btn-primary btn-lg form__submit"
+					type="submit"
+				>
+					Register
+				</button>
 			</form>
-			<footer>© alimento 2023</footer>
+
+			<!-- START FOOTER -->
+			<footer class="footer">
+				<div class="container">
+					<div class="row footer__info">
+						<div class="col">
+							<h3 class="footer__info__title">
+								aliment<span>o</span>
+							</h3>
+							<p class="footer__info__text">
+								Be the first to find out about exclusive deals,
+								the latest Lookbooks trends. We're on a mission
+								to build a better future with technology.
+							</p>
+							<ul class="footer__info__social">
+								<li>
+									<a href="#">
+										<i class="bi bi-facebook"></i>
+									</a>
+								</li>
+								<li>
+									<a href="#">
+										<i class="bi bi-twitter"></i>
+									</a>
+								</li>
+								<li>
+									<a href="#">
+										<i class="bi bi-google"></i>
+									</a>
+								</li>
+								<li>
+									<a href="#">
+										<i class="bi bi-instagram"></i>
+									</a>
+								</li>
+							</ul>
+						</div>
+						<div class="col">
+							<h3 class="footer__info__subtitle">Address</h3>
+							<dl class="footer__info__list">
+								<div>
+									<dt>Phone:&emsp;</dt>
+									<dd>+43(0)660 123 4567</dd>
+								</div>
+								<div>
+									<dt>Email:&emsp;</dt>
+									<dd>support@alimento.com</dd>
+								</div>
+								<div>
+									<dt>Address:&emsp;</dt>
+									<dd>Krems an der Donau, Austria</dd>
+								</div>
+							</dl>
+						</div>
+						<div class="col">
+							<h3 class="footer__info__subtitle">Quick Links</h3>
+							<ul class="footer__info__link-list">
+								<li>
+									<a href="#"> What is ICO </a>
+								</li>
+								<li>
+									<a href="#"> ICO Apps </a>
+								</li>
+								<li>
+									<a href="#"> Join Us </a>
+								</li>
+								<li>
+									<a href="#"> Tokens </a>
+								</li>
+								<li>
+									<a href="#"> Clients </a>
+								</li>
+								<li>
+									<a href="#"> Roadmap </a>
+								</li>
+								<li>
+									<a href="#"> Teams </a>
+								</li>
+								<li>
+									<a href="#"> FAQ </a>
+								</li>
+							</ul>
+						</div>
+						<div class="col">
+							<h3 class="footer__info__subtitle">Tweets</h3>
+							<p class="footer__info__text">
+								<i
+									class="bi bi-twitter footer__info__text__icon"
+								></i>
+								I love this app it really saves me time! I no
+								longer have to think about what to eat next.
+								Just a great simple App..
+								<span class="footer__info__text__author"
+									>@MarinaGiulietti</span
+								>
+							</p>
+						</div>
+					</div>
+					<div class="footer__under">
+						<div class="footer__under__left">
+							<p>© 2023, Alimento app by Ruben Stanciu</p>
+							<a href="#">Privacy Policy</a>
+							<a href="#">Site Map</a>
+						</div>
+						<div class="footer__under__right">
+							All Rights Reserved.
+						</div>
+					</div>
+				</div>
+			</footer>
+			<!-- END FOOTER -->
 		</main>
+
+		<script src="/js/events.js"></script>
+		<script src="/js/bootstrap-bundle.min.js"></script>
 	</body>
 </html>
