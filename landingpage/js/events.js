@@ -44,14 +44,21 @@ const count = (element, intialCount, counter = 0) => {
 	}, 50);
 };
 
-const observer = new IntersectionObserver((entries) => {
-	for (let i = 0; i < entries.length; i++) {
-		if (entries[i].isIntersecting) {
-			count(entries[i].target, parseInt(entries[i].target.innerText), 0);
-			observer.unobserve(entries[i].target);
+const observer = new IntersectionObserver(
+	(entries) => {
+		for (let i = 0; i < entries.length; i++) {
+			if (entries[i].isIntersecting) {
+				count(
+					entries[i].target,
+					parseInt(entries[i].target.innerText),
+					0
+				);
+				observer.unobserve(entries[i].target);
+			}
 		}
-	}
-});
+	},
+	{ threshold: 1 }
+);
 
 for (let i = 0; i < counters.length; i++) {
 	observer.observe(counters[i]);
