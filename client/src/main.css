@@ -31,3 +31,14 @@
 	padding: 0;
 	box-sizing: border-box;
 }
+
+/* BOOTSTRAP OVERRIDE */
+
+.btn-primary {
+	background-color: var(--primary);
+}
+
+.btn-primary:hover {
+	border-color: var(--secondary);
+	background-color: var(--secondary);
+}

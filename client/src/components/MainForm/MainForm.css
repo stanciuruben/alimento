@@ -1,0 +1,67 @@
+.form-list__container .help-tooltip {
+	margin-top: 0.3rem;
+}
+
+.form-list {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 1rem;
+	padding-left: 0;
+	margin-bottom: 0;
+	list-style: none;
+}
+
+.form-range-label,
+.form-select-label {
+	white-space: nowrap;
+	margin-bottom: 0;
+}
+
+.form-range-label {
+	margin-left: 1rem;
+}
+
+.form-list__item {
+	padding: 0.25rem 0.8rem;
+	display: inline-block;
+	border: 1px solid var(--black-2);
+	border-radius: 0.2rem;
+	vertical-align: middle;
+	white-space: nowrap;
+	display: flex;
+	align-items: center;
+}
+
+.form-list__item__delete {
+	font-size: 0.8rem;
+	padding: 0.1rem 0.4rem;
+	margin-left: 0.5rem;
+}
+
+.form-list-button {
+	display: inline-block;
+	vertical-align: bottom;
+}
+
+.form-check-input {
+	transform: scale(1.4);
+}
+
+@media screen and (max-width: 500px) {
+	.form-list {
+		flex-direction: column;
+		align-items: start;
+		width: 100%;
+	}
+
+	.form-list__item {
+		display: flex;
+		width: calc(100% - 1rem);
+		justify-content: space-between;
+	}
+
+	.form-list-button {
+		width: calc(100% - 1rem);
+	}
+}
