@@ -32,11 +32,10 @@ db.serialize(() => {
 	db.run(
 		'CREATE TABLE IF NOT EXISTS mealplans ( \
 			id INTEGER PRIMARY KEY, \
-			owner_id INTEGER NOT NULL, \
+			user_id INTEGER NOT NULL, \
+			name TEXT NOT NULL, \
 			text TEXT NOT NULL, \
 			diet TEXT, \
-			use_macros BIT, \
-			kcal INTEGER, \
 			protein INTEGER, \
 			carbs INTEGER, \
 			fat INTEGER, \
@@ -59,7 +58,10 @@ export const dbGet = async (query: string, parameters: any[]): Promise<any> => {
 	});
 };
 
-export const dbAll = async (query: string, parameters: any[]): Promise<any[]> => {
+export const dbAll = async (
+	query: string,
+	parameters: any[]
+): Promise<any[]> => {
 	return await new Promise((resolve, reject) => {
 		db.all(query, parameters, (err, rows) => {
 			if (err != null) {

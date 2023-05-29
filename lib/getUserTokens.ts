@@ -1,6 +1,6 @@
 import { dbGet } from '../db';
 
-export default async (userID: number): Promise<number | Error> => {
+export default async (userID: number): Promise<number> => {
 	try {
 		const user = await dbGet('SELECT tokens FROM users WHERE id = ?', [
 			userID
@@ -9,8 +9,8 @@ export default async (userID: number): Promise<number | Error> => {
 		if (tokens !== undefined) {
 			return tokens;
 		}
-		throw new Error('Invalid request!');
+		return -1;
 	} catch (error: any) {
-		return error;
+		return -1;
 	}
 };

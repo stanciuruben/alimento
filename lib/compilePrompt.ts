@@ -1,23 +1,19 @@
 import type mealPlanOptions from '../types/mealPlanOptions';
 
 export default ({
-	allergens,
 	diet,
-	kcal,
+	allergens,
 	protein,
 	carbs,
-	fat,
-	useMacros
-}: mealPlanOptions): string =>
+	fat
+}: Omit<mealPlanOptions, 'useMacros' | 'kcal'>): string =>
 	`Make a${diet === 'none' ? '' : ' ' + diet} meal plan for 1 day with ${
-		useMacros
-			? String(protein) +
-			  'g protein, ' +
-			  String(carbs) +
-			  'g carbs, ' +
-			  String(fat) +
-			  'g fat'
-			: String(kcal) + ' kcalories'
+		String(protein) +
+		'g protein, ' +
+		String(carbs) +
+		'g carbs, ' +
+		String(fat) +
+		'g fat'
 	}.${
 		allergens !== undefined && allergens.length > 0
 			? ' And without the following allergens: ' +
