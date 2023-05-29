@@ -27,14 +27,16 @@ const verify = (
 					message: 'Incorrect username or password!'
 				});
 				return;
+				// @ts-expect-error nonexistent on type
 			} else if (!user.hashed_password && !user.email) {
 				done(null, false, {
 					message: 'This username is registered with Google!'
 				});
 				return;
 			}
-
+			// @ts-expect-error nonexistent on type
 			if (bcrypt.compareSync(password, user.hashed_password)) {
+				// @ts-expect-error nonexistent on type
 				done(null, user);
 				return;
 			}

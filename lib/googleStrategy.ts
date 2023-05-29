@@ -27,7 +27,9 @@ const verify = (issuer: any, profile: any, done: DoneLocalCallback): void => {
 					[profile.displayName, START_BUDGET],
 					function (err) {
 						if (err != null) {
-							done(err, false, { message: 'Something went wong.' });
+							done(err, false, {
+								message: 'Something went wong.'
+							});
 							return;
 						}
 
@@ -37,7 +39,9 @@ const verify = (issuer: any, profile: any, done: DoneLocalCallback): void => {
 							[id, issuer, profile.id],
 							function (err) {
 								if (err != null) {
-									done(err, false, { message: 'Something went wong.' });
+									done(err, false, {
+										message: 'Something went wong.'
+									});
 									return;
 								}
 								const user = {
@@ -53,16 +57,22 @@ const verify = (issuer: any, profile: any, done: DoneLocalCallback): void => {
 			} else {
 				db.get(
 					'SELECT * FROM users WHERE id = ?',
+					// @ts-expect-error nonexistent on type
 					[credentials.user_id],
 					function (err, user) {
 						if (err != null) {
-							done(err, false, { message: 'Something went wong.' });
+							done(err, false, {
+								message: 'Something went wong.'
+							});
 							return;
 						}
 						if (!user) {
-							done(err, false, { message: 'Something went wong.' });
+							done(err, false, {
+								message: 'Something went wong.'
+							});
 							return;
 						}
+						// @ts-expect-error nonexistent on type
 						done(null, user);
 					}
 				);
