@@ -80,8 +80,14 @@ const MainForm: FC<{
                     payload: {
                         type: 'single',
                         name: 'unnamed',
-                        options: variables,
-                        text: data
+                        options: {
+                            diet: variables.diet,
+                            allergens: variables.allergens,
+                            protein: data.protein,
+                            carbs: data.carbs,
+                            fat: data.fat
+                        },
+                        text: data.mealPlan
                     }
                 });
             }

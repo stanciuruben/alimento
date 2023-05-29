@@ -130,8 +130,8 @@ router.post(
 					await saveMealPlan(req.user.id, mealPlan, req.body)
 				);
 			}
-			// Send Response
-			res.status(200).json(mealPlan);
+			// Send Response with mealPlan and macros
+			res.status(200).json({ mealPlan, protein, carbs, fat });
 		} catch (error: any) {
 			res.status(500).json(error.message);
 		}

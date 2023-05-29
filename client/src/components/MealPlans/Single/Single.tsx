@@ -2,6 +2,7 @@ import { type FC, type Dispatch } from 'react';
 
 import type Options from '../../../types/Options';
 import type MealPlanViewAction from '../../../types/MealPlanViewAction';
+import capitalizeString from '../../../lib/utils/capitalizeString';
 
 import RenameModal from './RenameModal/RenameModal';
 
@@ -20,7 +21,7 @@ const SingleMealPlan: FC<{
             <div className="container">
                 <hgroup className='text-center my-5'>
                     <h1 className='d-inline-block align-middle m-0 me-3'>
-                        {name}
+                        {capitalizeString(name)}
                     </h1>
                     <button
                         type='button'
@@ -51,21 +52,16 @@ const SingleMealPlan: FC<{
                 </div>
                 <div className='my-5'>
                     <h3 className='mb-3'>
-                        Selected Options
+                        Details
                     </h3>
                     {
-                        <ul className='list-group text-center'>
-                            <li className='list-group-item' ><b>Allergens:</b> {options.allergens.length > 0 ? options.allergens.join(', ') : '(none)'}.</li>
-                            {
-                                options.useMacros
-                                    ? <>
-                                        <li className='list-group-item' ><b>Protein:</b> {options.protein}</li>
-                                        <li className='list-group-item' ><b>Carbs:</b> {options.carbs}</li>
-                                        <li className='list-group-item' ><b>Fat:</b> {options.fat}</li>
-                                        <li className='list-group-item' ><b>Kcal:</b> {options.fat * 9 + (options.protein + options.carbs) * 4}</li>
-                                    </>
-                                    : <li className='list-group-item' ><b>Kcal:</b> {options.kcal}</li>
-                            }
+                        <ul className='list-group'>
+                            <li className='list-group-item' ><b>Diet:</b> {capitalizeString(options.diet)}</li>
+                            <li className='list-group-item' ><b>Allergens:</b> {options.allergens.length > 0 ? options.allergens.join(', ') + '.' : '(none)'}</li>
+                            <li className='list-group-item' ><b>Protein:</b> {options.protein}</li>
+                            <li className='list-group-item' ><b>Carbs:</b> {options.carbs}</li>
+                            <li className='list-group-item' ><b>Fat:</b> {options.fat}</li>
+                            <li className='list-group-item' ><b>Kcal:</b> {options.fat * 9 + (options.protein + options.carbs) * 4}</li>
                         </ul>
                     }
                 </div>
