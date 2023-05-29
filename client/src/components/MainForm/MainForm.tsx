@@ -87,6 +87,13 @@ const MainForm: FC<{
             }
         });
 
+        const onKeyDown = (keyEvent: any): void => {
+            // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+            if ((keyEvent.charCode || keyEvent.keyCode) === 13) {
+                keyEvent.preventDefault();
+            }
+        }
+
         useEffect(() => {
             addTooltips();
         }, []);
@@ -109,7 +116,7 @@ const MainForm: FC<{
                     }}
                 >
                     {({ isSubmitting, handleSubmit, values, setValues, handleChange }) => (
-                        <form className='my-5' onSubmit={handleSubmit}>
+                        <form className='my-5' onSubmit={handleSubmit} onKeyDown={onKeyDown}>
                             <h1 className='display-6 text-center'>
                                 Select your preferences
                             </h1>

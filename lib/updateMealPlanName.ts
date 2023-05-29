@@ -1,9 +1,9 @@
-import { dbGet } from '../db';
+import { dbRun } from '../db';
 
 export default async (userID: number, name: string): Promise<boolean> => {
 	try {
 		return Boolean(
-			await dbGet('UPDATE mealplans SET name = ? WHERE user_id = ?', [
+			await dbRun('UPDATE mealplans SET name = ? WHERE user_id = ?', [
 				name,
 				userID
 			])

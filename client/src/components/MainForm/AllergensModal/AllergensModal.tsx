@@ -8,6 +8,7 @@ const AllergensModal: FC<{
     setAllergens
 }) => {
         const allergensInput = useRef<HTMLInputElement>(null);
+        const submitBtn = useRef<HTMLButtonElement>(null);
 
         const addAllergens = (): void => {
             if (allergensInput.current != null) {
@@ -21,6 +22,13 @@ const AllergensModal: FC<{
             }
         }
 
+        const onKeyDown = (keyEvent: any): void => {
+            // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+            if ((keyEvent.charCode || keyEvent.keyCode) === 13) {
+                submitBtn.current?.click();
+            }
+        }
+
         return (
             <div
                 className="modal fade"
@@ -30,6 +38,7 @@ const AllergensModal: FC<{
                 tabIndex={-1}
                 aria-labelledby="allergensModalLabel"
                 aria-hidden="true"
+                onKeyDown={onKeyDown}
             >
                 <div className="modal-dialog">
                     <div className="modal-content">
@@ -48,8 +57,22 @@ const AllergensModal: FC<{
                             <input ref={allergensInput} type="text" name="allergens" id="allergens-input" className='form-control' />
                         </div>
                         <div className="modal-footer">
-                            <button type="button" className="btn btn-light" data-bs-dismiss="modal">Close</button>
-                            <button type="button" className="btn btn-primary" data-bs-dismiss="modal" onClick={addAllergens}>Add</button>
+                            <button
+                                type="button"
+                                className="btn btn-light"
+                                data-bs-dismiss="modal"
+                            >
+                                Close
+                            </button>
+                            <button
+                                type="button"
+                                className="btn btn-primary"
+                                data-bs-dismiss="modal"
+                                onClick={addAllergens}
+                                ref={submitBtn}
+                            >
+                                Add
+                            </button>
                         </div>
                     </div>
                 </div>

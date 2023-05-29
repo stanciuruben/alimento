@@ -115,16 +115,20 @@ router.post(
 			const mealPlan: string = await aiRequest(prompt);
 			// Save Meal Plan
 			if (req.body.useMacros === false) {
-				await saveMealPlan(req.user.id, mealPlan, {
-					diet: req.body.diet,
-					protein,
-					carbs,
-					fat,
-					useMacros: false,
-					allergens: req.body.allergens
-				});
+				console.log(
+					await saveMealPlan(req.user.id, mealPlan, {
+						diet: req.body.diet,
+						protein,
+						carbs,
+						fat,
+						useMacros: false,
+						allergens: req.body.allergens
+					})
+				);
 			} else {
-				await saveMealPlan(req.user.id, mealPlan, req.body);
+				console.log(
+					await saveMealPlan(req.user.id, mealPlan, req.body)
+				);
 			}
 			// Send Response
 			res.status(200).json(mealPlan);

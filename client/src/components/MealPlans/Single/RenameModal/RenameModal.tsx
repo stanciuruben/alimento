@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import { type FC, useState, type Dispatch } from 'react';
 
 import type MealPlanViewAction from '../../../../types/MealPlanViewAction';
@@ -12,7 +13,7 @@ const RenameModal: FC<{
 }) => {
         const [nameInput, setNameInput] = useState<string>(name);
 
-        const onSubmit = async (): void => {
+        const onSubmit = async (): Promise<void> => {
             const res = await new MealPlan().update(nameInput);
             setMealPlansView({ type: 'CHANGE_NAME', payload: { name: res.name } });
         }

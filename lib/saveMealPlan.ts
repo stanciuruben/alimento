@@ -5,14 +5,7 @@ import type mealPlanOptions from '../types/mealPlanOptions';
 export default async (
 	userID: number,
 	text: string,
-	{
-		diet,
-		protein,
-		carbs,
-		fat,
-		useMacros,
-		allergens
-	}: Omit<mealPlanOptions, 'kcal'>
+	{ diet, protein, carbs, fat, allergens }: Omit<mealPlanOptions, 'kcal'>
 ): Promise<boolean> => {
 	try {
 		await dbRun(
@@ -24,11 +17,10 @@ export default async (
 				protein, \
 				carbs, \
 				fat, \
-				use_macros, \
 				allergens, \
 				date \
 			) \
-			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?) \
+			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) \
 			',
 			[
 				userID,
@@ -38,7 +30,6 @@ export default async (
 				protein,
 				carbs,
 				fat,
-				useMacros ? 1 : 0,
 				allergens !== undefined ? allergens.join(', ') : '',
 				new Date().toDateString()
 			]
