@@ -21,22 +21,25 @@ const Navbar: FC<{
                 </div>
                 <div className="container main-nav__bottom row">
                     <button
+                        type='button'
                         onClick={() => { setMainView({ type: 'statistics', previous: mainView.current }) }}
-                        className={'col main-nav__link btn ' + (mainView.current === 'statistics' ? 'main-nav__link--active' : '')}
+                        className={'col main-nav__link btn b-r-bl ' + (mainView.current === 'statistics' ? 'main-nav__link--active' : '')}
                     >
-                        <i className="bi bi-graph-up-arrow"></i> Statistics
+                        <i className="bi bi-graph-up-arrow"></i> <span>Statistics</span>
                     </button>
                     <button
+                        type='button'
                         onClick={() => { setMainView({ type: 'mealplans', previous: mainView.current }) }}
                         className={'col main-nav__link btn ' + (mainView.current === 'mealplans' ? 'main-nav__link--active' : '')}
                     >
-                        <i className="bi bi-cup-straw"></i> Meal Plans
+                        <i className="bi bi-cup-straw"></i> <span>Meal Plans</span>
                     </button>
                     <button
+                        type='button'
                         onClick={() => { setMainView({ type: 'account', previous: mainView.current }) }}
-                        className={'col main-nav__link btn ' + (mainView.current === 'account' ? 'main-nav__link--active' : '')}
+                        className={'col main-nav__link btn b-r-br ' + (mainView.current === 'account' ? 'main-nav__link--active' : '')}
                     >
-                        <i className="bi bi-person"></i> Account
+                        <i className="bi bi-person"></i> <span>Account</span>
                     </button>
                 </div>
             </nav>
