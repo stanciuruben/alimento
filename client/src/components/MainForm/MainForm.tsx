@@ -368,6 +368,9 @@ const MainForm: FC<{
                                     className="col me-3 btn btn-lg btn-secondary"
                                     type="button"
                                     disabled={isSubmitting}
+                                    onClick={() => {
+                                        setMealPlansView({ type: 'CHANGE_VIEW', payload: 'list' })
+                                    }}
                                 >
                                     Back to list
                                 </button>

@@ -1,22 +1,33 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import { type FC, useState, type Dispatch } from 'react';
+import { useMutation, useQueryClient } from 'react-query';
 
 import type MealPlanViewAction from '../../../../types/MealPlanViewAction';
 import MealPlan from '../../../../lib/requests/MealPlan';
 
 const RenameModal: FC<{
+    id: number
     name: string
     setMealPlansView: Dispatch<MealPlanViewAction>
 }> = ({
+    id,
     name,
     setMealPlansView
 }) => {
+        const queryClient = useQueryClient();
         const [nameInput, setNameInput] = useState<string>(name);
 
-        const onSubmit = async (): Promise<void> => {
-            const res = await new MealPlan().update(nameInput);
-            setMealPlansView({ type: 'CHANGE_NAME', payload: { name: res.name } });
+        const requestChange = async (): Promise<void> => {
+            return await new MealPlan().update(nameInput, id);
         }
+
+        const changeNameMutation = useMutation({
+            mutationFn: requestChange,
+            onSuccess: async (data: any) => {
+                setMealPlansView({ type: 'CHANGE_NAME', payload: { name: data.name } });
+                await queryClient.invalidateQueries({ queryKey: ['mealplans'] });
+            }
+        })
 
         return (
             <div
@@ -48,7 +59,7 @@ const RenameModal: FC<{
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-light" data-bs-dismiss="modal">Close</button>
-                            <button type="button" className="btn btn-primary" data-bs-dismiss="modal" onClick={onSubmit} >Submit</button>
+                            <button type="button" className="btn btn-primary" data-bs-dismiss="modal" onClick={changeNameMutation.mutate as unknown as any} >Submit</button>
                         </div>
                     </div>
                 </div>

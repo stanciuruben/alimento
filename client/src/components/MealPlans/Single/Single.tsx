@@ -7,11 +7,13 @@ import capitalizeString from '../../../lib/utils/capitalizeString';
 import RenameModal from './RenameModal/RenameModal';
 
 const SingleMealPlan: FC<{
+    id: number
     options: Options
     name: string
     text: string
     setMealPlansView: Dispatch<MealPlanViewAction>
 }> = ({
+    id,
     options,
     name,
     text,
@@ -54,16 +56,14 @@ const SingleMealPlan: FC<{
                     <h3 className='mb-3'>
                         Details
                     </h3>
-                    {
-                        <ul className='list-group'>
-                            <li className='list-group-item' ><b>Diet:</b> {capitalizeString(options.diet)}</li>
-                            <li className='list-group-item' ><b>Allergens:</b> {options.allergens.length > 0 ? options.allergens.join(', ') + '.' : '(none)'}</li>
-                            <li className='list-group-item' ><b>Protein:</b> {options.protein}</li>
-                            <li className='list-group-item' ><b>Carbs:</b> {options.carbs}</li>
-                            <li className='list-group-item' ><b>Fat:</b> {options.fat}</li>
-                            <li className='list-group-item' ><b>Kcal:</b> {options.fat * 9 + (options.protein + options.carbs) * 4}</li>
-                        </ul>
-                    }
+                    <ul className='list-group'>
+                        <li className='list-group-item' ><b>Diet:</b> {capitalizeString(options.diet)}</li>
+                        <li className='list-group-item' ><b>Allergens:</b> {options.allergens.length > 0 ? options.allergens.join(', ') + '.' : '(none)'}</li>
+                        <li className='list-group-item' ><b>Protein:</b> {options.protein}</li>
+                        <li className='list-group-item' ><b>Carbs:</b> {options.carbs}</li>
+                        <li className='list-group-item' ><b>Fat:</b> {options.fat}</li>
+                        <li className='list-group-item' ><b>Kcal:</b> {options.fat * 9 + (options.protein + options.carbs) * 4}</li>
+                    </ul>
                 </div>
                 <div className='my-5' >
                     <h3 className='mb-3'>
@@ -73,18 +73,15 @@ const SingleMealPlan: FC<{
                         {
                             text.split('\n').map((line, idx) => {
                                 return (
-                                    <>
-                                        <span key={'line-' + idx.toString()}>
-                                            {line}
-                                        </span>
-                                        <br />
-                                    </>
+                                    <span key={'line-' + idx.toString()}>
+                                        {line} <br />
+                                    </span>
                                 )
                             })
                         }
                     </p>
                 </div>
-                <RenameModal name={name} setMealPlansView={setMealPlansView} />
+                <RenameModal id={id} name={name} setMealPlansView={setMealPlansView} />
             </div>
         );
     }

@@ -43,7 +43,7 @@ const LoadingModal: FC = () => {
                         allowFullScreen
                     ></iframe>
                     <p className='mt-5'>
-                        Please wait while we generate a meal plan for your choices!
+                        Please wait while we generate a meal plan with your choices!
                     </p>
                 </div>
             </div>

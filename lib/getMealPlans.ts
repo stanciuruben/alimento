@@ -3,10 +3,9 @@ import { dbAll } from '../db';
 
 export default async (userID: number): Promise<any[] | Error> => {
 	return await dbAll(
-		'SELECT id, \
-				date \
+		'SELECT * \
 		FROM mealplans \
-		WHERE owner_id = ? \
+		WHERE user_id = ? \
 		',
 		[userID]
 	);

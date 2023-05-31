@@ -6,6 +6,22 @@ const mealPlanUrl = import.meta.env.DEV
 	: URLS.PROD.MEALPLAN;
 
 class MealPlanRequest {
+	async get(): Promise<any> {
+		return await axios
+			.get(mealPlanUrl, {
+				withCredentials: true,
+				headers: {
+					'Content-Type': 'application/json'
+				}
+			})
+			.then((res) => {
+				if (res.data.message !== undefined) {
+					throw new Error(res.data.message);
+				}
+				return res.data;
+			});
+	}
+
 	async create(body: any): Promise<any> {
 		return await axios
 			.post(mealPlanUrl, JSON.stringify(body), {
@@ -22,9 +38,9 @@ class MealPlanRequest {
 			});
 	}
 
-	async update(name: string): Promise<any> {
+	async update(name: string, id: number): Promise<any> {
 		return await axios
-			.patch(mealPlanUrl, JSON.stringify({ name }), {
+			.patch(mealPlanUrl, JSON.stringify({ name, id }), {
 				withCredentials: true,
 				headers: {
 					'Content-Type': 'application/json'

@@ -6,9 +6,9 @@ export default async (
 	userID: number,
 	text: string,
 	{ diet, protein, carbs, fat, allergens }: Omit<mealPlanOptions, 'kcal'>
-): Promise<boolean> => {
+): Promise<number> => {
 	try {
-		await dbRun(
+		return await dbRun(
 			'INSERT INTO mealplans ( \
 				user_id, \
 				name, \
@@ -21,7 +21,7 @@ export default async (
 				date \
 			) \
 			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) \
-			',
+			returning id',
 			[
 				userID,
 				'unnamed',
@@ -34,9 +34,8 @@ export default async (
 				new Date().toDateString()
 			]
 		);
-		return true;
 	} catch (error) {
 		console.error(error);
-		return false;
+		return -1;
 	}
 };
