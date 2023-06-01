@@ -31,7 +31,7 @@ export default async (
 				carbs,
 				fat,
 				allergens !== undefined ? allergens.join(', ') : '',
-				new Date().toDateString()
+				new Date().toLocaleDateString('en-GB')
 			]
 		);
 	} catch (error) {
