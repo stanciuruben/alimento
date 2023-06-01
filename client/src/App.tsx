@@ -45,18 +45,20 @@ function App (): JSX.Element {
 
     return (<main>
         <Navbar mainView={mainView} setMainView={setMainView} />
-        {
-            (() => {
-                switch (mainView.current) {
-                    case 'mealplans':
-                        return <MealPlansView mealPlans={mealPlansQuery.data} mealPlansReqStatus={mealPlansQuery.status} />
-                    case 'statistics':
-                    case 'account':
-                    default:
-                        return null;
-                }
-            })()
-        }
+        <div className="min-vh-100">
+            {
+                (() => {
+                    switch (mainView.current) {
+                        case 'mealplans':
+                            return <MealPlansView mealPlans={mealPlansQuery.data} mealPlansReqStatus={mealPlansQuery.status} />
+                        case 'statistics':
+                        case 'account':
+                        default:
+                            return null;
+                    }
+                })()
+            }
+        </div>
         {
             error !== null && <ErrorModal
                 title={error.title}
@@ -64,6 +66,11 @@ function App (): JSX.Element {
                 children={(error.children !== undefined) ? error.children : null}
             />
         }
+        <footer className='py-5 bg-dark'>
+            <div className='text-center text-white'>
+                ©{new Date().getFullYear()} Alimento by Ruben Stanciu, all rights reserved.
+            </div>
+        </footer>
     </main>)
 }
 
