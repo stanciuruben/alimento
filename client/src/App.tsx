@@ -17,9 +17,9 @@ function App (): JSX.Element {
     const mealPlansQuery = useQuery({
         queryKey: ['mealplans'],
         queryFn: new MealPlanRequest().get,
-        retry: false,
-        onError: (err: any) => {
-            if (err.response.status !== undefined && err.response.status === 401) {
+        retry: () => false,
+        onError: (err: any): void => {
+            if (err.response?.status !== undefined && err.response.status === 401) {
                 setError({
                     title: 'Unauthenticated',
                     text: 'Your session has expired, please login to continue using the app',

@@ -36,7 +36,7 @@ const MainForm: FC<{
         const createMealplanMutation = useMutation({
             mutationFn: MealPlanRequestHandler.create,
             onError: (err: any): void => {
-                if (err.response.status !== undefined && err.response.status === 401) {
+                if (err.response?.status !== undefined && err.response.status === 401) {
                     setError({
                         title: 'Unauthenticated',
                         text: 'Your session has expired, please login to continue using the app',
@@ -47,7 +47,7 @@ const MainForm: FC<{
                     });
                     return;
                 }
-                if (err.response.status !== undefined && err.response.status === 403) {
+                if (err.response?.status !== undefined && err.response.status === 403) {
                     setError({
                         title: 'No funds',
                         text: 'Your account balance is 0!',
