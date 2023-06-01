@@ -8,8 +8,6 @@ const router = express.Router();
 // @access  Private
 router.get('/', auth, (req: Request, res: Response) => {
 	try {
-		console.log(req.user);
-
 		const user: Express.User | undefined = req.user;
 		if (user !== undefined) {
 			const data = {

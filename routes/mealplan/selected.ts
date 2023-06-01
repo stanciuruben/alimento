@@ -30,10 +30,7 @@ router.patch(
 			) {
 				return res.status(401).json({ message: 'Unauthenticated' });
 			}
-			console.log(
-				req.body.id,
-				await updateMealPlanSelection(req.user.id, req.body.id)
-			);
+			await updateMealPlanSelection(req.user.id, req.body.id);
 			res.status(200).json({ isUpdated: true });
 		} catch (error: any) {
 			res.status(500).json({ message: error.message, isUpdated: false });
