@@ -154,8 +154,8 @@ const SingleMealPlan: FC<{
                 </div>
                 <div className="d-flex flex-wrap gap-3 mt-4">
                     <form className='col-md-9 col-12 d-flex'>
-                        <input className="form-control me-1" type="search" placeholder="Search in meal plans" aria-label="Search" />
-                        <button className="btn btn-outline-secondary " type="submit">Search</button>
+                        <input className="form-control search-input" type="search" placeholder="Search in meal plans" aria-label="Search" />
+                        <button className="btn btn-outline-secondary search-button" type="submit">Search</button>
                     </form>
                     <div className='col'>
                         <div className="input-group">
