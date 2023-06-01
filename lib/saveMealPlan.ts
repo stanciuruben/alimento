@@ -1,9 +1,11 @@
 /* eslint-disable no-multi-str */
 import { dbRun } from '../db';
+
 import type mealPlanOptions from '../types/mealPlanOptions';
+import formatDate from './formatDate';
 
 export default async (
-	userID: number,
+	userId: number,
 	text: string,
 	{ diet, protein, carbs, fat, allergens }: Omit<mealPlanOptions, 'kcal'>
 ): Promise<number> => {
@@ -23,7 +25,7 @@ export default async (
 			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) \
 			returning id',
 			[
-				userID,
+				userId,
 				'unnamed',
 				text,
 				diet,
@@ -31,11 +33,10 @@ export default async (
 				carbs,
 				fat,
 				allergens !== undefined ? allergens.join(', ') : '',
-				new Date().toLocaleDateString('en-GB')
+				formatDate(new Date())
 			]
 		);
 	} catch (error) {
-		console.error(error);
 		return -1;
 	}
 };

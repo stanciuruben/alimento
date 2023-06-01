@@ -4,6 +4,7 @@ import './App.css';
 
 import mainViewReducer from './reducers/mainView';
 import MealPlanRequest from './lib/requests/MealPlan';
+import SelectedPlanRequest from './lib/requests/SelectedPlan';
 import type ErrorModalType from './types/ErrorModal';
 import urls from './lib/urls.json'
 
@@ -32,7 +33,36 @@ function App (): JSX.Element {
             }
             setError({
                 title: 'Something went wrong',
-                text: err.message as string + '. if after a page reload the error persists contact support!',
+                text: err.message as string + '. If after a page reload the error persists contact support!',
+                children: <button
+                    type='button'
+                    onClick={() => { setError(null); }}
+                    className='btn btn-secondary'>
+                    Close
+                </button>
+            })
+        }
+    })
+
+    const selectedPlansQuery = useQuery({
+        queryKey: ['selected'],
+        queryFn: new SelectedPlanRequest().get,
+        retry: () => false,
+        onError: (err: any): void => {
+            if (err.response?.status !== undefined && err.response.status === 401) {
+                setError({
+                    title: 'Unauthenticated',
+                    text: 'Your session has expired, please login to continue using the app',
+                    children: <>
+                        <a className='btn btn-secondary' href={import.meta.env.DEV ? urls.DEV.LOGIN : urls.PROD.LOGIN}>Log-in</a>
+                        <a className='btn' href={import.meta.env.DEV ? urls.DEV.REGISTER : urls.PROD.REGISTER}>Register</a>
+                    </>
+                });
+                return;
+            }
+            setError({
+                title: 'Something went wrong',
+                text: err.message as string + '. If after a page reload the error persists contact support!',
                 children: <button
                     type='button'
                     onClick={() => { setError(null); }}
@@ -50,7 +80,12 @@ function App (): JSX.Element {
                 (() => {
                     switch (mainView.current) {
                         case 'mealplans':
-                            return <MealPlansView mealPlans={mealPlansQuery.data} mealPlansReqStatus={mealPlansQuery.status} />
+                            return <MealPlansView
+                                mealPlans={mealPlansQuery.data}
+                                mealPlansReqStatus={mealPlansQuery.status}
+                                selectedPlans={selectedPlansQuery.data}
+                                selectedPlansReqStatus={selectedPlansQuery.status}
+                            />
                         case 'statistics':
                         case 'account':
                         default:
@@ -67,7 +102,7 @@ function App (): JSX.Element {
             />
         }
         <footer className='py-5 bg-dark'>
-            <div className='text-center text-white'>
+            <div className='text-center text-white p-3'>
                 ©{new Date().getFullYear()} Alimento by Ruben Stanciu, all rights reserved.
             </div>
         </footer>

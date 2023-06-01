@@ -1,7 +1,9 @@
 /* eslint-disable no-multi-str */
 import { dbAll } from '../db';
 
-export default async (userID: number): Promise<any[] | Error> => {
+import type MealPlan from '../types/mealPlan';
+
+export default async (userID: number): Promise<MealPlan[]> => {
 	return await dbAll(
 		'SELECT * \
 		FROM mealplans \

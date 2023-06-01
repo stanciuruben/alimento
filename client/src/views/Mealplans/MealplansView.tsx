@@ -13,12 +13,16 @@ import List from '../../components/MealPlans/List/List';
 const MealPlansView: FC<{
     mealPlans: MealPlan[]
     mealPlansReqStatus: 'error' | 'idle' | 'loading' | 'success'
+    selectedPlans: Array<{ plan_id: number, date: string }>
+    selectedPlansReqStatus: 'error' | 'idle' | 'loading' | 'success'
 }> = ({
     mealPlans,
-    mealPlansReqStatus
+    mealPlansReqStatus,
+    selectedPlans,
+    selectedPlansReqStatus
 }) => {
         const [mealPlansView, setMealPlansView] = useReducer(mealPlanViewReducer, { type: 'list' });
-        const [error, setError] = useState<ErrorModalType | null>(null)
+        const [error, setError] = useState<ErrorModalType | null>(null);
 
         return (
             <>
@@ -31,6 +35,8 @@ const MealPlansView: FC<{
                                         mealPlans={mealPlans}
                                         mealPlansReqStatus={mealPlansReqStatus}
                                         setMealPlansView={setMealPlansView}
+                                        selectedPlans={selectedPlans}
+                                        selectedPlansReqStatus={selectedPlansReqStatus}
                                     />
                                 case 'single':
                                     return <Single

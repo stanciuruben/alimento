@@ -43,6 +43,17 @@ db.serialize(() => {
 			date TEXT \
 		)'
 	);
+
+	db.run(
+		'CREATE TABLE IF NOT EXISTS selected_plans ( \
+			id INTEGER PRIMARY KEY, \
+			plan_id INTEGER, \
+			user_id INTEGER, \
+			date TEXT, \
+			FOREIGN KEY (plan_id) REFERENCES mealplans(id), \
+			FOREIGN KEY (user_id) REFERENCES users(id) \
+		)'
+	);
 });
 
 export default db;
