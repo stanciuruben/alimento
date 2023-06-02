@@ -57,8 +57,8 @@ const SortedList: FC<{
                                     <li><b>Diet:</b> {capitalizeString(plan.diet)}</li>
                                     <li><b>Kcal:</b> {plan.protein * 4 + plan.carbs * 4 + plan.fat * 9}</li>
                                     <li><b>Protein:</b> {plan.protein}g</li>
-                                    <li><b>carbs:</b> {plan.carbs}g</li>
-                                    <li><b>fat:</b> {plan.fat}g</li>
+                                    <li><b>Carbs:</b> {plan.carbs}g</li>
+                                    <li><b>Fat:</b> {plan.fat}g</li>
                                 </ul>
                                 <div className='d-flex gap-3'>
                                     <button

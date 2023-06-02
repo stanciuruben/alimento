@@ -1,4 +1,4 @@
-import { useEffect, type Dispatch, type FC, useState } from 'react';
+import { useEffect, type Dispatch, type FC, useState, useRef } from 'react';
 import { useMutation } from 'react-query';
 import './List.css';
 
@@ -10,6 +10,7 @@ import urls from '../../../lib/urls.json';
 
 import ErrorModal from '../../ErrorModal/ErrorModal';
 import SortedList from './SortedList/SortedList';
+import SearchResults from './SearchResults/SearchResults';
 
 const SingleMealPlan: FC<{
     setMealPlansView: Dispatch<MealPlanViewAction>
@@ -24,6 +25,9 @@ const SingleMealPlan: FC<{
     selectedPlans,
     selectedPlansReqStatus
 }) => {
+        const searchButton = useRef<HTMLButtonElement>(null);
+        const [showSearchResults, setShowSearchResults] = useState<boolean>(false);
+        const [searchQuery, setSearchQuery] = useState<string>('');
         const [sortedBy, setSortedBy] = useState<string>('unsorted');
         const [error, setError] = useState<ErrorModalType | null>(null);
         const [selectedPlanId, setSelectedPlanId] = useState<number>(-1);
@@ -137,49 +141,93 @@ const SingleMealPlan: FC<{
                         Generate New Plan
                     </button>
                 </div>
-                <div className="d-flex flex-wrap gap-3 mt-4">
-                    <form className='col-md-9 col-12 d-flex'>
-                        <input className="form-control search-input" type="search" placeholder="Search in meal plans" aria-label="Search" />
-                        <button className="btn btn-outline-secondary search-button" type="submit">Search</button>
-                    </form>
-                    <div className='col'>
-                        <div className="input-group">
-                            <label className="input-group-text" htmlFor="">
-                                <i className="bi bi-sort-alpha-down"></i>
-                            </label>
-                            <select
-                                className="form-select"
-                                aria-label="Filter select"
-                                value={sortedBy}
-                                onChange={e => { setSortedBy(e.target.value); }}
+                {
+                    !showSearchResults &&
+                    <div className="d-flex flex-wrap gap-3 mt-4">
+                        <form
+                            className='col-md-9 col-12 d-flex'
+                            onSubmit={e => {
+                                e.preventDefault();
+                                if (searchQuery.length > 0) {
+                                    setShowSearchResults(true);
+                                    searchButton.current?.classList.remove('btn-danger');
+                                    searchButton.current?.classList.add('btn-outline-secondary');
+                                } else {
+                                    searchButton.current?.classList.remove('btn-outline-secondary');
+                                    searchButton.current?.classList.add('btn-danger');
+                                }
+                            }}
+                        >
+                            <input
+                                className="form-control search-input"
+                                type="search"
+                                placeholder="Search in meal plans"
+                                aria-label="Search"
+                                value={searchQuery}
+                                onChange={e => { setSearchQuery(e.target.value); }}
+                            />
+                            <button
+                                ref={searchButton}
+                                className="btn btn-outline-secondary search-button"
+                                type="submit"
                             >
-                                <option value='unsorted'>Sort By</option>
-                                <option value="name">Name (A-Z)</option>
-                                <option value="diet">Diet (A-Z)</option>
-                                <option value="protein">Protein (High to low)</option>
-                                <option value="carbs">Carbohidrates (High to low)</option>
-                                <option value="fat">Fat (High to low)</option>
-                                <option value="kcal">Kilocalories (High to low)</option>
-                            </select>
+                                Search
+                            </button>
+                        </form>
+                        <div className='col'>
+                            <div className="input-group">
+                                <label className="input-group-text" htmlFor="">
+                                    <i className="bi bi-sort-alpha-down"></i>
+                                </label>
+                                <select
+                                    className="form-select"
+                                    aria-label="Filter select"
+                                    value={sortedBy}
+                                    onChange={e => { setSortedBy(e.target.value); }}
+                                >
+                                    <option value='unsorted'>Sort By</option>
+                                    <option value="name">Name (A-Z)</option>
+                                    <option value="diet">Diet (A-Z)</option>
+                                    <option value="protein">Protein (High to low)</option>
+                                    <option value="carbs">Carbohidrates (High to low)</option>
+                                    <option value="fat">Fat (High to low)</option>
+                                    <option value="kcal">Kilocalories (High to low)</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
-                </div>
+                }
                 <div className='row g-3 mt-4 mb-4'>
                     {
                         selectedPlansReqStatus === 'success' && mealPlansReqStatus === 'success'
-                            ? <>
-                                <p className='m-0 ms-1'>Meal Plans: {mealPlans.length}</p>
-                                <SortedList
-                                    sortedBy={sortedBy}
-                                    mealPlans={mealPlans}
-                                    selectedPlanId={selectedPlanId}
-                                    setMealPlansView={setMealPlansView}
-                                    updateSelectedPlan={(id: number) => {
-                                        selectMutation.mutate(id);
-                                        setSelectedPlanId(id);
-                                    }}
-                                />
-                            </>
+                            ? (
+                                showSearchResults
+                                    ? <SearchResults
+                                        searchQuery={searchQuery}
+                                        setSearchQuery={setSearchQuery}
+                                        setShowSearchResults={setShowSearchResults}
+                                        mealPlans={mealPlans}
+                                        selectedPlanId={selectedPlanId}
+                                        setMealPlansView={setMealPlansView}
+                                        updateSelectedPlan={(id: number) => {
+                                            selectMutation.mutate(id);
+                                            setSelectedPlanId(id);
+                                        }}
+                                    />
+                                    : <>
+                                        <p className='m-0 ms-1'>Meal Plans: {mealPlans.length}</p>
+                                        <SortedList
+                                            sortedBy={sortedBy}
+                                            mealPlans={mealPlans}
+                                            selectedPlanId={selectedPlanId}
+                                            setMealPlansView={setMealPlansView}
+                                            updateSelectedPlan={(id: number) => {
+                                                selectMutation.mutate(id);
+                                                setSelectedPlanId(id);
+                                            }}
+                                        />
+                                    </>
+                            )
                             : <div className="d-flex justify-content-center">
                                 <div className="spinner-border" role="status">
                                     <span className="visually-hidden">Loading...</span>
