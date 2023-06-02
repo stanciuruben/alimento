@@ -5,11 +5,11 @@ import './List.css';
 import type ErrorModalType from '../../../types/ErrorModal';
 import type MealPlan from '../../../types/MealPlan';
 import type MealPlanViewAction from '../../../types/MealPlanViewAction';
-import capitalizeString from '../../../lib/utils/capitalizeString';
 import SelectedPlanRequest from '../../../lib/requests/SelectedPlan';
 import urls from '../../../lib/urls.json';
 
 import ErrorModal from '../../ErrorModal/ErrorModal';
+import SortedList from './SortedList/SortedList';
 
 const SingleMealPlan: FC<{
     setMealPlansView: Dispatch<MealPlanViewAction>
@@ -24,26 +24,11 @@ const SingleMealPlan: FC<{
     selectedPlans,
     selectedPlansReqStatus
 }) => {
+        const [sortedBy, setSortedBy] = useState<string>('unsorted');
         const [error, setError] = useState<ErrorModalType | null>(null);
         const [selectedPlanId, setSelectedPlanId] = useState<number>(-1);
         const selectMutation = useMutation({
             mutationFn: new SelectedPlanRequest().update,
-            onSuccess: (data, id) => {
-                if (data.isUpdated === true) {
-                    setSelectedPlanId(id);
-                    return;
-                }
-                setError({
-                    title: 'Something went wrong',
-                    text: 'Server Error. If after a page reload the error persists contact support!',
-                    children: <button
-                        type='button'
-                        onClick={() => { setError(null); }}
-                        className='btn btn-secondary'>
-                        Close
-                    </button>
-                })
-            },
             onError: (err: any) => {
                 if (err.response?.status !== undefined && err.response.status === 401) {
                     setError({
@@ -165,9 +150,10 @@ const SingleMealPlan: FC<{
                             <select
                                 className="form-select"
                                 aria-label="Filter select"
-                                defaultValue='none'
+                                value={sortedBy}
+                                onChange={e => { setSortedBy(e.target.value); }}
                             >
-                                <option value='none'>Sort By</option>
+                                <option value='unsorted'>Sort By</option>
                                 <option value="name">Name (A-Z)</option>
                                 <option value="diet">Diet (A-Z)</option>
                                 <option value="protein">Protein (High to low)</option>
@@ -183,62 +169,16 @@ const SingleMealPlan: FC<{
                         selectedPlansReqStatus === 'success' && mealPlansReqStatus === 'success'
                             ? <>
                                 <p className='m-0 ms-1'>Meal Plans: {mealPlans.length}</p>
-                                {mealPlans.map(plan =>
-                                    <div key={plan.id} className="col-lg-4">
-                                        <div className={'card p-1 ' + (plan.id === selectedPlanId ? 'selected-bg' : '')} >
-                                            <div className="card-body bg-light">
-                                                <h3 className='card-title mb-3 d-flex gap-3 align-items-center'>
-                                                    {capitalizeString(plan.name)}
-                                                    {
-                                                        plan.id === selectedPlanId && <span className='text-success fs-6 p-2 border border-success rounded'>Selected</span>
-                                                    }
-                                                </h3>
-                                                <ul className='list-unstyled'>
-                                                    <li><b>Diet:</b> {capitalizeString(plan.diet)}</li>
-                                                    <li><b>Kcal:</b> {plan.protein * 4 + plan.carbs * 4 + plan.fat * 9}</li>
-                                                    <li><b>Protein:</b> {plan.protein}g</li>
-                                                    <li><b>carbs:</b> {plan.carbs}g</li>
-                                                    <li><b>fat:</b> {plan.fat}g</li>
-                                                </ul>
-                                                <div className='d-flex gap-3'>
-                                                    <button
-                                                        type='button'
-                                                        className='btn btn-primary m-0'
-                                                        onClick={() => {
-                                                            setMealPlansView({
-                                                                type: 'SHOW_MEALPLAN',
-                                                                payload: {
-                                                                    type: 'single',
-                                                                    id: plan.id,
-                                                                    name: plan.name,
-                                                                    text: plan.text,
-                                                                    options: {
-                                                                        diet: plan.diet,
-                                                                        protein: plan.protein,
-                                                                        carbs: plan.carbs,
-                                                                        allergens: plan.allergens,
-                                                                        fat: plan.fat
-                                                                    }
-                                                                }
-                                                            })
-                                                        }}
-                                                    >
-                                                        View Plan
-                                                    </button>
-                                                    {
-                                                        plan.id !== selectedPlanId && <button
-                                                            type='button'
-                                                            className='btn btn-outline-success m-0'
-                                                            onClick={() => { selectMutation.mutate(plan.id); }}
-                                                        >
-                                                            Select for today
-                                                        </button>
-                                                    }
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                )}
+                                <SortedList
+                                    sortedBy={sortedBy}
+                                    mealPlans={mealPlans}
+                                    selectedPlanId={selectedPlanId}
+                                    setMealPlansView={setMealPlansView}
+                                    updateSelectedPlan={(id: number) => {
+                                        selectMutation.mutate(id);
+                                        setSelectedPlanId(id);
+                                    }}
+                                />
                             </>
                             : <div className="d-flex justify-content-center">
                                 <div className="spinner-border" role="status">
