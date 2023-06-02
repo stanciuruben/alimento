@@ -10,6 +10,7 @@ import urls from './lib/urls.json'
 
 import Navbar from './components/Navbar/Navbar';
 import MealPlansView from './views/Mealplans/MealplansView';
+import AccountView from './views/Account/AccountView';
 import ErrorModal from './components/ErrorModal/ErrorModal';
 
 function App (): JSX.Element {
@@ -86,8 +87,14 @@ function App (): JSX.Element {
                                 selectedPlans={selectedPlansQuery.data}
                                 selectedPlansReqStatus={selectedPlansQuery.status}
                             />
-                        case 'statistics':
                         case 'account':
+                            return <AccountView
+                                mealPlans={mealPlansQuery.data}
+                                mealPlansReqStatus={mealPlansQuery.status}
+                                selectedPlans={selectedPlansQuery.data}
+                                selectedPlansReqStatus={selectedPlansQuery.status}
+                            />
+                        case 'statistics':
                         default:
                             return null;
                     }

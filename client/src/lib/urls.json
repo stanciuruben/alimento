@@ -1,10 +1,12 @@
 {
 	"DEV": {
+		"USER": "http://localhost:9999/user",
 		"MEALPLAN": "http://localhost:9999/mealplan",
 		"LOGIN": "http://localhost:9999/auth/login",
 		"REGISTER": "http://localhost:9999/auth/register"
 	},
 	"PROD": {
+		"USER": "https://www.rubenstanciu.com/alimento/user",
 		"MEALPLAN": "https://www.rubenstanciu.com/alimento/mealplan",
 		"LOGIN": "http://www.rubenstanciu.com/alimento/auth/login",
 		"REGISTER": "http://www.rubenstanciu.com/alimento/auth/register"
