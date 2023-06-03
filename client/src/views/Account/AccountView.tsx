@@ -1,9 +1,10 @@
-import { useEffect, type FC } from 'react';
+import { useEffect, type FC, useMemo } from 'react';
 import './AccountView.css';
 import { useQuery } from 'react-query';
 
 import UserRequest from '../../lib/requests/User';
 import type MealPlan from '../../types/MealPlan';
+import urls from '../../lib/urls.json';
 
 const AccountView: FC<{
     mealPlans: MealPlan[]
@@ -16,6 +17,7 @@ const AccountView: FC<{
     selectedPlans,
     selectedPlansReqStatus
 }) => {
+        const logoutURL = useMemo<string>(() => import.meta.env.DEV ? urls.DEV.LOGOUT : urls.PROD.LOGOUT, []);
         const addTooltips = (): void => {
             const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
             tooltipTriggerList.map(function (tooltipTriggerEl) {
@@ -37,7 +39,7 @@ const AccountView: FC<{
                     (!UserQuery.isLoading && mealPlansReqStatus === 'success' && selectedPlansReqStatus === 'success')
                         ? <div className="row flex-col-reverse">
                             <div className="col-lg-6">
-                                <div className='account-icon'>
+                                <div className='account-icon pe-none user-select-none'>
                                     {UserQuery.data?.name.slice(0, 2).toLocaleUpperCase()}
                                 </div>
                             </div>
@@ -47,16 +49,18 @@ const AccountView: FC<{
                                 <p><b>Balance:</b> {UserQuery.data?.tokens} tokens</p>
                                 <p><b>Generated Plans:</b> {mealPlans.length}</p>
                                 <p><b>App usage:</b> {selectedPlans.length} days</p>
-                                <button
-                                    type='button'
-                                    className='btn btn-outline-success me-3'
-                                    data-bs-toggle="tooltip"
-                                    data-bs-placement="top"
-                                    title='Payments are currently disabled!'
-                                >
-                                    Buy more Tokens
-                                </button>
-                                <a href='' className='btn btn-danger'>Log-out</a>
+                                <div className="mt-4">
+                                    <button
+                                        type='button'
+                                        className='btn btn-outline-success me-3'
+                                        data-bs-toggle="tooltip"
+                                        data-bs-placement="bottom"
+                                        title='Payments are currently disabled!'
+                                    >
+                                        Buy more Tokens
+                                    </button>
+                                    <a href={logoutURL} className='btn btn-danger'>Log-out</a>
+                                </div>
                             </div>
                         </div>
                         : <div className="d-flex justify-content-center">
