@@ -12,10 +12,11 @@ import Navbar from './components/Navbar/Navbar';
 import MealPlansView from './views/Mealplans/MealplansView';
 import AccountView from './views/Account/AccountView';
 import ErrorModal from './components/ErrorModal/ErrorModal';
+import StatisticsView from './views/Statistics/StatisticsView';
 
 function App (): JSX.Element {
     const [error, setError] = useState<ErrorModalType | null>(null)
-    const [mainView, setMainView] = useReducer(mainViewReducer, { current: 'mealplans', previous: 'mealplans' });
+    const [mainView, setMainView] = useReducer(mainViewReducer, { current: 'statistics', previous: 'statistics' });
     const mealPlansQuery = useQuery({
         queryKey: ['mealplans'],
         queryFn: new MealPlanRequest().get,
@@ -95,6 +96,12 @@ function App (): JSX.Element {
                                 selectedPlansReqStatus={selectedPlansQuery.status}
                             />
                         case 'statistics':
+                            return <StatisticsView
+                                mealPlans={mealPlansQuery.data}
+                                mealPlansReqStatus={mealPlansQuery.status}
+                                selectedPlans={selectedPlansQuery.data}
+                                selectedPlansReqStatus={selectedPlansQuery.status}
+                            />
                         default:
                             return null;
                     }
