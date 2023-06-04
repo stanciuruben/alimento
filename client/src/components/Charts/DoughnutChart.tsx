@@ -1,121 +1,67 @@
 import { useEffect, type FC, useRef } from 'react';
 import Chart from 'chart.js/auto';
 
-const BarChart: FC<{
-    data: any[]
+import type ChartData from '../../types/ChartData';
+
+const DoughnutChart: FC<{
+    timeSpan: number
+    chartData: ChartData
+    id: string
+    title: string
 }> = ({
-    data
+    timeSpan,
+    chartData,
+    id,
+    title
 }) => {
         const canvas = useRef<HTMLCanvasElement>(null);
 
         useEffect(() => {
             Chart.defaults.color = '#000000';
-            const data = [
-                { month: 'January', count: 45 },
-                { month: 'February', count: 36 },
-                { month: 'March', count: 42 },
-                { month: 'April', count: 64 },
-                { month: 'May', count: 64 },
-                { month: 'June', count: 72 },
-                { month: 'July', count: 105 },
-                { month: 'August', count: 85 },
-                { month: 'September', count: 54 },
-                { month: 'October', count: 44 },
-                { month: 'November', count: 39 },
-                { month: 'December', count: 50 }
-            ];
+
             const chart = new Chart(
                 // @ts-expect-error next
                 canvas.current,
                 {
                     type: 'doughnut',
                     data: {
-                        labels: data.map(row => row.month),
-                        datasets: [
-                            {
-                                label: 'Average Price',
-                                data: data.map(row => row.count),
-                                backgroundColor: 'rgba(0, 0, 0, 0.1)',
-                                hoverBackgroundColor: '#1f2937',
-                                borderColor: 'rgba(85, 81, 225, 0.2)',
-                                hoverBorderColor: 'rgba(85, 81, 225, 1)',
-                                borderWidth: 3,
-                                borderRadius: 10,
-                                barThickness: 25
-                            }
-                            // {
-                            //     label: 'Hot Price',
-                            //     data: data.slice(0).reverse().map(row => row.count),
-                            //     backgroundColor: 'rgba(0, 0, 0, 0.4)',
-                            //     hoverBackgroundColor: '#1f2937',
-                            //     borderColor: 'rgba(85, 81, 225, 0.2)',
-                            //     hoverBorderColor: 'rgba(85, 81, 225, 1)',
-                            //     borderWidth: 3,
-                            //     borderRadius: 10,
-                            //     barThickness: 25
-                            // }
-                        ]
+                        labels: chartData.labels,
+                        datasets: chartData.datasets.map(dataset => ({
+                            label: dataset.label,
+                            data: dataset.data,
+                            backgroundColor: [
+                                '#ff6384',
+                                '#ffcd56',
+                                '#d6d5c9'
+                            ],
+                            hoverBackgroundColor: 'rgba(206, 50, 163, 1)',
+                            borderColor: 'rgba(85, 81, 225, 0.2)',
+                            hoverBorderColor: 'rgba(206, 50, 163, 1)'
+                        }))
                     },
                     options: {
                         maintainAspectRatio: false,
                         plugins: {
                             legend: {
-                                display: true
+                                display: true,
+                                position: 'top'
                             },
                             title: {
-                                align: 'start',
-                                position: 'top',
-                                text: 'Average daily price per month',
-                                display: true,
-                                font: {
-                                    size: 16,
-                                    weight: 'normal'
-                                },
-                                padding: 30
+                                display: false
                             },
                             tooltip: {
                                 titleAlign: 'center',
                                 xAlign: 'center',
                                 borderWidth: 3,
                                 borderColor: 'rgba(85, 81, 225, 1)',
-                                backgroundColor: '#1f2937'
-                                // callbacks: {
-                                //     label: function (context) {
-                                //         let label = context.dataset.label || '';
-
-                                //         if (label !== null) {
-                                //             label += ': ';
-                                //         }
-                                //         if (context.parsed.y !== null) {
-                                //             label += new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(context.parsed.y);
-                                //         }
-                                //         return label;
-                                //     }
-                                // }
+                                backgroundColor: '#1f2937',
+                                callbacks: {
+                                    label: (context) => {
+                                        return context.label + ' to Kcal: ' + context.formattedValue + '%';
+                                    }
+                                }
                             }
                         }
-                        // scales: {
-                        //     x: {
-                        //         grid: {
-                        //             color: 'transparent'
-                        //         },
-                        //         ticks: {
-                        //             callback: function (value: number) {
-                        //                 return data[value].month.charAt(0).toUpperCase();
-                        //             }
-                        //         }
-                        //     },
-                        //     y: {
-                        //         grid: {
-                        //             color: 'transparent'
-                        //         },
-                        //         ticks: {
-                        //             callback: function (value) {
-                        //                 return '$' + value;
-                        //             }
-                        //         }
-                        //     }
-                        // }
 
                     }
                 }
@@ -124,21 +70,16 @@ const BarChart: FC<{
             return () => {
                 chart.destroy();
             }
-        }, []);
+        }, [timeSpan]);
 
         return (
-            <div style={{ position: 'relative', width: 700, height: 500 }}>
-                <h2 className=''>
-                    When is the best time to rent a car?
-                </h2>
-                <canvas
-                    ref={canvas}
-                    id='prices'
-                    aria-label="Average daily price per month"
-                    role="img"
-                ></canvas>
-            </div>
+            <canvas
+                ref={canvas}
+                id={id}
+                aria-label={title}
+                role="img"
+            ></canvas>
         );
     }
 
-export default BarChart;
+export default DoughnutChart;
