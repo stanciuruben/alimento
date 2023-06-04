@@ -48,7 +48,7 @@ const AccountView: FC<{
                                 <p><b>Name:</b> {UserQuery.data?.name}</p>
                                 <p><b>Balance:</b> {UserQuery.data?.tokens} tokens</p>
                                 <p><b>Generated Plans:</b> {mealPlans.length}</p>
-                                <p><b>App usage:</b> {selectedPlans.length} days</p>
+                                <p><b>App usage:</b> {selectedPlans.length - 1} days</p>
                                 <div className="mt-4">
                                     <button
                                         type='button'
