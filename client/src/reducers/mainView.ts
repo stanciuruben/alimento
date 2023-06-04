@@ -5,6 +5,7 @@ export default function mainViewReducer(
 	state: MainView,
 	action: MainViewAction
 ): MainView {
+	window.scrollTo(0, 0);
 	switch (action.type) {
 		case 'statistics':
 		case 'mealplans':

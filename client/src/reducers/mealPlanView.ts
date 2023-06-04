@@ -5,6 +5,7 @@ export default function mealPlanViewReducer(
 	state: MealPlanView,
 	action: MealPlanViewAction
 ): MealPlanView {
+	window.scrollTo(0, 0);
 	switch (action.type) {
 		case 'CHANGE_NAME':
 			return { ...state, name: action.payload.name };
