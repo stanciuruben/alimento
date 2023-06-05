@@ -365,8 +365,8 @@
 						<div
 							class="gallery-preview__row gallery-preview__row--second"
 						>
-							<img src="./images/moc-3.png" alt="" />
 							<img src="./images/moc-4.png" alt="" />
+							<img src="./images/moc-3.png" alt="" />
 						</div>
 						<div
 							class="gallery-preview__row gallery-preview__row--first"
@@ -494,7 +494,7 @@
 							We are not going to spam you!
 						</p>
 					</div>
-					<form class="sub-form">
+					<form class="sub-form" id="sub-form">
 						<div class="sub-form__input">
 							<i class="bi bi-envelope"></i>
 							<input
@@ -504,7 +504,7 @@
 								placeholder="example@example.com"
 							/>
 						</div>
-						<button class="btn btn-lg btn-tertiary">
+						<button type="submit" class="btn btn-lg btn-tertiary">
 							<span>Subscribe Now</span>
 						</button>
 					</form>
@@ -616,6 +616,107 @@
 			</footer>
 			<!-- END FOOTER -->
 		</main>
+
+		<!-- Subscription Confirmation Modal -->
+		<dialog
+			class="border-0 bg-transparent"
+			id="sub-confirmation-modal"
+			tabindex="-1"
+			aria-labelledby="sub-confirmation-modal-label"
+		>
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5
+							class="modal-title"
+							id="sub-confirmation-modal-label"
+						>
+							Thank you for Subscribing!
+						</h5>
+					</div>
+					<div class="modal-body">
+						You will get notified whenever we get new updates!
+					</div>
+					<div class="modal-footer">
+						<button
+							type="button"
+							class="btn btn-secondary"
+							id="confirmation-modal-dismiss"
+						>
+							Okay
+						</button>
+					</div>
+				</div>
+			</div>
+		</dialog>
+
+		<script>
+			// add event cross browser
+			function addEvent(elem, event, fn) {
+				// avoid memory overhead of new anonymous functions for every event handler that's installed
+				// by using local functions
+				function listenHandler(e) {
+					var ret = fn.apply(this, arguments);
+					if (ret === false) {
+						e.stopPropagation();
+						e.preventDefault();
+					}
+					return ret;
+				}
+
+				function attachHandler() {
+					// set the this pointer same as addEventListener when fn is called
+					// and make sure the event is passed to the fn also so that works the same too
+					var ret = fn.call(elem, window.event);
+					if (ret === false) {
+						window.event.returnValue = false;
+						window.event.cancelBubble = true;
+					}
+					return ret;
+				}
+
+				if (elem.addEventListener) {
+					elem.addEventListener(event, listenHandler, false);
+					return { elem: elem, handler: listenHandler, event: event };
+				} else {
+					elem.attachEvent('on' + event, attachHandler);
+					return { elem: elem, handler: attachHandler, event: event };
+				}
+			}
+
+			function validateEmail(email) {
+				var re =
+					/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+				return re.test(String(email).toLowerCase());
+			}
+
+			var subscriptionForm = document.getElementById('sub-form');
+			var confirmationModal = document.getElementById(
+				'sub-confirmation-modal'
+			);
+
+			addEvent(subscriptionForm, 'submit', function (e) {
+				e.preventDefault();
+				var emailInput = document.getElementById('sub-email');
+				var email = emailInput.value;
+				if (validateEmail(email)) {
+					emailInput.value = '';
+					subscriptionForm.innerHTML =
+						'<div class="w-100 text-white text-center">You have been successfully subscribed!</div>';
+					confirmationModal.showModal();
+					return;
+				}
+				emailInput.style.border = '1px solid red';
+			});
+
+			addEvent(
+				document.getElementById('confirmation-modal-dismiss'),
+				'click',
+				function (e) {
+					confirmationModal.close();
+				}
+			);
+		</script>
 		<script src="./js/events.js"></script>
 		<script src="./js/bootstrap-bundle.min.js"></script>
 	</body>
