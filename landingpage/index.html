@@ -650,11 +650,44 @@
 			</div>
 		</dialog>
 
+		<!-- Error Modal -->
+		<dialog
+			class="border-0 bg-transparent"
+			id="error-modal"
+			tabindex="-1"
+			aria-labelledby="error-modal-label"
+		>
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5
+							class="modal-title text-danger"
+							id="error-modal-label"
+						>
+							Error!
+						</h5>
+					</div>
+					<div class="modal-body">
+						Invalid e-mail! Please check your input!
+					</div>
+					<div class="modal-footer">
+						<button
+							type="button"
+							class="btn btn-secondary"
+							id="error-modal-dismiss"
+						>
+							Okay
+						</button>
+					</div>
+				</div>
+			</div>
+		</dialog>
+
 		<script>
-			// add event cross browser
+			// Add Event Cross Browser
 			function addEvent(elem, event, fn) {
-				// avoid memory overhead of new anonymous functions for every event handler that's installed
-				// by using local functions
+				// Avoid memory overhead of new anonymous functions for every event handler that's installed
+				// By using local functions
 				function listenHandler(e) {
 					var ret = fn.apply(this, arguments);
 					if (ret === false) {
@@ -665,8 +698,8 @@
 				}
 
 				function attachHandler() {
-					// set the this pointer same as addEventListener when fn is called
-					// and make sure the event is passed to the fn also so that works the same too
+					// Set the this pointer same as addEventListener when fn is called
+					// And make sure the event is passed to the fn also so that works the same too
 					var ret = fn.call(elem, window.event);
 					if (ret === false) {
 						window.event.returnValue = false;
@@ -694,7 +727,9 @@
 			var confirmationModal = document.getElementById(
 				'sub-confirmation-modal'
 			);
+			var errorModal = document.getElementById('error-modal');
 
+			// Subscription Validation Event
 			addEvent(subscriptionForm, 'submit', function (e) {
 				e.preventDefault();
 				var emailInput = document.getElementById('sub-email');
@@ -706,14 +741,23 @@
 					confirmationModal.showModal();
 					return;
 				}
-				emailInput.style.border = '1px solid red';
+				errorModal.showModal();
 			});
 
+			// Modal Dismiss Events
 			addEvent(
 				document.getElementById('confirmation-modal-dismiss'),
 				'click',
 				function (e) {
 					confirmationModal.close();
+				}
+			);
+
+			addEvent(
+				document.getElementById('error-modal-dismiss'),
+				'click',
+				function (e) {
+					errorModal.close();
 				}
 			);
 		</script>
