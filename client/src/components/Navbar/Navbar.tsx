@@ -16,7 +16,13 @@ const Navbar: FC<{
                 <div className="main-nav-container">
                     <div className="container main-nav__top">
                         <h3 className='main-nav__logo'>Aliment<span>o</span></h3>
-                        <button className='btn btn-light'>Help?</button>
+                        <button
+                            data-bs-toggle="modal"
+                            data-bs-target="#help-modal"
+                            className='btn btn-light'
+                        >
+                            Help?
+                        </button>
                     </div>
                 </div>
                 <div className="container main-nav__bottom row">

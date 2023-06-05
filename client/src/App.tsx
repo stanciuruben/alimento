@@ -12,11 +12,12 @@ import Navbar from './components/Navbar/Navbar';
 import MealPlansView from './views/Mealplans/MealplansView';
 import AccountView from './views/Account/AccountView';
 import ErrorModal from './components/ErrorModal/ErrorModal';
+import HelpModal from './components/HelpModal/HelpModal';
 import StatisticsView from './views/Statistics/StatisticsView';
 
 function App (): JSX.Element {
     const [error, setError] = useState<ErrorModalType | null>(null)
-    const [mainView, setMainView] = useReducer(mainViewReducer, { current: 'statistics', previous: 'statistics' });
+    const [mainView, setMainView] = useReducer(mainViewReducer, { current: 'mealplans', previous: 'mealplans' });
     const mealPlansQuery = useQuery({
         queryKey: ['mealplans'],
         queryFn: new MealPlanRequest().get,
@@ -75,52 +76,55 @@ function App (): JSX.Element {
         }
     })
 
-    return (<main>
-        <Navbar mainView={mainView} setMainView={setMainView} />
-        <div className="min-vh-100">
-            {
-                (() => {
-                    switch (mainView.current) {
-                        case 'mealplans':
-                            return <MealPlansView
-                                mealPlans={mealPlansQuery.data}
-                                mealPlansReqStatus={mealPlansQuery.status}
-                                selectedPlans={selectedPlansQuery.data}
-                                selectedPlansReqStatus={selectedPlansQuery.status}
-                            />
-                        case 'account':
-                            return <AccountView
-                                mealPlans={mealPlansQuery.data}
-                                mealPlansReqStatus={mealPlansQuery.status}
-                                selectedPlans={selectedPlansQuery.data}
-                                selectedPlansReqStatus={selectedPlansQuery.status}
-                            />
-                        case 'statistics':
-                            return <StatisticsView
-                                mealPlans={mealPlansQuery.data}
-                                mealPlansReqStatus={mealPlansQuery.status}
-                                selectedPlans={selectedPlansQuery.data}
-                                selectedPlansReqStatus={selectedPlansQuery.status}
-                            />
-                        default:
-                            return null;
-                    }
-                })()
-            }
-        </div>
-        {
-            error !== null && <ErrorModal
-                title={error.title}
-                text={error.text}
-                children={(error.children !== undefined) ? error.children : null}
-            />
-        }
-        <footer className='py-5 bg-dark'>
-            <div className='text-center text-white p-3'>
-                ©{new Date().getFullYear()} Alimento by Ruben Stanciu, all rights reserved.
+    return (
+        <main>
+            <Navbar mainView={mainView} setMainView={setMainView} />
+            <div className="min-vh-100">
+                {
+                    (() => {
+                        switch (mainView.current) {
+                            case 'mealplans':
+                                return <MealPlansView
+                                    mealPlans={mealPlansQuery.data}
+                                    mealPlansReqStatus={mealPlansQuery.status}
+                                    selectedPlans={selectedPlansQuery.data}
+                                    selectedPlansReqStatus={selectedPlansQuery.status}
+                                />
+                            case 'account':
+                                return <AccountView
+                                    mealPlans={mealPlansQuery.data}
+                                    mealPlansReqStatus={mealPlansQuery.status}
+                                    selectedPlans={selectedPlansQuery.data}
+                                    selectedPlansReqStatus={selectedPlansQuery.status}
+                                />
+                            case 'statistics':
+                                return <StatisticsView
+                                    mealPlans={mealPlansQuery.data}
+                                    mealPlansReqStatus={mealPlansQuery.status}
+                                    selectedPlans={selectedPlansQuery.data}
+                                    selectedPlansReqStatus={selectedPlansQuery.status}
+                                />
+                            default:
+                                return null;
+                        }
+                    })()
+                }
             </div>
-        </footer>
-    </main>)
+            {
+                error !== null && <ErrorModal
+                    title={error.title}
+                    text={error.text}
+                    children={(error.children !== undefined) ? error.children : null}
+                />
+            }
+            <footer className='py-5 bg-dark'>
+                <div className='text-center text-white p-3'>
+                    ©{new Date().getFullYear()} Alimento by Ruben Stanciu, all rights reserved.
+                </div>
+            </footer>
+            <HelpModal />
+        </main>
+    )
 }
 
 export default App;
