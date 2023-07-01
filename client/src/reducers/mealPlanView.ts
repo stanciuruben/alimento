@@ -8,6 +8,7 @@ export default function mealPlanViewReducer(
 	window.scrollTo(0, 0);
 	switch (action.type) {
 		case 'CHANGE_NAME':
+			// @ts-expect-error next line
 			return { ...state, name: action.payload.name };
 		case 'CHANGE_VIEW':
 			return { type: action.payload as MealPlanView['type'] };
