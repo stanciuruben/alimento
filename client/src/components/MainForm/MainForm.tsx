@@ -4,7 +4,7 @@ import {
     type Dispatch,
     type SetStateAction
 } from 'react';
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import { Formik } from 'formik';
 import './MainForm.css';
 
@@ -24,6 +24,8 @@ const MainForm: FC<{
     setMealPlansView,
     setError
 }) => {
+        const queryClient = useQueryClient();
+
         const addTooltips = (): void => {
             const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
             tooltipTriggerList.map(function (tooltipTriggerEl) {
@@ -74,7 +76,8 @@ const MainForm: FC<{
                     </button>
                 })
             },
-            onSuccess: (data, variables): void => {
+            onSuccess: async (data, variables): Promise<void> => {
+                await queryClient.invalidateQueries({ queryKey: ['selected'] });
                 setMealPlansView({
                     type: 'SHOW_MEALPLAN',
                     payload: {

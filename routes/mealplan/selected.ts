@@ -58,9 +58,8 @@ router.get('/', auth, async (req: Request, res: Response) => {
 		today.setSeconds(0);
 		today.setMilliseconds(0);
 		if (
-			(selected.length > 1 &&
-				new Date(selected[0].date).getTime() === today.getTime()) ||
-			selected.length === 0
+			selected.length > 1 &&
+			new Date(selected[0].date).getTime() === today.getTime()
 		) {
 			return res.status(200).json(selected);
 		}
