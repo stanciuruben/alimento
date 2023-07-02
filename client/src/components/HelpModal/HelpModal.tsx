@@ -36,7 +36,7 @@ const HelpModal: FC = () => {
                                                 <span>Navigate to the Account tab and make sure your balance is not empty!</span>
                                                 <div className="d-relative p-1 bg-dark mt-3">
                                                     <img
-                                                        src="./help/b-account.JPG"
+                                                        src="help/b-account.jpg"
                                                         alt='Screenshot of navigation bar with a selected tab "Meal Plans"'
                                                         className='object-contain w-100'
                                                     />
@@ -46,7 +46,7 @@ const HelpModal: FC = () => {
                                                 <span>Navigate to the Meal Plans Tab!</span>
                                                 <div className="d-relative p-1 bg-dark mt-3">
                                                     <img
-                                                        src="./help/m-nav.JPG"
+                                                        src="help/m-nav.jpg"
                                                         alt='Screenshot of navigation bar with a selected tab "Meal Plans"'
                                                         className='object-contain w-100'
                                                     />
@@ -56,7 +56,7 @@ const HelpModal: FC = () => {
                                                 <span>Click on the "Generate New Plan" button from the section beneath the navigation!</span>
                                                 <div className="d-relative p-1 bg-dark mt-3">
                                                     <img
-                                                        src="./help/gp-nav.JPG"
+                                                        src="help/gp-nav.jpg"
                                                         alt='"Meal Plans" tab with highlighted "Generate New Plan" button beneath it'
                                                         className='object-contain w-100'
                                                     />
@@ -66,7 +66,7 @@ const HelpModal: FC = () => {
                                                 <span>Fill out the form and click "Generate"!</span>
                                                 <div className="d-relative p-1 bg-dark mt-3">
                                                     <img
-                                                        src="./help/g-form.JPG"
+                                                        src="help/g-form.jpg"
                                                         alt="Screenshot of Plan generation form with"
                                                         className='object-contain w-100'
                                                     />
