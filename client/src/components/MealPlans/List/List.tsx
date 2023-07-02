@@ -61,13 +61,13 @@ const SingleMealPlan: FC<{
         const addTooltips = (): void => {
             const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
             tooltipTriggerList.map(function (tooltipTriggerEl) {
-                // @ts-expect-error bootstrap
+                // @ts-expect-error bootstrap imported via cdn, the linter doesn't know about it.
                 return new bootstrap.Tooltip(tooltipTriggerEl)
             });
         }
 
         useEffect(() => {
-            if (selectedPlansReqStatus === 'success') {
+            if (selectedPlansReqStatus === 'success' && selectedPlans.length > 0) {
                 setSelectedPlanId(selectedPlans[0].plan_id);
             }
         }, [selectedPlansReqStatus])
@@ -79,58 +79,61 @@ const SingleMealPlan: FC<{
         return (
             <>
                 <div className='my-4 d-flex flex-column flex-md-row gap-3 align-items-center justify-content-between p-3 bg-dark rounded'>
-                    <p className='m-0 text-white d-flex flex-wrap gap-2 align-items-center justify-content-center'>
-                        Today's selected plan is
-                        {
-                            (() => {
-                                if (selectedPlansReqStatus === 'success' && mealPlansReqStatus === 'success') {
-                                    for (let i = 0; i < mealPlans.length; i++) {
-                                        if (mealPlans[i].id === selectedPlanId) {
-                                            return <>
-                                                <b>{mealPlans[i].name}</b>
-                                                <button
-                                                    type='button'
-                                                    className='btn btn-sm btn-outline-light'
-                                                    onClick={() => {
-                                                        setMealPlansView({
-                                                            type: 'SHOW_MEALPLAN',
-                                                            payload: {
-                                                                type: 'single',
-                                                                id: mealPlans[i].id,
-                                                                name: mealPlans[i].name,
-                                                                text: mealPlans[i].text,
-                                                                options: {
-                                                                    diet: mealPlans[i].diet,
-                                                                    protein: mealPlans[i].protein,
-                                                                    carbs: mealPlans[i].carbs,
-                                                                    allergens: mealPlans[i].allergens,
-                                                                    fat: mealPlans[i].fat
+                    {
+                        mealPlans !== undefined && mealPlans.length > 0 &&
+                        <p className='m-0 text-white d-flex flex-wrap gap-2 align-items-center justify-content-center'>
+                            Today's selected plan is
+                            {
+                                (() => {
+                                    if (selectedPlansReqStatus === 'success' && mealPlansReqStatus === 'success') {
+                                        for (let i = 0; i < mealPlans.length; i++) {
+                                            if (mealPlans[i].id === selectedPlanId) {
+                                                return <>
+                                                    <b>{mealPlans[i].name}</b>
+                                                    <button
+                                                        type='button'
+                                                        className='btn btn-sm btn-outline-light'
+                                                        onClick={() => {
+                                                            setMealPlansView({
+                                                                type: 'SHOW_MEALPLAN',
+                                                                payload: {
+                                                                    type: 'single',
+                                                                    id: mealPlans[i].id,
+                                                                    name: mealPlans[i].name,
+                                                                    text: mealPlans[i].text,
+                                                                    options: {
+                                                                        diet: mealPlans[i].diet,
+                                                                        protein: mealPlans[i].protein,
+                                                                        carbs: mealPlans[i].carbs,
+                                                                        allergens: mealPlans[i].allergens,
+                                                                        fat: mealPlans[i].fat
+                                                                    }
                                                                 }
-                                                            }
-                                                        })
-                                                    }}
-                                                >
-                                                    View Plan
-                                                </button>
-                                            </>
+                                                            })
+                                                        }}
+                                                    >
+                                                        View Plan
+                                                    </button>
+                                                </>
+                                            }
                                         }
                                     }
-                                }
-                                return <span className="spinner-grow spinner-grow-sm mx-2" role="status">
-                                    <span className="visually-hidden">Loading...</span>
-                                </span>
-                            })()
-                        }
-                        <span
-                            tabIndex={0}
-                            className='help-tooltip--light'
-                            data-bs-toggle="tooltip"
-                            data-bs-placement="top"
-                            title="The app chooses a random meal plan for you daily, but you can select another from the list below (The selected plans are tracked in the statistics tab)."
-                        >
-                            <span className='mx-2'>?</span>
-                        </span>
-                    </p>
+                                    return <span className="spinner-grow spinner-grow-sm mx-2" role="status">
+                                        <span className="visually-hidden">Loading...</span>
+                                    </span>
+                                })()
+                            }
+                            <span
+                                tabIndex={0}
+                                className='help-tooltip--light'
+                                data-bs-toggle="tooltip"
+                                data-bs-placement="top"
+                                title="The app chooses a random meal plan for you daily, but you can select another from the list below (The selected plans are tracked in the statistics tab)."
+                            >
+                                <span className='mx-2'>?</span>
+                            </span>
+                        </p>
+                    }
                     <button
                         type='button'
                         className='btn btn-light'
