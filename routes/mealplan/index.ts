@@ -28,7 +28,18 @@ router.get('/', auth, async (req: Request, res: Response) => {
 			return;
 		}
 		const mealPlans = await getMealPlans(req.user.id);
-		res.status(200).json(mealPlans);
+		// Allergens are saved as a string in the database so the server must
+		// return them to the client in array format to maintain data integrity
+		const formattedMealplans = mealPlans.map((mealPlan) => {
+			const allergensString = mealPlan.allergens as unknown as string;
+			if (allergensString === '') {
+				mealPlan.allergens = [];
+			} else {
+				mealPlan.allergens = allergensString.split(', ');
+			}
+			return mealPlan;
+		});
+		res.status(200).json(formattedMealplans);
 	} catch (error: any) {
 		res.status(500).json(error.message);
 	}
