@@ -83,6 +83,7 @@ const MainForm: FC<{
                     payload: {
                         type: 'single',
                         name: 'unnamed',
+                        id: data.id,
                         options: {
                             diet: variables.diet,
                             allergens: variables.allergens,
