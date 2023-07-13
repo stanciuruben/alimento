@@ -1,5 +1,5 @@
 /* eslint-disable no-multi-str */
-import { dbRun } from '../db';
+import { dbGet } from '../db';
 
 import type mealPlanOptions from '../types/mealPlanOptions';
 import formatDate from './formatDate';
@@ -10,7 +10,7 @@ export default async (
 	{ diet, protein, carbs, fat, allergens }: Omit<mealPlanOptions, 'kcal'>
 ): Promise<number> => {
 	try {
-		return await dbRun(
+		return await dbGet(
 			'INSERT INTO mealplans ( \
 				user_id, \
 				name, \

@@ -103,18 +103,14 @@ router.post(
 			const mealPlan: string = await aiRequest(prompt);
 			let id: number = -1;
 			// Save Meal Plan
-			if (req.body.useMacros === false) {
-				id = await saveMealPlan(req.user.id, mealPlan, {
-					diet: req.body.diet,
-					protein,
-					carbs,
-					fat,
-					useMacros: false,
-					allergens: req.body.allergens
-				});
-			} else {
-				id = await saveMealPlan(req.user.id, mealPlan, req.body);
-			}
+			id = await saveMealPlan(req.user.id, mealPlan, {
+				diet: req.body.diet,
+				protein,
+				carbs,
+				fat,
+				useMacros: false,
+				allergens: req.body.allergens
+			});
 			// Send Response with mealPlan and macros
 			res.status(200).json({ mealPlan, protein, carbs, fat, id });
 		} catch (error: any) {
