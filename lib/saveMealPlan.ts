@@ -10,7 +10,7 @@ export default async (
 	{ diet, protein, carbs, fat, allergens }: Omit<mealPlanOptions, 'kcal'>
 ): Promise<number> => {
 	try {
-		return await dbGet(
+		const { id } = await dbGet(
 			'INSERT INTO mealplans ( \
 				user_id, \
 				name, \
@@ -36,6 +36,8 @@ export default async (
 				formatDate(new Date())
 			]
 		);
+
+		return id;
 	} catch (error) {
 		return -1;
 	}
