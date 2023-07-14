@@ -97,6 +97,10 @@ const SingleMealPlan: FC<{
                         />
                     </div>
                 </div>
+                <p className="alert alert-warning my-5 fw-bold" role="alert">
+                    GPT-3 sometimes returns inaccurate data!
+                    Remember to adjust portion sizes and ingredients as needed to meet your specific macro requirements. Additionally, be sure to drink plenty of water throughout the day and consult with a healthcare professional or registered dietitian before making any significant dietary changes.
+                </p>
                 <div className='my-5' >
                     <h3 className='mb-3'>
                         Meal Plan
